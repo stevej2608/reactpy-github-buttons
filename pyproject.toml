@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "reactpy-github-btn"
+version = "0.0.3"
+description = "ReactPy wrapper for react-github-btn"
+authors = ["Steve Jones <jonesst2608@gmail.com>"]
+readme = "README.md"
+license = "MIT"
+
+
+[tool.poetry.dependencies]
+python = ">=3.5,<4.0.0"
+reactpy = {extras = ["starlette", "testing"], version = "^1.0.2"}
+
+
+[tool.poetry.group.dev.dependencies]
+asyncio = "^3.4.3"
+pytest = "^7.4.3"
+pytest-asyncio = "^0.23.2"
+trio = "^0.23.1"
+twine = "^4.0.2"
+
+[[tool.poetry.source]]
+name = "pypicloud"
+url = "http://debian-server:6543/simple/"
+priority = "supplemental"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
