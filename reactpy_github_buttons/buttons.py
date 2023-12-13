@@ -3,6 +3,8 @@ from pathlib import Path
 
 from reactpy.web.module import export, module_from_file
 
+# pylint: disable=missing-function-docstring
+# pylint: disable=disable=invalid-name
 
 _js_module = module_from_file(
     "reactpy_github_buttons",
@@ -13,56 +15,210 @@ _js_module = module_from_file(
 _RactpyGithubButtons = export(_js_module, "RactpyGithubButtons")
 
 
-def GithubButton(
-        href:Optional[str] =  None,
-        data_text:Optional[str] = None,
-        data_size:Optional[str] = None,
-        data_show_count:Optional[str] = None,
-        data_icon:Optional[str] = None,
-        data_color_scheme:Optional[str] = None,
-        aria_label:Optional[str] = None
-        ):
+def GithubButton(user:str, repo:str, props:dict):
     """ Wrapper for github-buttons library. For API and examples see:
 
         https://github.com/buttons/github-buttons
-
-    Args:
-        chart_type (ChartType): _description_
-        width (str,int]): _description_
-        height (str,int]): _description_
-        series (List[float]): _description_
-        options (Dict[str, Any]): _description_
-
-    Returns:
-        _type_: _description_
     """
 
     _args = {
+        'href' : f'https://github.com/{user}/{repo}',
+        **props
     }
 
-    if href:
-        _args['href'] = href
-
-    if data_text:
-        _args['data-text'] = data_text
-
-    if data_size:
-        _args['data-size'] = data_size
-
-    if data_show_count:
-        _args['data-show-count'] = data_show_count
-
-    if data_icon:
-        _args['data-icon'] = data_icon
-
-    if data_text:
-        _args['data-text'] = data_text
-
-    if data_color_scheme:
-        _args['data-color-scheme'] = data_color_scheme
-
-    if aria_label:
-        _args['aria-label'] = aria_label
-
+    if 'text' in props:
+        _args['data_text'] = props['text']
 
     return _RactpyGithubButtons(_args)
+
+
+def FollowButton(user:str, repo:str, large=False, show_count=True):
+
+    props = {
+        "text" : "Follow @buttons",
+        "aria-label": "Follow @buttons on GitHub",
+    }
+
+    if large:
+        props.update({"data-size": "large"})
+
+    if show_count:
+        props.update({"data-show-count": "true"})
+
+
+    return GithubButton(user=user, repo=repo, props=props)
+
+
+def SponsorButton(user:str, repo:str, large=False, show_count=True, standard_icon=False):
+
+    props = {
+        "text" : "Sponsor",
+        "aria-label": "Sponsor @buttons on GitHub",
+    }
+
+    if large:
+        props.update({"data-size": "large"})
+
+    if show_count:
+        props.update({"data-show-count": "true"})
+
+    if not standard_icon:
+        props.update({"data-icon": "octicon-heart"})
+
+    return GithubButton(user=user, repo=repo, props=props)
+
+
+def WatchButton(user:str, repo:str, large=False, show_count=True, standard_icon=False):
+
+    props = {
+        "text" : "Watch",
+        "aria-label": "Watch buttons/github-buttons on GitHub",
+    }
+
+    if large:
+        props.update({"data-size": "large"})
+
+    if show_count:
+        props.update({"data-show-count": "true"})
+
+    if not standard_icon:
+        props.update({"data-icon": "octicon-eye"})
+
+    return GithubButton(user=user, repo=repo, props=props)
+
+
+def StarButton(user:str, repo:str, large=False, show_count=True, standard_icon=False):
+
+    props = {
+        "text" : "Star",
+        "aria-label": "Star buttons/github-buttons on GitHub",
+    }
+
+    if large:
+        props.update({"data-size": "large"})
+
+    if show_count:
+        props.update({"data-show-count": "true"})
+
+    if not standard_icon:
+        props.update({"data-icon": "octicon-star"})
+
+    return GithubButton(user=user, repo=repo, props=props)
+
+
+def ForkButton(user:str, repo:str, large=False, show_count=True, standard_icon=False):
+
+    props = {
+        "text" : "Fork",
+        "aria-label": "Fork buttons/github-buttons on GitHub",
+    }
+
+    if large:
+        props.update({"data-size": "large"})
+
+    if show_count:
+        props.update({"data-show-count": "true"})
+
+    if not standard_icon:
+        props.update({"data-icon": "octicon-repo-forked"})
+
+    return GithubButton(user=user, repo=repo, props=props)
+
+
+def IssueButton(user:str, repo:str, large=False, show_count=True, standard_icon=False):
+
+    props = {
+        "text" : "Issue",
+        "aria-label": "Issue buttons/github-buttons on GitHub",
+    }
+
+    if large:
+        props.update({"data-size": "large"})
+
+    if show_count:
+        props.update({"data-show-count": "true"})
+
+    if not standard_icon:
+        props.update({"data-icon": "octicon-issue-opened"})
+
+    return GithubButton(user=user, repo=repo, props=props)
+
+
+def DiscussButton(user:str, repo:str, large=False, standard_icon=False):
+
+    props = {
+        "text" : "Discuss",
+        "aria-label": "Discuss buttons/github-buttons on GitHub",
+    }
+
+    if large:
+        props.update({"data-size": "large"})
+
+    if not standard_icon:
+        props.update({"data-icon": "octicon-comment-discussion"})
+
+    return GithubButton(user=user, repo=repo, props=props)
+
+
+def DownloadButton(user:str, repo:str, large=False, standard_icon=False):
+
+    props = {
+        "text" : "Download",
+        "aria-label": "Download buttons/github-buttons on GitHub",
+    }
+
+    if large:
+        props.update({"data-size": "large"})
+
+    if not standard_icon:
+        props.update({"data-icon": "octicon-download"})
+
+    return GithubButton(user=user, repo=repo, props=props)
+
+
+def InstallPackageButton(user:str, repo:str, large=False, standard_icon=False):
+
+    props = {
+        "text" : "Install this package",
+        "aria-label": "Install this package buttons/github-buttons on GitHub",
+    }
+
+    if large:
+        props.update({"data-size": "large"})
+
+    if not standard_icon:
+        props.update({"data-icon": "octicon-package"})
+
+    return GithubButton(user=user, repo=repo, props=props)
+
+
+def UseTemplateButton(user:str, repo:str, large: False, standard_icon: False):
+
+    props = {
+        "text" : "Use this template",
+        "aria-label": "Use this template buttons/github-buttons on GitHub",
+    }
+
+    if large:
+        props.update({"data-size": "large"})
+
+    if not standard_icon:
+        props.update({"data-icon": "octicon-repo-template"})
+
+    return GithubButton(user=user, repo=repo, props=props)
+
+
+def UseThisGitHubActionButton(user:str, repo:str, large: False, standard_icon: False):
+
+    props = {
+        "text" : "Use this GitHub Action",
+        "aria-label": "Use this GitHub Action buttons/github-buttons on GitHub",
+    }
+
+    if large:
+        props.update({"data-size": "large"})
+
+    if not standard_icon:
+        props.update({"data-icon": "octicon-play"})
+
+    return GithubButton(user=user, repo=repo, props=props)
