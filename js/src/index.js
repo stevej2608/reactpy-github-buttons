@@ -19,7 +19,7 @@ export function bind(node, config) {
 
  */
 
-export function RactpyGithubBtn(props) {
+export function RactpyGithubButtons(props) {
   const ref = useRef(null);
 
   useEffect(() => {

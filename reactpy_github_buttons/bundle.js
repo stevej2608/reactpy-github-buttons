@@ -7840,7 +7840,7 @@ function bind(node, config) {
 
  */
 
-function RactpyGithubBtn(props) {
+function RactpyGithubButtons(props) {
   const ref = reactExports.useRef(null);
   reactExports.useEffect(() => {
     render(ref.current, function (element) {
@@ -7855,4 +7855,4 @@ function RactpyGithubBtn(props) {
   }), props.data_text);
 }
 
-export { RactpyGithubBtn, bind };
+export { RactpyGithubButtons, bind };

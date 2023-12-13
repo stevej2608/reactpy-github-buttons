@@ -1,6 +1,6 @@
 from reactpy import component, html, run
 from utils.logger import log, logging
-from reactpy_github_btn import GithubButton
+from reactpy_github_buttons import GithubButton
 
 @component
 def AppMain():

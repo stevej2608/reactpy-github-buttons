@@ -10,11 +10,11 @@ export default {
    input: 'src/index.js',
    output: [
       {
-         file: "../reactpy_github_btn/bundle.js",
+         file: "../reactpy_github_buttons/bundle.js",
          format: "esm",
       },
 		{
-			file: '../reactpy_github_btn/bundle.min.js',
+			file: '../reactpy_github_buttons/bundle.min.js',
 			format: 'esm',
 			plugins: [terser()]
 		}

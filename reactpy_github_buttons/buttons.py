@@ -5,12 +5,12 @@ from reactpy.web.module import export, module_from_file
 
 
 _js_module = module_from_file(
-    "rectpy-github-btn",
+    "reactpy_github_buttons",
     file=Path(__file__).parent / "bundle.js",
     fallback="⏳",
 )
 
-_RactpyGithubBtn = export(_js_module, "RactpyGithubBtn")
+_RactpyGithubButtons = export(_js_module, "RactpyGithubButtons")
 
 
 def GithubButton(
@@ -65,4 +65,4 @@ def GithubButton(
         _args['aria-label'] = aria_label
 
 
-    return _RactpyGithubBtn(_args)
+    return _RactpyGithubButtons(_args)
