@@ -45,7 +45,7 @@ def GithubButton(user:str, repo:str, props:dict):
     if 'text' in props:
         _args['data_text'] = props['text']
 
-    log.info("args=[%s]", _args)
+    # log.info("args=[%s]", _args)
 
     return _RactpyGithubButtons(_args)
 

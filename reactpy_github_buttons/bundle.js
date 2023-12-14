@@ -7825,9 +7825,18 @@ var render = function (options, func) {
 
 function bind(node, config) {
   return {
-    create: (type, props, children) => /*#__PURE__*/React.createElement(type, props, ...children),
-    render: element => ReactDOM.render(element, node),
-    unmount: () => ReactDOM.unmountComponentAtNode(node)
+    create: (type, props, children) => {
+      console.log('create');
+      /*#__PURE__*/React.createElement(type, props, ...children);
+    },
+    render: element => {
+      console.log('render');
+      ReactDOM.render(element, node);
+    },
+    unmount: () => {
+      console.log('unmount');
+      ReactDOM.unmountComponentAtNode(node);
+    }
   };
 }
 
@@ -7849,6 +7858,12 @@ function RactpyGithubButtons(props) {
       }
       ref.current.parentNode.replaceChild(element, ref.current);
     });
+    return () => {
+      console.log('RactpyGithubButtons.unmount');
+      // Anything in here is fired on component unmount.
+      // https://robertmarshall.dev/blog/componentwillunmount-functional-components-react/
+      ReactDOM.unmountComponentAtNode(ref.current);
+    };
   }, []);
   return /*#__PURE__*/React.createElement("a", _extends({}, props, {
     ref: ref

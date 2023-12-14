@@ -4,9 +4,18 @@ import { render as renderGH } from "github-buttons";
 
 export function bind(node, config) {
   return {
-    create: (type, props, children) => React.createElement(type, props, ...children),
-    render: (element) => ReactDOM.render(element, node),
-    unmount: () => ReactDOM.unmountComponentAtNode(node),
+    create: (type, props, children) => {
+      console.log('create')
+      React.createElement(type, props, ...children)
+    },
+    render: (element) => {
+      console.log('render')
+      ReactDOM.render(element, node)
+    },
+    unmount: () => {
+      console.log('unmount')
+      ReactDOM.unmountComponentAtNode(node)
+    },
   }
 }
 
@@ -23,12 +32,24 @@ export function RactpyGithubButtons(props) {
   const ref = useRef(null);
 
   useEffect(() => {
+
     renderGH(ref.current, function (element) {
       if (!ref.current) {
         return;
       }
       ref.current.parentNode.replaceChild(element, ref.current);
-    });
+    })
+
+    return () => {
+
+
+      console.log('RactpyGithubButtons.unmount')
+      // Anything in here is fired on component unmount.
+      // https://robertmarshall.dev/blog/componentwillunmount-functional-components-react/
+      ReactDOM.unmountComponentAtNode(ref.current);
+    }
+
+
   }, []);
 
   return (
