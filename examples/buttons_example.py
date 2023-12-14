@@ -3,7 +3,7 @@ from utils.logger import log, logging
 from reactpy_github_buttons import FollowButton, InstallPackageButton, SponsorButton, StarButton, WatchButton, ForkButton, IssueButton, DiscussButton, DownloadButton
 
 @component
-def AppMain():
+def ButtonsExample():
 
     # https://buttons.github.io/
 
@@ -46,8 +46,9 @@ def AppMain():
 
     )
 
-# python -m examples.star_example
+
+# python -m examples.buttons_example
 
 if __name__ == "__main__":
     log.setLevel(logging.INFO)
-    run(AppMain)
+    run(ButtonsExample)
