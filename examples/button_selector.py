@@ -37,7 +37,7 @@ def AppHeader():
 
 
 @component
-def ButtonCheckBox(text:str, button):
+def ButtonCheckBox(text:str, button, on_change):
 
     if button is FollowButton:
         default = button(user=GIT_USER, large=True)
@@ -55,7 +55,7 @@ def ButtonCheckBox(text:str, button):
     return html.div({'class_name': 'col-9 col-sm-6 col-md-4 col-lg-2'},
         html.div({'class_name': 'form-check'},
             html.label({'class_name': 'form-check-label'},
-                html.input({'type': 'radio', 'class_name': 'form-check-input', 'name': 'type', 'value': 'follow'}),
+                html.input({'type': 'radio', 'class_name': 'form-check-input', 'name': 'type', 'value': text, 'onchange': on_change}),
                 text,
                 html.br(),
                 # default
@@ -102,9 +102,11 @@ def AppBody():
     color_scheme_disabled, set_color_scheme_disabled = use_state(True)
     user, set_user = use_state('')
     repo, set_repo = use_state('')
+    button_type, set_button_type = use_state('')
 
     log.info('color_scheme_disabled=%s', color_scheme_disabled)
     log.info('user=%s, repo=%s', user, repo)
+    log.info('button_type="%s"', button_type)
 
     @event
     def toggle_color_scheme(event):
@@ -120,6 +122,11 @@ def AppBody():
         value = event['target']['value']
         set_repo(value)
 
+    @event
+    def button_select(event):
+        value = event['target']['value']
+        set_button_type(value)
+
 
     return html.main({'class_name': 'main'},
         html.div({'class_name': 'container mt-3'},
@@ -129,17 +136,17 @@ def AppBody():
                         html.fieldset({'class_name': 'form-group'},
                             html.h4("Choose a button"),
                             html.div({'class_name': 'row'},
-                                ButtonCheckBox("Follow", FollowButton),
-                                ButtonCheckBox("Sponsor", SponsorButton),
-                                ButtonCheckBox("Watch", WatchButton),
-                                ButtonCheckBox("Star", StarButton),
-                                ButtonCheckBox("Fork", ForkButton),
-                                ButtonCheckBox("Issue", IssueButton),
-                                ButtonCheckBox("Discuss", DiscussButton),
-                                ButtonCheckBox("Download", DownloadButton),
-                                ButtonCheckBox("Install this package", InstallPackageButton),
-                                ButtonCheckBox("Use this template", UseTemplateButton),
-                                ButtonCheckBox("Use this GitHub Action", UseThisGitHubActionButton)
+                                ButtonCheckBox("Follow", FollowButton, on_change=button_select),
+                                ButtonCheckBox("Sponsor", SponsorButton, on_change=button_select),
+                                ButtonCheckBox("Watch", WatchButton, on_change=button_select),
+                                ButtonCheckBox("Star", StarButton, on_change=button_select),
+                                ButtonCheckBox("Fork", ForkButton, on_change=button_select),
+                                ButtonCheckBox("Issue", IssueButton, on_change=button_select),
+                                ButtonCheckBox("Discuss", DiscussButton, on_change=button_select),
+                                ButtonCheckBox("Download", DownloadButton, on_change=button_select),
+                                ButtonCheckBox("Install this package", InstallPackageButton, on_change=button_select),
+                                ButtonCheckBox("Use this template", UseTemplateButton, on_change=button_select),
+                                ButtonCheckBox("Use this GitHub Action", UseThisGitHubActionButton, on_change=button_select)
                             ),
                         ),
                         html.hr(),
@@ -148,7 +155,6 @@ def AppBody():
                                 html.h4("Button options"),
 
                                 UserAndRepo(user, repo, user_change=user_change, repo_change=repo_change),
-
 
                                 html.div({'class_name': 'form-group'},
                                     html.div({'class_name': 'form-row align-items-center my-1'},
