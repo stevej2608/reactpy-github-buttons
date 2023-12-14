@@ -6,15 +6,15 @@ export function bind(node, config) {
   return {
     create: (type, props, children) => {
       console.log('create')
-      React.createElement(type, props, ...children)
+      return React.createElement(type, props, ...children)
     },
     render: (element) => {
       console.log('render')
-      ReactDOM.render(element, node)
+      return ReactDOM.render(element, node)
     },
     unmount: () => {
       console.log('unmount')
-      ReactDOM.unmountComponentAtNode(node)
+      return ReactDOM.unmountComponentAtNode(node)
     },
   }
 }

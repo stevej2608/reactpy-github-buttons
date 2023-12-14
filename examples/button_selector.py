@@ -1,181 +1,118 @@
 from reactpy import component, html
+from reactpy.svg import svg, path
+from reactpy_github_buttons import (
+    FollowButton, InstallPackageButton, SponsorButton, StarButton, WatchButton, 
+    ForkButton, IssueButton, DiscussButton, DownloadButton, UseTemplateButton, UseThisGitHubActionButton)
+
+GIT_USER = 'reactive-python'
+GIT_REPO = 'reactpy'
+
+@component
+def AppHeader():
+    return html.header({'class_name': 'header user-select-none'},
+        html.nav({'class_name': 'navbar navbar-light'},
+            html.div({'class_name': 'container px-0'},
+                html.a({'class_name': 'navbar-brand mr-auto'},
+                    svg({'version': '1.1', 'width': '78.75', 'height': '28', 'viewbox': '0 0 45 16', 'class_name': 'octicon octicon-logo-github', 'aria-label': 'GitHub'},
+                        path({'fill-rule': 'evenodd', 'd': 'M18.53 12.03h-.02c.009 0 .015.01.024.011h.006l-.01-.01zm.004.011c-.093.001-.327.05-.574.05-.78 0-1.05-.36-1.05-.83V8.13h1.59c.09 0 .16-.08.16-.19v-1.7c0-.09-.08-.17-.16-.17h-1.59V3.96c0-.08-.05-.13-.14-.13h-2.16c-.09 0-.14.05-.14.13v2.17s-1.09.27-1.16.28c-.08.02-.13.09-.13.17v1.36c0 .11.08.19.17.19h1.11v3.28c0 2.44 1.7 2.69 2.86 2.69.53 0 1.17-.17 1.27-.22.06-.02.09-.09.09-.16v-1.5a.177.177 0 0 0-.146-.18zm23.696-2.2c0-1.81-.73-2.05-1.5-1.97-.6.04-1.08.34-1.08.34v3.52s.49.34 1.22.36c1.03.03 1.36-.34 1.36-2.25zm2.43-.16c0 3.43-1.11 4.41-3.05 4.41-1.64 0-2.52-.83-2.52-.83s-.04.46-.09.52c-.03.06-.08.08-.14.08h-1.48c-.1 0-.19-.08-.19-.17l.02-11.11c0-.09.08-.17.17-.17h2.13c.09 0 .17.08.17.17v3.77s.82-.53 2.02-.53l-.01-.02c1.2 0 2.97.45 2.97 3.88zm-8.72-3.61H33.84c-.11 0-.17.08-.17.19v5.44s-.55.39-1.3.39-.97-.34-.97-1.09V6.25c0-.09-.08-.17-.17-.17h-2.14c-.09 0-.17.08-.17.17v5.11c0 2.2 1.23 2.75 2.92 2.75 1.39 0 2.52-.77 2.52-.77s.05.39.08.45c.02.05.09.09.16.09h1.34c.11 0 .17-.08.17-.17l.02-7.47c0-.09-.08-.17-.19-.17zm-23.7-.01h-2.13c-.09 0-.17.09-.17.2v7.34c0 .2.13.27.3.27h1.92c.2 0 .25-.09.25-.27V6.23c0-.09-.08-.17-.17-.17zm-1.05-3.38c-.77 0-1.38.61-1.38 1.38 0 .77.61 1.38 1.38 1.38.75 0 1.36-.61 1.36-1.38 0-.77-.61-1.38-1.36-1.38zm16.49-.25h-2.11c-.09 0-.17.08-.17.17v4.09h-3.31V2.6c0-.09-.08-.17-.17-.17h-2.13c-.09 0-.17.08-.17.17v11.11c0 .09.09.17.17.17h2.13c.09 0 .17-.08.17-.17V8.96h3.31l-.02 4.75c0 .09.08.17.17.17h2.13c.09 0 .17-.08.17-.17V2.6c0-.09-.08-.17-.17-.17zM8.81 7.35v5.74c0 .04-.01.11-.06.13 0 0-1.25.89-3.31.89-2.49 0-5.44-.78-5.44-5.92S2.58 1.99 5.1 2c2.18 0 3.06.49 3.2.58.04.05.06.09.06.14L7.94 4.5c0 .09-.09.2-.2.17-.36-.11-.9-.33-2.17-.33-1.47 0-3.05.42-3.05 3.73s1.5 3.7 2.58 3.7c.92 0 1.25-.11 1.25-.11v-2.3H4.88c-.11 0-.19-.08-.19-.17V7.35c0-.09.08-.17.19-.17h3.74c.11 0 .19.08.19.17z'})
+                    ),
+                    html.span({'class_name': 'logo logo-colon'}, ":"),
+                    html.span({'class_name': 'logo logo-buttons'}, "buttons")
+                ),
+                html.ul({'class_name': 'navbar-nav'},
+                    html.li({'class_name': 'nav-item'},
+                        html.a({'class_name': 'nav-link', 'href': 'https://github.com/buttons/github-buttons'},
+                            html.span({'class_name': 'd-none d-sm-inline'}, "View on GitHub"),
+                            svg({'version': '1.1', 'width': '16', 'height': '16', 'viewbox': '0 0 16 16', 'class_name': 'octicon octicon-mark-github', 'aria-hidden': 'true'},
+                                path({'fill-rule': 'evenodd', 'd': 'M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z'})
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    )
 
 
 @component
-def AppMainX():
-    return html.h1("Hello, world!")
+def ButtonCheckBox(text:str, button):
+
+    if button is FollowButton:
+        default = button(user=GIT_USER, large=True)
+
+    elif button is SponsorButton:
+        default = button(user=GIT_USER, large=True)
+
+
+    elif button in [WatchButton, StarButton, ForkButton, IssueButton]:
+        default = button(user=GIT_USER, repo=GIT_REPO, large=True)
+
+    else:
+        default = button(user=GIT_USER, repo=GIT_REPO, large=True)
+
+    return html.div({'class_name': 'col-9 col-sm-6 col-md-4 col-lg-2'},
+        html.div({'class_name': 'form-check'},
+            html.label({'class_name': 'form-check-label'},
+                html.input({'type': 'radio', 'class_name': 'form-check-input', 'name': 'type', 'value': 'follow'}),
+                text,
+                html.br(),
+                default
+            )
+        )
+    )
 
 
 @component
-def AppMain():
+def AppBody():
     return html.main({'class_name': 'main'},
         html.div({'class_name': 'container mt-3'},
             html.div({'id': 'app', 'data-v-app': ''},
-                html.div({'data-v-3e07ce4a': '', 'id': 'app'},
-                    html.form({'data-v-3e07ce4a': '', 'autocapitalize': 'none', 'autocomplete': 'off', 'autocorrect': 'off', 'spellcheck': 'false'},
-                        html.fieldset({'data-v-3e07ce4a': '', 'class_name': 'form-group'},
-                            html.h4({'data-v-3e07ce4a': ''}, "Choose a button"),
-                            html.div({'data-v-3e07ce4a': '', 'class_name': 'row'},
-                                html.div({'data-v-3e07ce4a': '', 'class_name': 'col-9 col-sm-6 col-md-4 col-lg-2'},
-                                    html.div({'data-v-3e07ce4a': '', 'class_name': 'form-check'},
-                                        html.label({'data-v-3e07ce4a': '', 'class_name': 'form-check-label'},
-                                            html.input({'data-v-3e07ce4a': '', 'type': 'radio', 'class_name': 'form-check-input', 'name': 'type', 'value': 'follow'}),
-                                            "Follow",
-                                            html.br({'data-v-3e07ce4a': ''}),
-                                            html.span({'data-v-3e07ce4a': '', 'aria-hidden': 'true'},
-                                                html.span()
-                                            )
-                                        )
-                                    )
-                                ),
-                                html.div({'data-v-3e07ce4a': '', 'class_name': 'col-9 col-sm-6 col-md-4 col-lg-2'},
-                                    html.div({'data-v-3e07ce4a': '', 'class_name': 'form-check'},
-                                        html.label({'data-v-3e07ce4a': '', 'class_name': 'form-check-label'},
-                                            html.input({'data-v-3e07ce4a': '', 'type': 'radio', 'class_name': 'form-check-input', 'name': 'type', 'value': 'sponsor'}),
-                                            "Sponsor",
-                                            html.br({'data-v-3e07ce4a': ''}),
-                                            html.span({'data-v-3e07ce4a': '', 'aria-hidden': 'true'},
-                                                html.span()
-                                            )
-                                        )
-                                    )
-                                ),
-                                html.div({'data-v-3e07ce4a': '', 'class_name': 'col-9 col-sm-6 col-md-4 col-lg-2'},
-                                    html.div({'data-v-3e07ce4a': '', 'class_name': 'form-check'},
-                                        html.label({'data-v-3e07ce4a': '', 'class_name': 'form-check-label'},
-                                            html.input({'data-v-3e07ce4a': '', 'type': 'radio', 'class_name': 'form-check-input', 'name': 'type', 'value': 'watch'}),
-                                            "Watch",
-                                            html.br({'data-v-3e07ce4a': ''}),
-                                            html.span({'data-v-3e07ce4a': '', 'aria-hidden': 'true'},
-                                                html.span()
-                                            )
-                                        )
-                                    )
-                                ),
-                                html.div({'data-v-3e07ce4a': '', 'class_name': 'col-9 col-sm-6 col-md-4 col-lg-2'},
-                                    html.div({'data-v-3e07ce4a': '', 'class_name': 'form-check'},
-                                        html.label({'data-v-3e07ce4a': '', 'class_name': 'form-check-label'},
-                                            html.input({'data-v-3e07ce4a': '', 'type': 'radio', 'class_name': 'form-check-input', 'name': 'type', 'value': 'star'}),
-                                            "Star",
-                                            html.br({'data-v-3e07ce4a': ''}),
-                                            html.span({'data-v-3e07ce4a': '', 'aria-hidden': 'true'},
-                                                html.span()
-                                            )
-                                        )
-                                    )
-                                ),
-                                html.div({'data-v-3e07ce4a': '', 'class_name': 'col-9 col-sm-6 col-md-4 col-lg-2'},
-                                    html.div({'data-v-3e07ce4a': '', 'class_name': 'form-check'},
-                                        html.label({'data-v-3e07ce4a': '', 'class_name': 'form-check-label'},
-                                            html.input({'data-v-3e07ce4a': '', 'type': 'radio', 'class_name': 'form-check-input', 'name': 'type', 'value': 'fork'}),
-                                            "Fork",
-                                            html.br({'data-v-3e07ce4a': ''}),
-                                            html.span({'data-v-3e07ce4a': '', 'aria-hidden': 'true'},
-                                                html.span()
-                                            )
-                                        )
-                                    )
-                                ),
-                                html.div({'data-v-3e07ce4a': '', 'class_name': 'col-9 col-sm-6 col-md-4 col-lg-2'},
-                                    html.div({'data-v-3e07ce4a': '', 'class_name': 'form-check'},
-                                        html.label({'data-v-3e07ce4a': '', 'class_name': 'form-check-label'},
-                                            html.input({'data-v-3e07ce4a': '', 'type': 'radio', 'class_name': 'form-check-input', 'name': 'type', 'value': 'issue'}),
-                                            "Issue",
-                                            html.br({'data-v-3e07ce4a': ''}),
-                                            html.span({'data-v-3e07ce4a': '', 'aria-hidden': 'true'},
-                                                html.span()
-                                            )
-                                        )
-                                    )
-                                ),
-                                html.div({'data-v-3e07ce4a': '', 'class_name': 'col-9 col-sm-6 col-md-4 col-lg-2'},
-                                    html.div({'data-v-3e07ce4a': '', 'class_name': 'form-check'},
-                                        html.label({'data-v-3e07ce4a': '', 'class_name': 'form-check-label'},
-                                            html.input({'data-v-3e07ce4a': '', 'type': 'radio', 'class_name': 'form-check-input', 'name': 'type', 'value': 'discuss'}),
-                                            "Discuss",
-                                            html.br({'data-v-3e07ce4a': ''}),
-                                            html.span({'data-v-3e07ce4a': '', 'aria-hidden': 'true'},
-                                                html.span()
-                                            )
-                                        )
-                                    )
-                                ),
-                                html.div({'data-v-3e07ce4a': '', 'class_name': 'col-9 col-sm-6 col-md-4 col-lg-2'},
-                                    html.div({'data-v-3e07ce4a': '', 'class_name': 'form-check'},
-                                        html.label({'data-v-3e07ce4a': '', 'class_name': 'form-check-label'},
-                                            html.input({'data-v-3e07ce4a': '', 'type': 'radio', 'class_name': 'form-check-input', 'name': 'type', 'value': 'download'}),
-                                            "Download",
-                                            html.br({'data-v-3e07ce4a': ''}),
-                                            html.span({'data-v-3e07ce4a': '', 'aria-hidden': 'true'},
-                                                html.span()
-                                            )
-                                        )
-                                    )
-                                ),
-                                html.div({'data-v-3e07ce4a': '', 'class_name': 'col-9 col-sm-6 col-md-4 col-lg-2'},
-                                    html.div({'data-v-3e07ce4a': '', 'class_name': 'form-check'},
-                                        html.label({'data-v-3e07ce4a': '', 'class_name': 'form-check-label'},
-                                            html.input({'data-v-3e07ce4a': '', 'type': 'radio', 'class_name': 'form-check-input', 'name': 'type', 'value': 'install this package'}),
-                                            "Install this package",
-                                            html.br({'data-v-3e07ce4a': ''}),
-                                            html.span({'data-v-3e07ce4a': '', 'aria-hidden': 'true'},
-                                                html.span()
-                                            )
-                                        )
-                                    )
-                                ),
-                                html.div({'data-v-3e07ce4a': '', 'class_name': 'col-9 col-sm-6 col-md-4 col-lg-2'},
-                                    html.div({'data-v-3e07ce4a': '', 'class_name': 'form-check'},
-                                        html.label({'data-v-3e07ce4a': '', 'class_name': 'form-check-label'},
-                                            html.input({'data-v-3e07ce4a': '', 'type': 'radio', 'class_name': 'form-check-input', 'name': 'type', 'value': 'use this template'}),
-                                            "Use this template",
-                                            html.br({'data-v-3e07ce4a': ''}),
-                                            html.span({'data-v-3e07ce4a': '', 'aria-hidden': 'true'},
-                                                html.span()
-                                            )
-                                        )
-                                    )
-                                ),
-                                html.div({'data-v-3e07ce4a': '', 'class_name': 'col-9 col-sm-6 col-md-4 col-lg-2'},
-                                    html.div({'data-v-3e07ce4a': '', 'class_name': 'form-check'},
-                                        html.label({'data-v-3e07ce4a': '', 'class_name': 'form-check-label'},
-                                            html.input({'data-v-3e07ce4a': '', 'type': 'radio', 'class_name': 'form-check-input', 'name': 'type', 'value': 'use this GitHub Action'}),
-                                            "Use this GitHub Action",
-                                            html.br({'data-v-3e07ce4a': ''}),
-                                            html.span({'data-v-3e07ce4a': '', 'aria-hidden': 'true'},
-                                                html.span()
-                                            )
-                                        )
-                                    )
-                                )
-                            )
+                html.div({'id': 'app'},
+                    html.form({'autocapitalize': 'none', 'autocomplete': 'off', 'autocorrect': 'off', 'spellcheck': 'false'},
+                        html.fieldset({'class_name': 'form-group'},
+                            html.h4("Choose a button"),
+                            html.div({'class_name': 'row'},
+                                ButtonCheckBox("Follow", FollowButton),
+                                ButtonCheckBox("Sponsor", SponsorButton),
+                                ButtonCheckBox("Watch", WatchButton),
+                                ButtonCheckBox("Star", StarButton),
+                                ButtonCheckBox("Fork", ForkButton),
+                                ButtonCheckBox("Issue", IssueButton),
+                                ButtonCheckBox("Discuss", DiscussButton),
+                                ButtonCheckBox("Download", DownloadButton),
+                                ButtonCheckBox("Install this package", InstallPackageButton),
+                                ButtonCheckBox("Use this template", UseTemplateButton),
+                                ButtonCheckBox("Use this GitHub Action", UseThisGitHubActionButton)
+                            ),
                         ),
-                        html.hr({'data-v-3e07ce4a': ''}),
-                        html.div({'data-v-3e07ce4a': '', 'class_name': 'row'},
-                            html.div({'data-v-3e07ce4a': '', 'class_name': 'col-12 col-sm-6 col-md-5'},
-                                html.h4({'data-v-3e07ce4a': ''}, "Button options"),
-                                html.div({'data-v-3e07ce4a': '', 'class_name': 'form-group'},
-                                    html.div({'data-v-3e07ce4a': '', 'class_name': 'input-group'},
-                                        html.input({'data-v-3e07ce4a': '', 'class_name': 'form-control', 'type': 'text', 'maxlength': '39', 'placeholder': ':user', 'autofocus': ''}),
-                                        html.div({'data-v-3e07ce4a': '', 'class_name': 'input-group-append input-group-prepend'},
-                                            html.span({'data-v-3e07ce4a': '', 'class_name': 'input-group-text'}, "/")
+                        html.hr(),
+                        html.div({'class_name': 'row'},
+                            html.div({'class_name': 'col-12 col-sm-6 col-md-5'},
+                                html.h4("Button options"),
+                                html.div({'class_name': 'form-group'},
+                                    html.div({'class_name': 'input-group'},
+                                        html.input({'class_name': 'form-control', 'type': 'text', 'maxlength': '39', 'placeholder': ':user', 'autofocus': ''}),
+                                        html.div({'class_name': 'input-group-append input-group-prepend'},
+                                            html.span({'class_name': 'input-group-text'}, "/")
                                         ),
-                                        html.input({'data-v-3e07ce4a': '', 'class_name': 'form-control', 'type': 'text', 'maxlength': '100', 'placeholder': ':repo'})
+                                        html.input({'class_name': 'form-control', 'type': 'text', 'maxlength': '100', 'placeholder': ':repo'})
                                     )
                                 ),
-                                html.div({'data-v-3e07ce4a': '', 'class_name': 'form-group'},
-                                    html.div({'data-v-3e07ce4a': '', 'class_name': 'form-row align-items-center my-1'},
-                                        html.div({'data-v-3e07ce4a': '', 'class_name': 'col-auto mr-auto'},
-                                            html.div({'data-v-3e07ce4a': '', 'class_name': 'form-check'},
-                                                html.label({'data-v-3e07ce4a': '', 'class_name': 'form-check-label'},
-                                                    html.input({'data-v-3e07ce4a': '', 'class_name': 'form-check-input', 'type': 'checkbox'}),
+                                html.div({'class_name': 'form-group'},
+                                    html.div({'class_name': 'form-row align-items-center my-1'},
+                    
+                                        html.div({'class_name': 'col-auto mr-auto'},
+                                            html.div({'class_name': 'form-check'},
+                                                html.label({'class_name': 'form-check-label'},
+                                                    html.input({'class_name': 'form-check-input', 'type': 'checkbox'}),
                                                     "Color scheme"
                                                 )
                                             )
                                         ),
-                                        html.div({'data-v-3e07ce4a': '', 'class_name': 'col-auto'},
-                                            html.label({'data-v-3e07ce4a': '', 'class_name': 'sr-only', 'html_for': 'prefers-color-scheme-no-preference'}, "@media (prefers-color-scheme: no-preference)"),
-                                            html.select({'data-v-3e07ce4a': '', 'id': 'prefers-color-scheme-no-preference', 'class_name': 'form-control form-control-sm', 'disabled': ''},
+
+                                        html.div({'class_name': 'col-auto'},
+                                            html.label({'class_name': 'sr-only', 'html_for': 'prefers-color-scheme-no-preference'}, "@media (prefers-color-scheme: no-preference)"),
+                                            html.select({'id': 'prefers-color-scheme-no-preference', 'class_name': 'form-control form-control-sm', 'disabled': ''},
                                                 html.option({'data-v-3e07ce4a': ''}, "light"),
                                                 html.option({'data-v-3e07ce4a': ''}, "light_high_contrast"),
                                                 html.option({'data-v-3e07ce4a': ''}, "dark"),
@@ -184,12 +121,12 @@ def AppMain():
                                             )
                                         )
                                     ),
-                                    html.div({'data-v-3e07ce4a': '', 'class_name': 'form-row align-items-center my-1 ml-3'},
-                                        html.div({'data-v-3e07ce4a': '', 'class_name': 'col-auto mr-auto'},
-                                            html.label({'data-v-3e07ce4a': '', 'html_for': 'prefers-color-scheme-light', 'class_name': 'form-check-label col-form-label-sm'}, "@media (prefers-color-scheme: light)")
+                                    html.div({'class_name': 'form-row align-items-center my-1 ml-3'},
+                                        html.div({'class_name': 'col-auto mr-auto'},
+                                            html.label({'html_for': 'prefers-color-scheme-light', 'class_name': 'form-check-label col-form-label-sm'}, "@media (prefers-color-scheme: light)")
                                         ),
-                                        html.div({'data-v-3e07ce4a': '', 'class_name': 'col-auto'},
-                                            html.select({'data-v-3e07ce4a': '', 'id': 'prefers-color-scheme-light', 'class_name': 'form-control form-control-sm', 'disabled': ''},
+                                        html.div({'class_name': 'col-auto'},
+                                            html.select({'id': 'prefers-color-scheme-light', 'class_name': 'form-control form-control-sm', 'disabled': ''},
                                                 html.option({'data-v-3e07ce4a': ''}, "light"),
                                                 html.option({'data-v-3e07ce4a': ''}, "light_high_contrast"),
                                                 html.option({'data-v-3e07ce4a': ''}, "dark"),
@@ -198,12 +135,12 @@ def AppMain():
                                             )
                                         )
                                     ),
-                                    html.div({'data-v-3e07ce4a': '', 'class_name': 'form-row align-items-center my-1 ml-3'},
-                                        html.div({'data-v-3e07ce4a': '', 'class_name': 'col-auto mr-auto'},
-                                            html.label({'data-v-3e07ce4a': '', 'html_for': 'prefers-color-scheme-dark', 'class_name': 'form-check-label col-form-label-sm'}, "@media (prefers-color-scheme: dark)")
+                                    html.div({'class_name': 'form-row align-items-center my-1 ml-3'},
+                                        html.div({'class_name': 'col-auto mr-auto'},
+                                            html.label({'html_for': 'prefers-color-scheme-dark', 'class_name': 'form-check-label col-form-label-sm'}, "@media (prefers-color-scheme: dark)")
                                         ),
-                                        html.div({'data-v-3e07ce4a': '', 'class_name': 'col-auto'},
-                                            html.select({'data-v-3e07ce4a': '', 'id': 'prefers-color-scheme-dark', 'class_name': 'form-control form-control-sm', 'disabled': ''},
+                                        html.div({'class_name': 'col-auto'},
+                                            html.select({'id': 'prefers-color-scheme-dark', 'class_name': 'form-control form-control-sm', 'disabled': ''},
                                                 html.option({'data-v-3e07ce4a': ''}, "light"),
                                                 html.option({'data-v-3e07ce4a': ''}, "light_high_contrast"),
                                                 html.option({'data-v-3e07ce4a': ''}, "dark"),
@@ -212,59 +149,59 @@ def AppMain():
                                             )
                                         )
                                     ),
-                                    html.div({'data-v-3e07ce4a': '', 'class_name': 'form-row my-2'},
-                                        html.div({'data-v-3e07ce4a': '', 'class_name': 'col-auto'},
-                                            html.div({'data-v-3e07ce4a': '', 'class_name': 'form-check'},
-                                                html.label({'data-v-3e07ce4a': '', 'class_name': 'form-check-label'},
-                                                    html.input({'data-v-3e07ce4a': '', 'class_name': 'form-check-input', 'type': 'checkbox'}),
+                                    html.div({'class_name': 'form-row my-2'},
+                                        html.div({'class_name': 'col-auto'},
+                                            html.div({'class_name': 'form-check'},
+                                                html.label({'class_name': 'form-check-label'},
+                                                    html.input({'class_name': 'form-check-input', 'type': 'checkbox'}),
                                                     "Large button"
                                                 )
                                             )
                                         )
                                     ),
-                                    html.div({'data-v-3e07ce4a': '', 'class_name': 'form-row my-2'},
-                                        html.div({'data-v-3e07ce4a': '', 'class_name': 'col-auto'},
-                                            html.div({'data-v-3e07ce4a': '', 'class_name': 'form-check'},
-                                                html.label({'data-v-3e07ce4a': '', 'class_name': 'form-check-label'},
-                                                    html.input({'data-v-3e07ce4a': '', 'class_name': 'form-check-input', 'type': 'checkbox'}),
+                                    html.div({'class_name': 'form-row my-2'},
+                                        html.div({'class_name': 'col-auto'},
+                                            html.div({'class_name': 'form-check'},
+                                                html.label({'class_name': 'form-check-label'},
+                                                    html.input({'class_name': 'form-check-input', 'type': 'checkbox'}),
                                                     "Show count"
                                                 )
                                             )
                                         )
                                     ),
-                                    html.div({'data-v-3e07ce4a': '', 'class_name': 'form-row my-2'},
-                                        html.div({'data-v-3e07ce4a': '', 'class_name': 'col-auto'},
-                                            html.div({'data-v-3e07ce4a': '', 'class_name': 'form-check'},
-                                                html.label({'data-v-3e07ce4a': '', 'class_name': 'form-check-label'},
-                                                    html.input({'data-v-3e07ce4a': '', 'class_name': 'form-check-input', 'type': 'checkbox'}),
+                                    html.div({'class_name': 'form-row my-2'},
+                                        html.div({'class_name': 'col-auto'},
+                                            html.div({'class_name': 'form-check'},
+                                                html.label({'class_name': 'form-check-label'},
+                                                    html.input({'class_name': 'form-check-input', 'type': 'checkbox'}),
                                                     "Standard icon"
                                                 )
                                             )
                                         )
                                     )
                                 ),
-                                html.div({'data-v-3e07ce4a': '', 'class_name': 'form-group'},
-                                    html.label({'data-v-3e07ce4a': '', 'html_for': 'syntax'}, "Syntax"),
-                                    html.select({'data-v-3e07ce4a': '', 'id': 'syntax', 'class_name': 'form-control'},
+                                html.div({'class_name': 'form-group'},
+                                    html.label({'html_for': 'syntax'}, "Syntax"),
+                                    html.select({'id': 'syntax', 'class_name': 'form-control'},
                                         html.option({'data-v-3e07ce4a': ''}, "html"),
-                                        html.option({'data-v-3e07ce4a': '', 'value': 'vue'}, "vue-github-button"),
-                                        html.option({'data-v-3e07ce4a': '', 'value': 'react'}, "react-github-btn")
+                                        html.option({'value': 'vue'}, "vue-github-button"),
+                                        html.option({'value': 'react'}, "react-github-btn")
                                     )
                                 )
                             ),
-                            html.div({'data-v-3e07ce4a': '', 'class_name': 'col-12 col-sm-6 col-md-7'},
+                            html.div({'class_name': 'col-12 col-sm-6 col-md-7'},
                                 html.h4({'data-v-3e07ce4a': ''}, "Preview and code"),
                                 html.p({'data-v-3e07ce4a': ''}, "Try out your button, then copy and paste the code below into the HTML for your site."),
-                                html.p({'data-v-3e07ce4a': '', 'style': 'height: 20px;'},
+                                html.p({'style': 'height: 20px;'},
                                     html.span({'data-v-3e07ce4a': ''},
                                         html.span()
                                     )
                                 ),
-                                html.div({'data-v-3e07ce4a': '', 'class_name': 'form-group'},
-                                    html.textarea({'data-v-2db68b12': '', 'data-v-3e07ce4a': '', 'class_name': 'form-control', 'rows': '2', 'readonly': ''})
+                                html.div({'class_name': 'form-group'},
+                                    html.textarea({'data-v-3e07ce4a': '', 'class_name': 'form-control', 'rows': '2', 'readonly': ''})
                                 ),
-                                html.div({'data-v-3e07ce4a': '', 'class_name': 'form-group'},
-                                    html.textarea({'data-v-2db68b12': '', 'data-v-3e07ce4a': '', 'class_name': 'form-control', 'rows': '2', 'readonly': ''})
+                                html.div({'class_name': 'form-group'},
+                                    html.textarea({'data-v-3e07ce4a': '', 'class_name': 'form-control', 'rows': '2', 'readonly': ''})
                                 )
                             )
                         )
@@ -273,3 +210,8 @@ def AppMain():
             )
         )
     )
+
+
+@component
+def AppMain():
+    return html._(AppHeader(), AppBody())
