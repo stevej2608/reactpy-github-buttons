@@ -5,7 +5,16 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "1a. examples.button",
+      "name": "1a run_dashboard.py",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceRoot}/run_dashboard.py",
+      "justMyCode": false,
+      "console": "internalConsole",
+      "internalConsoleOptions": "openOnSessionStart",
+    },
+    {
+      "name": "1b. examples.button",
       "type": "python",
       "request": "launch",
       "module": "examples.button",
@@ -13,9 +22,8 @@
       "console": "internalConsole",
       "internalConsoleOptions": "openOnSessionStart",
     },
-
     {
-      "name": "1b. button",
+      "name": "1c. button",
       "type": "python",
       "request": "launch",
       "module": "examples.buttons_example",

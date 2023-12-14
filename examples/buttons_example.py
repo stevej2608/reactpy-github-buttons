@@ -64,9 +64,3 @@ def ButtonTable():
         html.tbody(*rows)
     )
 
-
-# python -m examples.buttons_example
-
-if __name__ == "__main__":
-    log.setLevel(logging.INFO)
-    run(ButtonTable)

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "reactpy-github-buttons"
-version = "0.0.4"
+version = "0.0.5"
 description = "ReactPy wrapper for react-github-btn"
 authors = ["Steve Jones <jonesst2608@gmail.com>"]
 readme = "README.md"
@@ -8,8 +8,9 @@ license = "MIT"
 
 
 [tool.poetry.dependencies]
-python = ">=3.5,<4.0.0"
+python = ">=3.9,<4.0.0"
 reactpy = {extras = ["starlette", "testing"], version = "^1.0.2"}
+fastapi = "^0.105.0"
 
 
 [tool.poetry.group.dev.dependencies]

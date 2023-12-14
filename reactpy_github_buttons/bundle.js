@@ -7825,9 +7825,18 @@ var render = function (options, func) {
 
 function bind(node, config) {
   return {
-    create: (type, props, children) => /*#__PURE__*/React.createElement(type, props, ...children),
-    render: element => ReactDOM.render(element, node),
-    unmount: () => ReactDOM.unmountComponentAtNode(node)
+    create: (type, props, children) => {
+      if (node.childElementCount) {
+        ReactDOM.unmountComponentAtNode(node.firstChild.firstChild);
+      }
+      return /*#__PURE__*/React.createElement(type, props, ...children);
+    },
+    render: element => {
+      return ReactDOM.render(element, node);
+    },
+    unmount: () => {
+      return ReactDOM.unmountComponentAtNode(node);
+    }
   };
 }
 
@@ -7837,22 +7846,29 @@ function bind(node, config) {
  *
  * https://github.com/buttons/github-buttons
  *
-
  */
 
 function RactpyGithubButtons(props) {
   const ref = reactExports.useRef(null);
+
+  // console.log('RactpyGithubButtons %o', props)
+
+  // https://dmitripavlutin.com/react-useeffect-explanation/
+
   reactExports.useEffect(() => {
     render(ref.current, function (element) {
       if (!ref.current) {
         return;
       }
-      ref.current.parentNode.replaceChild(element, ref.current);
+      ref.current.replaceChild(element, ref.current.firstChild);
     });
-  }, []);
-  return /*#__PURE__*/React.createElement("a", _extends({}, props, {
+    return () => {
+      // console.log('userEffect.unmount')
+    };
+  }, [props]);
+  return /*#__PURE__*/React.createElement("div", _extends({}, props, {
     ref: ref
-  }), props.data_text);
+  }), /*#__PURE__*/React.createElement("a", props, props.data_text));
 }
 
 export { RactpyGithubButtons, bind };

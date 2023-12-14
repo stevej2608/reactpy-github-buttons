@@ -19,6 +19,15 @@ export default {
 			plugins: [terser()]
 		}
    ],
+
+   // https://www.mixmax.com/engineering/rollup-externals
+
+   // external: ['react', 'react-dom'],
+   // globals: {
+   //   'react': 'React',
+   //   'react-dom': 'ReactDOM'
+   // },
+
    plugins: [
       nodeResolve({
          extensions: ['.js', '.jsx']
