@@ -1,8 +1,10 @@
-from reactpy import component, html
+from reactpy import component, html, use_state, event
 from reactpy.svg import svg, path
 from reactpy_github_buttons import (
     FollowButton, InstallPackageButton, SponsorButton, StarButton, WatchButton, 
     ForkButton, IssueButton, DiscussButton, DownloadButton, UseTemplateButton, UseThisGitHubActionButton)
+
+from utils.logger import log
 
 GIT_USER = 'reactive-python'
 GIT_REPO = 'reactpy'
@@ -56,14 +58,69 @@ def ButtonCheckBox(text:str, button):
                 html.input({'type': 'radio', 'class_name': 'form-check-input', 'name': 'type', 'value': 'follow'}),
                 text,
                 html.br(),
-                default
+                # default
             )
         )
     )
 
 
 @component
+def UserAndRepo(user, repo, user_change, repo_change):
+    return  html.div({'class_name': 'form-group'},
+        html.div({'class_name': 'input-group'},
+            html.input({'class_name': 'form-control', 'id': 'user', 'type': 'text', 'maxlength': '39', 'placeholder': ':user', 'autofocus': '', 'onchange': user_change}),
+            html.div({'class_name': 'input-group-append input-group-prepend'},
+                html.span({'class_name': 'input-group-text'}, "/")
+            ),
+            html.input({'class_name': 'form-control', 'id': 'repo', 'type': 'text', 'maxlength': '100', 'placeholder': ':repo', 'onchange': repo_change})
+        )
+    )
+
+@component
+def ColorSchemeDropdown(id, disabled):
+
+    select_attr = {'id': id, 'class_name': 'form-control form-control-sm'}
+
+    if disabled:
+        select_attr.update({'id': id, 'class_name': 'form-control form-control-sm','disabled': True})
+
+    return html.div({'class_name': 'col-auto'},
+        html.label({'class_name': 'sr-only', 'html_for': id}, "@media (prefers-color-scheme: no-preference)"),
+        html.select(select_attr,
+            html.option({'data-v-3e07ce4a': ''}, "light"),
+            html.option({'data-v-3e07ce4a': ''}, "light_high_contrast"),
+            html.option({'data-v-3e07ce4a': ''}, "dark"),
+            html.option({'data-v-3e07ce4a': ''}, "dark_dimmed"),
+            html.option({'data-v-3e07ce4a': ''}, "dark_high_contrast")
+        )
+    )
+
+
+@component
 def AppBody():
+
+    color_scheme_disabled, set_color_scheme_disabled = use_state(True)
+    user, set_user = use_state('')
+    repo, set_repo = use_state('')
+
+    log.info('color_scheme_disabled=%s', color_scheme_disabled)
+    log.info('user=%s, repo=%s', user, repo)
+
+    @event
+    def toggle_color_scheme(event):
+        set_color_scheme_disabled(not color_scheme_disabled)
+
+    @event
+    def user_change(event):
+        value = event['target']['value']
+        set_user(value)
+
+    @event
+    def repo_change(event):
+        value = event['target']['value']
+        set_repo(value)
+
+
     return html.main({'class_name': 'main'},
         html.div({'class_name': 'container mt-3'},
             html.div({'id': 'app', 'data-v-app': ''},
@@ -89,65 +146,42 @@ def AppBody():
                         html.div({'class_name': 'row'},
                             html.div({'class_name': 'col-12 col-sm-6 col-md-5'},
                                 html.h4("Button options"),
-                                html.div({'class_name': 'form-group'},
-                                    html.div({'class_name': 'input-group'},
-                                        html.input({'class_name': 'form-control', 'type': 'text', 'maxlength': '39', 'placeholder': ':user', 'autofocus': ''}),
-                                        html.div({'class_name': 'input-group-append input-group-prepend'},
-                                            html.span({'class_name': 'input-group-text'}, "/")
-                                        ),
-                                        html.input({'class_name': 'form-control', 'type': 'text', 'maxlength': '100', 'placeholder': ':repo'})
-                                    )
-                                ),
+
+                                UserAndRepo(user, repo, user_change=user_change, repo_change=repo_change),
+
+
                                 html.div({'class_name': 'form-group'},
                                     html.div({'class_name': 'form-row align-items-center my-1'},
                     
                                         html.div({'class_name': 'col-auto mr-auto'},
                                             html.div({'class_name': 'form-check'},
                                                 html.label({'class_name': 'form-check-label'},
-                                                    html.input({'class_name': 'form-check-input', 'type': 'checkbox'}),
+                                                    html.input({'class_name': 'form-check-input', 'type': 'checkbox', 'onclick': toggle_color_scheme}),
                                                     "Color scheme"
                                                 )
                                             )
                                         ),
 
-                                        html.div({'class_name': 'col-auto'},
-                                            html.label({'class_name': 'sr-only', 'html_for': 'prefers-color-scheme-no-preference'}, "@media (prefers-color-scheme: no-preference)"),
-                                            html.select({'id': 'prefers-color-scheme-no-preference', 'class_name': 'form-control form-control-sm', 'disabled': ''},
-                                                html.option({'data-v-3e07ce4a': ''}, "light"),
-                                                html.option({'data-v-3e07ce4a': ''}, "light_high_contrast"),
-                                                html.option({'data-v-3e07ce4a': ''}, "dark"),
-                                                html.option({'data-v-3e07ce4a': ''}, "dark_dimmed"),
-                                                html.option({'data-v-3e07ce4a': ''}, "dark_high_contrast")
-                                            )
-                                        )
+                                        ColorSchemeDropdown(id='prefers-color-scheme-no-preference', disabled=color_scheme_disabled)
+
                                     ),
+
                                     html.div({'class_name': 'form-row align-items-center my-1 ml-3'},
                                         html.div({'class_name': 'col-auto mr-auto'},
                                             html.label({'html_for': 'prefers-color-scheme-light', 'class_name': 'form-check-label col-form-label-sm'}, "@media (prefers-color-scheme: light)")
                                         ),
-                                        html.div({'class_name': 'col-auto'},
-                                            html.select({'id': 'prefers-color-scheme-light', 'class_name': 'form-control form-control-sm', 'disabled': ''},
-                                                html.option({'data-v-3e07ce4a': ''}, "light"),
-                                                html.option({'data-v-3e07ce4a': ''}, "light_high_contrast"),
-                                                html.option({'data-v-3e07ce4a': ''}, "dark"),
-                                                html.option({'data-v-3e07ce4a': ''}, "dark_dimmed"),
-                                                html.option({'data-v-3e07ce4a': ''}, "dark_high_contrast")
-                                            )
-                                        )
+
+                                        ColorSchemeDropdown(id='prefers-color-scheme-light', disabled=color_scheme_disabled)
+
+
                                     ),
                                     html.div({'class_name': 'form-row align-items-center my-1 ml-3'},
                                         html.div({'class_name': 'col-auto mr-auto'},
                                             html.label({'html_for': 'prefers-color-scheme-dark', 'class_name': 'form-check-label col-form-label-sm'}, "@media (prefers-color-scheme: dark)")
                                         ),
-                                        html.div({'class_name': 'col-auto'},
-                                            html.select({'id': 'prefers-color-scheme-dark', 'class_name': 'form-control form-control-sm', 'disabled': ''},
-                                                html.option({'data-v-3e07ce4a': ''}, "light"),
-                                                html.option({'data-v-3e07ce4a': ''}, "light_high_contrast"),
-                                                html.option({'data-v-3e07ce4a': ''}, "dark"),
-                                                html.option({'data-v-3e07ce4a': ''}, "dark_dimmed"),
-                                                html.option({'data-v-3e07ce4a': ''}, "dark_high_contrast")
-                                            )
-                                        )
+
+                                        ColorSchemeDropdown(id='prefers-color-scheme-dark', disabled=color_scheme_disabled)
+
                                     ),
                                     html.div({'class_name': 'form-row my-2'},
                                         html.div({'class_name': 'col-auto'},
