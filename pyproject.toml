@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "reactpy-github-buttons"
-version = "0.0.3"
+version = "0.0.4"
 description = "ReactPy wrapper for react-github-btn"
 authors = ["Steve Jones <jonesst2608@gmail.com>"]
 readme = "README.md"
