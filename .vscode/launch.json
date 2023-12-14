@@ -13,6 +13,16 @@
       "console": "internalConsole",
       "internalConsoleOptions": "openOnSessionStart",
     },
+
+    {
+      "name": "1b. button",
+      "type": "python",
+      "request": "launch",
+      "module": "examples.buttons_example",
+      "justMyCode": false,
+      "console": "internalConsole",
+      "internalConsoleOptions": "openOnSessionStart",
+    },
     // https://stackoverflow.com/a/65292380/489239
     {
       "name": "2a. PyTest (all)",

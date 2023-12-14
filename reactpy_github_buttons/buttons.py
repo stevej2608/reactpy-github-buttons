@@ -1,7 +1,23 @@
-from typing import Literal, Union, List, Dict, Any, Optional
+from enum import Enum
 from pathlib import Path
 
 from reactpy.web.module import export, module_from_file
+from utils.logger import log
+
+
+# class syntax
+
+class ColorScheme(str, Enum):
+    LIGHT = 'light'
+    LIGHT_HIGH_CONTRAST = 'light_high_contrast'
+    DARK = 'dark'
+    DARK_DIMMED = 'dark-dimmed'
+    DARK_HIGH_CONTRAST = 'dark_high_contrast'
+
+
+def make_color_scheme(no_preference:ColorScheme, light: ColorScheme, dark: ColorScheme) -> str:
+    """Create button color scheme"""
+    return f"no-preference: {no_preference.value}; light: {light.value}; dark: {dark.value};"
 
 # pylint: disable=missing-function-docstring
 # pylint: disable=disable=invalid-name
@@ -29,10 +45,12 @@ def GithubButton(user:str, repo:str, props:dict):
     if 'text' in props:
         _args['data_text'] = props['text']
 
+    log.info("args=[%s]", _args)
+
     return _RactpyGithubButtons(_args)
 
 
-def FollowButton(user:str, large=False, show_count=False):
+def FollowButton(user:str, large=False, show_count=False, color_scheme=''):
 
     props = {
         "text" : "Follow @buttons",
@@ -46,11 +64,13 @@ def FollowButton(user:str, large=False, show_count=False):
     if show_count:
         props.update({"data-show-count": "true"})
 
+    if color_scheme:
+        props.update({"data-color-scheme": color_scheme})
 
     return GithubButton(user=user, repo='', props=props)
 
 
-def SponsorButton(user:str, large=False, standard_icon=False):
+def SponsorButton(user:str, large=False, standard_icon=False, color_scheme=''):
 
     props = {
         "text" : "Sponsor",
@@ -64,10 +84,13 @@ def SponsorButton(user:str, large=False, standard_icon=False):
     if not standard_icon:
         props.update({"data-icon": "octicon-heart"})
 
+    if color_scheme:
+        props.update({"data-color-scheme": color_scheme})
+
     return GithubButton(user=user, repo='', props=props)
 
 
-def WatchButton(user:str, repo:str, large=False, show_count=False, standard_icon=False):
+def WatchButton(user:str, repo:str, large=False, show_count=False, standard_icon=False, color_scheme=''):
 
     props = {
         "text" : "Watch",
@@ -84,10 +107,13 @@ def WatchButton(user:str, repo:str, large=False, show_count=False, standard_icon
     if not standard_icon:
         props.update({"data-icon": "octicon-eye"})
 
+    if color_scheme:
+        props.update({"data-color-scheme": color_scheme})
+   
     return GithubButton(user=user, repo=repo, props=props)
 
 
-def StarButton(user:str, repo:str, large=False, show_count=False, standard_icon=False):
+def StarButton(user:str, repo:str, large=False, show_count=False, standard_icon=False, color_scheme=''):
 
     props = {
         "text" : "Star",
@@ -103,10 +129,13 @@ def StarButton(user:str, repo:str, large=False, show_count=False, standard_icon=
     if not standard_icon:
         props.update({"data-icon": "octicon-star"})
 
+    if color_scheme:
+        props.update({"data-color-scheme": color_scheme})
+
     return GithubButton(user=user, repo=repo, props=props)
 
 
-def ForkButton(user:str, repo:str, large=False, show_count=False, standard_icon=False):
+def ForkButton(user:str, repo:str, large=False, show_count=False, standard_icon=False, color_scheme=''):
 
     props = {
         "text" : "Fork",
@@ -123,10 +152,13 @@ def ForkButton(user:str, repo:str, large=False, show_count=False, standard_icon=
     if not standard_icon:
         props.update({"data-icon": "octicon-repo-forked"})
 
+    if color_scheme:
+        props.update({"data-color-scheme": color_scheme})
+   
     return GithubButton(user=user, repo=repo, props=props)
 
 
-def IssueButton(user:str, repo:str, large=False, show_count=False, standard_icon=False):
+def IssueButton(user:str, repo:str, large=False, show_count=False, standard_icon=False, color_scheme=''):
 
     props = {
         "text" : "Issue",
@@ -143,10 +175,13 @@ def IssueButton(user:str, repo:str, large=False, show_count=False, standard_icon
     if not standard_icon:
         props.update({"data-icon": "octicon-issue-opened"})
 
+    if color_scheme:
+        props.update({"data-color-scheme": color_scheme})
+   
     return GithubButton(user=user, repo=repo, props=props)
 
 
-def DiscussButton(user:str, repo:str, large=False, standard_icon=False):
+def DiscussButton(user:str, repo:str, large=False, standard_icon=False, color_scheme=''):
 
     props = {
         "text" : "Discuss",
@@ -159,10 +194,13 @@ def DiscussButton(user:str, repo:str, large=False, standard_icon=False):
     if not standard_icon:
         props.update({"data-icon": "octicon-comment-discussion"})
 
+    if color_scheme:
+        props.update({"data-color-scheme": color_scheme})
+   
     return GithubButton(user=user, repo=repo, props=props)
 
 
-def DownloadButton(user:str, repo:str, large=False, standard_icon=False):
+def DownloadButton(user:str, repo:str, large=False, standard_icon=False, color_scheme=''):
 
     props = {
         "text" : "Download",
@@ -175,10 +213,13 @@ def DownloadButton(user:str, repo:str, large=False, standard_icon=False):
     if not standard_icon:
         props.update({"data-icon": "octicon-download"})
 
+    if color_scheme:
+        props.update({"data-color-scheme": color_scheme})
+   
     return GithubButton(user=user, repo=repo, props=props)
 
 
-def InstallPackageButton(user:str, repo:str, large=False, standard_icon=False):
+def InstallPackageButton(user:str, repo:str, large=False, standard_icon=False, color_scheme=''):
 
     props = {
         "text" : "Install this package",
@@ -191,10 +232,13 @@ def InstallPackageButton(user:str, repo:str, large=False, standard_icon=False):
     if not standard_icon:
         props.update({"data-icon": "octicon-package"})
 
+    if color_scheme:
+        props.update({"data-color-scheme": color_scheme})
+   
     return GithubButton(user=user, repo=repo, props=props)
 
 
-def UseTemplateButton(user:str, repo:str, large=False, standard_icon=False):
+def UseTemplateButton(user:str, repo:str, large=False, standard_icon=False, color_scheme=''):
 
     props = {
         "text" : "Use this template",
@@ -207,10 +251,13 @@ def UseTemplateButton(user:str, repo:str, large=False, standard_icon=False):
     if not standard_icon:
         props.update({"data-icon": "octicon-repo-template"})
 
+    if color_scheme:
+        props.update({"data-color-scheme": color_scheme})
+   
     return GithubButton(user=user, repo=repo, props=props)
 
 
-def UseThisGitHubActionButton(user:str, repo:str, large=False, standard_icon=False):
+def UseThisGitHubActionButton(user:str, repo:str, large=False, standard_icon=False, color_scheme=''):
 
     props = {
         "text" : "Use this GitHub Action",
@@ -223,4 +270,7 @@ def UseThisGitHubActionButton(user:str, repo:str, large=False, standard_icon=Fal
     if not standard_icon:
         props.update({"data-icon": "octicon-play"})
 
+    if color_scheme:
+        props.update({"data-color-scheme": color_scheme})
+   
     return GithubButton(user=user, repo=repo, props=props)

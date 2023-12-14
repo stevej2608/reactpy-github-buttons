@@ -1,6 +1,6 @@
 from reactpy import component, html, run
 from utils.logger import log, logging
-from reactpy_github_buttons import SponsorButton
+from reactpy_github_buttons import StarButton, make_color_scheme, ColorScheme
 
 GIT_USER = 'reactive-python'
 GIT_REPO = 'reactpy'
@@ -9,11 +9,40 @@ GIT_REPO = 'reactpy'
 @component
 def AppMain():
     return html.div(
-        # SponsorButton(user=GIT_USER),
-        # SponsorButton(user=GIT_USER, large=True),
-        # SponsorButton(user=GIT_USER, standard_icon=True),
-        SponsorButton(user=GIT_USER, show_count=True),
 
+        StarButton(user=GIT_USER, repo=GIT_REPO,
+                   show_count=True,
+                   color_scheme="no-preference: light_high_contrast; light: light; dark: dark_high_contrast;"
+                   ),
+
+        
+        StarButton(user=GIT_USER, repo=GIT_REPO, 
+                   show_count=True,
+                   color_scheme=make_color_scheme(
+                       no_preference=ColorScheme.LIGHT_HIGH_CONTRAST,
+                       light=ColorScheme.LIGHT,
+                       dark=ColorScheme.DARK_HIGH_CONTRAST
+                       )
+                   ),
+
+        StarButton(user=GIT_USER, repo=GIT_REPO, 
+                   show_count=True,
+                   color_scheme=make_color_scheme(
+                       no_preference=ColorScheme.LIGHT_HIGH_CONTRAST,
+                       light=ColorScheme.LIGHT,
+                       dark=ColorScheme.LIGHT
+                       )
+                   ),
+
+
+        StarButton(user=GIT_USER, repo=GIT_REPO, 
+                   show_count=True,
+                   color_scheme=make_color_scheme(
+                       no_preference=ColorScheme.DARK_HIGH_CONTRAST,
+                       light=ColorScheme.LIGHT_HIGH_CONTRAST,
+                       dark=ColorScheme.LIGHT
+                       )
+                   ),
     )
 
 
