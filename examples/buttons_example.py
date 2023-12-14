@@ -2,48 +2,56 @@ from reactpy import component, html, run
 from utils.logger import log, logging
 from reactpy_github_buttons import FollowButton, InstallPackageButton, SponsorButton, StarButton, WatchButton, ForkButton, IssueButton, DiscussButton, DownloadButton
 
+
+BUTTON_TYPES = [DiscussButton, DownloadButton, FollowButton, 
+                ForkButton, InstallPackageButton, IssueButton, 
+                SponsorButton, StarButton, WatchButton]
+
+GIT_USER = 'reactive-python'
+GIT_REPO = 'reactpy'
+
 @component
-def ButtonsExample():
+def TableHead():
+    return html.thead(
+        html.th('Function'),
+        html.th('Default'),
+        html.td('Large'),
+        html.th('Std Icon'),
+        html.td('Add Counter'),
+    )
 
-    # https://buttons.github.io/
+@component
+def ButtonRow(button):
 
-    return html.div(
-        FollowButton(user='themesberg', repo='tailwind-dashboard-windster'),
-        FollowButton(user='themesberg', repo='tailwind-dashboard-windster', show_count=False),
-        FollowButton(user='themesberg', repo='tailwind-dashboard-windster', large=True),
+    # Follow does not support an alternative icon 
 
-        SponsorButton(user='themesberg', repo='tailwind-dashboard-windster'),
-        SponsorButton(user='themesberg', repo='tailwind-dashboard-windster', standard_icon=True),
-        SponsorButton(user='themesberg', repo='tailwind-dashboard-windster', show_count=False),
-        SponsorButton(user='themesberg', repo='tailwind-dashboard-windster', large=True),
+    if button is not FollowButton:
+        button_std_icon = html.td(button(user=GIT_USER, repo=GIT_REPO, standard_icon=True))
+    else:
+        button_std_icon = 'N/A'
 
-        WatchButton(user='themesberg', repo='tailwind-dashboard-windster'),
-        WatchButton(user='themesberg', repo='tailwind-dashboard-windster', standard_icon=True),
-        WatchButton(user='themesberg', repo='tailwind-dashboard-windster', show_count=False),
-        WatchButton(user='themesberg', repo='tailwind-dashboard-windster', large=True),
+    # Only these buttons support counters
 
-        StarButton(user='themesberg', repo='tailwind-dashboard-windster'),
-        StarButton(user='themesberg', repo='tailwind-dashboard-windster', large=True),
-        StarButton(user='themesberg', repo='tailwind-dashboard-windster', large=True, show_count=False),
+    if button in [FollowButton, SponsorButton, WatchButton, StarButton, ForkButton, IssueButton]:
+        button_show_count = html.td(button(user=GIT_USER, repo=GIT_REPO, show_count=True))
+    else:
+        button_show_count = 'N/A'
 
-        ForkButton(user='themesberg', repo='tailwind-dashboard-windster'),
-        ForkButton(user='themesberg', repo='tailwind-dashboard-windster', large=True),
-        ForkButton(user='themesberg', repo='tailwind-dashboard-windster', large=True, show_count=False),
+    return html.tr(
+        html.td(str(button).split(' ')[1] + '()'),
+        html.td(button(user=GIT_USER, repo=GIT_REPO)),
+        html.td(button(user=GIT_USER, repo=GIT_REPO, large=True)),
+        button_std_icon,
+        button_show_count,
+    )
 
-        IssueButton(user='themesberg', repo='tailwind-dashboard-windster'),
-        IssueButton(user='themesberg', repo='tailwind-dashboard-windster', large=True),
-        IssueButton(user='themesberg', repo='tailwind-dashboard-windster', large=True, show_count=False),
 
-        DiscussButton(user='themesberg', repo='tailwind-dashboard-windster'),
-        DiscussButton(user='themesberg', repo='tailwind-dashboard-windster', large=True),
-        DiscussButton(user='themesberg', repo='tailwind-dashboard-windster', standard_icon=True),
-
-        DownloadButton(user='themesberg', repo='tailwind-dashboard-windster'),
-        DownloadButton(user='themesberg', repo='tailwind-dashboard-windster', large=True),
-
-        InstallPackageButton(user='themesberg', repo='tailwind-dashboard-windster'),
-        InstallPackageButton(user='themesberg', repo='tailwind-dashboard-windster', large=True),
-
+@component
+def ButtonTable():
+    rows = [ButtonRow(button) for button in BUTTON_TYPES]
+    return html.table(
+        TableHead(),
+        html.tbody(*rows)
     )
 
 
@@ -51,4 +59,4 @@ def ButtonsExample():
 
 if __name__ == "__main__":
     log.setLevel(logging.INFO)
-    run(ButtonsExample)
+    run(ButtonTable)

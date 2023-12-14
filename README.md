@@ -1,54 +1,49 @@
 ## reactpy-github-buttons
 
+![](docs/showcase.png)
 
- Minimal wrapper for [github-buttons].
+
+ Minimal [ReactPy] wrapper for [github-buttons].
 
 ## Usage
 
     pip install reactpy-github-buttons
 
-## Documentation
 
-
-### Simple  Example
-
+## Simple  Example
 
 *./examples/star_example.py*
 ```
 from reactpy import component, html, run
-from reactpy_github_btn import GithubButton
+from reactpy_github_buttons import StarButton
 
 @component
 def AppMain():
-    return html.div(
-        GithubButton(
-            href="https://github.com/themesberg/tailwind-dashboard-windster",
-            data_text="Star",
-            data_size="large",
-            data_show_count="true",
-            data_icon="octicon-star",
-            data_color_scheme='red',
-            aria_label="Star tom-james-watson/p2p.chat on GitHub"
-        )
-    )
+    return StarButton(user='reactive-python', repo='reactpy')
 
-# python -m examples.star_example
 
 if __name__ == "__main__":
     log.setLevel(logging.INFO)
     run(AppMain)
 ```
 
-## Building 
+## Building
 
-        cd js
-        npm install
-        npm run build
+    poetry install --no-route
+
+    cd js
+    npm install
+    npm run build
 
 ## Publish 
 
     poetry build
+    poetry publish
+
+Or to local repo
+
     poetry publish -r pypicloud
 
 
 [github-buttons]: https://github.com/buttons/github-buttons
+[ReactPy]: https://github.com/reactive-python/reactpy
