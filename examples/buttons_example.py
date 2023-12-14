@@ -3,9 +3,9 @@ from utils.logger import log, logging
 from reactpy_github_buttons import FollowButton, InstallPackageButton, SponsorButton, StarButton, WatchButton, ForkButton, IssueButton, DiscussButton, DownloadButton
 
 
-BUTTON_TYPES = [DiscussButton, DownloadButton, FollowButton, 
-                ForkButton, InstallPackageButton, IssueButton, 
-                SponsorButton, StarButton, WatchButton]
+BUTTON_TYPES = [FollowButton, ForkButton, IssueButton, StarButton,
+                WatchButton,
+                InstallPackageButton, DiscussButton, DownloadButton, SponsorButton]
 
 GIT_USER = 'reactive-python'
 GIT_REPO = 'reactpy'
@@ -23,26 +23,36 @@ def TableHead():
 @component
 def ButtonRow(button):
 
-    # Follow does not support an alternative icon 
+    if button is FollowButton:
+        default = html.td(button(user=GIT_USER))
+        large = html.td(button(user=GIT_USER, large=True))
+        std_icon = 'N/A'
+        counter = html.td(button(user=GIT_USER, show_count=True))
 
-    if button is not FollowButton:
-        button_std_icon = html.td(button(user=GIT_USER, repo=GIT_REPO, standard_icon=True))
+    elif button is SponsorButton:
+        default = html.td(button(user=GIT_USER))
+        large = html.td(button(user=GIT_USER, large=True))
+        std_icon = html.td(button(user=GIT_USER, standard_icon=True))
+        counter = 'N/A'
+
+    elif button in [WatchButton, StarButton, ForkButton, IssueButton]:
+        default = html.td(button(user=GIT_USER, repo=GIT_REPO))
+        large = html.td(button(user=GIT_USER, repo=GIT_REPO, large=True))
+        std_icon = html.td(button(user=GIT_USER, repo=GIT_REPO, standard_icon=True))
+        counter = html.td(button(user=GIT_USER, repo=GIT_REPO, show_count=True))
+
     else:
-        button_std_icon = 'N/A'
-
-    # Only these buttons support counters
-
-    if button in [FollowButton, SponsorButton, WatchButton, StarButton, ForkButton, IssueButton]:
-        button_show_count = html.td(button(user=GIT_USER, repo=GIT_REPO, show_count=True))
-    else:
-        button_show_count = 'N/A'
+        default = html.td(button(user=GIT_USER, repo=GIT_REPO))
+        large = html.td(button(user=GIT_USER, repo=GIT_REPO, large=True))
+        std_icon = html.td(button(user=GIT_USER, repo=GIT_REPO, standard_icon=True))
+        counter = 'N/A'
 
     return html.tr(
         html.td(str(button).split(' ')[1] + '()'),
-        html.td(button(user=GIT_USER, repo=GIT_REPO)),
-        html.td(button(user=GIT_USER, repo=GIT_REPO, large=True)),
-        button_std_icon,
-        button_show_count,
+        default,
+        large,
+        std_icon,
+        counter,
     )
 
 

@@ -32,11 +32,12 @@ def GithubButton(user:str, repo:str, props:dict):
     return _RactpyGithubButtons(_args)
 
 
-def FollowButton(user:str, repo:str, large=False, show_count=False):
+def FollowButton(user:str, large=False, show_count=False):
 
     props = {
         "text" : "Follow @buttons",
         "aria-label": "Follow @buttons on GitHub",
+        'href' : f'https://github.com/{user}'
     }
 
     if large:
@@ -46,26 +47,24 @@ def FollowButton(user:str, repo:str, large=False, show_count=False):
         props.update({"data-show-count": "true"})
 
 
-    return GithubButton(user=user, repo=repo, props=props)
+    return GithubButton(user=user, repo='', props=props)
 
 
-def SponsorButton(user:str, repo:str, large=False, show_count=False, standard_icon=False):
+def SponsorButton(user:str, large=False, standard_icon=False):
 
     props = {
         "text" : "Sponsor",
         "aria-label": "Sponsor @buttons on GitHub",
+        'href' : f'https://github.com/sponsors/{user}',
     }
 
     if large:
         props.update({"data-size": "large"})
 
-    if show_count:
-        props.update({"data-show-count": "true"})
-
     if not standard_icon:
         props.update({"data-icon": "octicon-heart"})
 
-    return GithubButton(user=user, repo=repo, props=props)
+    return GithubButton(user=user, repo='', props=props)
 
 
 def WatchButton(user:str, repo:str, large=False, show_count=False, standard_icon=False):
@@ -73,6 +72,7 @@ def WatchButton(user:str, repo:str, large=False, show_count=False, standard_icon
     props = {
         "text" : "Watch",
         "aria-label": "Watch buttons/github-buttons on GitHub",
+        'href' : f'https://github.com/{user}/{repo}/subscription'
     }
 
     if large:
@@ -111,6 +111,7 @@ def ForkButton(user:str, repo:str, large=False, show_count=False, standard_icon=
     props = {
         "text" : "Fork",
         "aria-label": "Fork buttons/github-buttons on GitHub",
+        'href' : f'https://github.com/{user}/{repo}/fork'
     }
 
     if large:
@@ -130,6 +131,7 @@ def IssueButton(user:str, repo:str, large=False, show_count=False, standard_icon
     props = {
         "text" : "Issue",
         "aria-label": "Issue buttons/github-buttons on GitHub",
+        'href' : f'https://github.com/{user}/{repo}/issues'
     }
 
     if large:
