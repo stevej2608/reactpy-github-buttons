@@ -1,3 +1,18 @@
+function _extends() {
+  _extends = Object.assign ? Object.assign.bind() : function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+    return target;
+  };
+  return _extends.apply(this, arguments);
+}
+
 function getDefaultExportFromCjs (x) {
 	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
 }
@@ -7811,22 +7826,15 @@ var render = function (options, func) {
 function bind(node, config) {
   return {
     create: (type, props, children) => {
-      console.log('bind.create %s, props=%o', type.name, props);
       if (node.childElementCount) {
-        console.log('bind.create - remove children');
         ReactDOM.unmountComponentAtNode(node.firstChild.firstChild);
-        console.log('bind.create - removed children');
       }
-      const result = /*#__PURE__*/React.createElement(type, props, ...children);
-      console.log('bind.create - done');
-      return result;
+      return /*#__PURE__*/React.createElement(type, props, ...children);
     },
     render: element => {
-      console.log('bind.render');
       return ReactDOM.render(element, node);
     },
     unmount: () => {
-      console.log('bind.unmount');
       return ReactDOM.unmountComponentAtNode(node);
     }
   };
@@ -7838,46 +7846,29 @@ function bind(node, config) {
  *
  * https://github.com/buttons/github-buttons
  *
-
  */
 
 function RactpyGithubButtons(props) {
   const ref = reactExports.useRef(null);
-  console.log('RactpyGithubButtons %o', props);
+
+  // console.log('RactpyGithubButtons %o', props)
 
   // https://dmitripavlutin.com/react-useeffect-explanation/
 
   reactExports.useEffect(() => {
     render(ref.current, function (element) {
       if (!ref.current) {
-        console.log('render.GH - null');
         return;
       }
-      console.log('render.GH - replaceChild');
-      // ref.current.parentNode.replaceChild(element, ref.current);
       ref.current.replaceChild(element, ref.current.firstChild);
     });
     return () => {
-      console.log('userEffect.unmount');
-
-      // Anything in here is fired on component unmount.
-      // https://robertmarshall.dev/blog/componentwillunmount-functional-components-react/
-      // if (ref) {
-      //   console.log('RactpyGithubButtons.unmount')
-      //   ReactDOM.unmountComponentAtNode(ref);
-      // }
+      // console.log('userEffect.unmount')
     };
   }, [props]);
-  reactExports.useEffect(() => {
-    return () => {
-      console.log('Anything in here is fired on component UNMOUNT.');
-    };
-  }, []);
-  console.log('RactpyGithubButtons.render');
-  return /*#__PURE__*/React.createElement("div", {
-    className: "button-container",
+  return /*#__PURE__*/React.createElement("div", _extends({}, props, {
     ref: ref
-  }, /*#__PURE__*/React.createElement("a", props, props.data_text));
+  }), /*#__PURE__*/React.createElement("a", props, props.data_text));
 }
 
 export { RactpyGithubButtons, bind };
