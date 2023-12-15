@@ -9,6 +9,15 @@ from utils.logger import log
 GIT_USER = 'reactive-python'
 GIT_REPO = 'reactpy'
 
+def use_toggle(init=False):
+    state, set_state = use_state(init)
+
+    @event
+    def on_click(event):
+        set_state(lambda old: not old)
+
+    return state, on_click
+
 @component
 def AppHeader():
     return html.header({'class_name': 'header user-select-none'},
@@ -95,6 +104,19 @@ def ColorSchemeDropdown(id, disabled):
         )
     )
 
+@component
+def OptionCheckBox(label: str, toggle_state):
+    return  html.div({'class_name': 'form-row my-2'},
+        html.div({'class_name': 'col-auto'},
+            html.div({'class_name': 'form-check'},
+                html.label({'class_name': 'form-check-label'},
+                    html.input({'class_name': 'form-check-input', 'type': 'checkbox', 'onclick': toggle_state}),
+                    label
+                )
+            )
+        )
+    )
+
 
 @component
 def AppBody():
@@ -104,9 +126,14 @@ def AppBody():
     repo, set_repo = use_state('')
     button_type, set_button_type = use_state('')
 
+    large, toggle_large = use_toggle(False)
+    show_count, toggle_show_count = use_toggle(False)
+    standard_icon, toggle_standard_icon = use_toggle(False)
+
     log.info('color_scheme_disabled=%s', color_scheme_disabled)
     log.info('user=%s, repo=%s', user, repo)
     log.info('button_type="%s"', button_type)
+    log.info('large=%s, standard_icon=%s, show_count=%s', large, standard_icon, show_count)
 
     @event
     def toggle_color_scheme(event):
@@ -194,36 +221,11 @@ def AppBody():
                                         ColorSchemeDropdown(id='prefers-color-scheme-dark', disabled=color_scheme_disabled)
 
                                     ),
-                                    html.div({'class_name': 'form-row my-2'},
-                                        html.div({'class_name': 'col-auto'},
-                                            html.div({'class_name': 'form-check'},
-                                                html.label({'class_name': 'form-check-label'},
-                                                    html.input({'class_name': 'form-check-input', 'type': 'checkbox'}),
-                                                    "Large button"
-                                                )
-                                            )
-                                        )
-                                    ),
-                                    html.div({'class_name': 'form-row my-2'},
-                                        html.div({'class_name': 'col-auto'},
-                                            html.div({'class_name': 'form-check'},
-                                                html.label({'class_name': 'form-check-label'},
-                                                    html.input({'class_name': 'form-check-input', 'type': 'checkbox'}),
-                                                    "Show count"
-                                                )
-                                            )
-                                        )
-                                    ),
-                                    html.div({'class_name': 'form-row my-2'},
-                                        html.div({'class_name': 'col-auto'},
-                                            html.div({'class_name': 'form-check'},
-                                                html.label({'class_name': 'form-check-label'},
-                                                    html.input({'class_name': 'form-check-input', 'type': 'checkbox'}),
-                                                    "Standard icon"
-                                                )
-                                            )
-                                        )
-                                    )
+
+                                    OptionCheckBox("Large button", toggle_large),
+                                    OptionCheckBox("Show count", toggle_show_count),
+                                    OptionCheckBox("Standard icon", toggle_standard_icon),
+
                                 ),
                                 html.div({'class_name': 'form-group'},
                                     html.label({'html_for': 'syntax'}, "Syntax"),
