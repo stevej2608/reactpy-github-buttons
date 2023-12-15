@@ -37,6 +37,44 @@ META_COLOR = {
     'content': "#000000"
     }
 
+def react(version:str = '17.0.1'):
+    # https://cdnjs.com/libraries/react/17.0.1
+    return [
+
+        html.script({
+            'type': 'text/javascript',
+            'src': f'https://cdnjs.cloudflare.com/ajax/libs/react/{version}/umd/react.production.min.js',
+            'crossorigin': 'anonymous',
+            'referrerpolicy': 'no-referrer'
+            }),
+
+        html.script({
+            'type': 'text/javascript',
+            'src': f'https://cdnjs.cloudflare.com/ajax/libs/react-dom/{version}/umd/react-dom.production.min.js',
+            'crossorigin': 'anonymous',
+            'referrerpolicy': 'no-referrer'
+            }),
+    ]
+
+def react_development(version:str = '17.0.1'):
+    # https://cdnjs.com/libraries/react/17.0.1
+    return [
+
+        html.script({
+            'type': 'text/javascript',
+            'src': f'https://unpkg.com/react@{version}/umd/react.development.js',
+            # 'crossorigin': 'anonymous',
+            # 'referrerpolicy': 'no-referrer'
+            }),
+
+        html.script({
+            'type': 'text/javascript',
+            'src': f'https://unpkg.com/react-dom@{version}/umd/react-dom.development.js',
+            # 'crossorigin': 'anonymous',
+            # 'referrerpolicy': 'no-referrer'
+            }),
+    ]
+
 
 DASHBOARD_OPTIONS=Options(
     head=html.head(
@@ -46,7 +84,8 @@ DASHBOARD_OPTIONS=Options(
         html.link(GOOGLE_STATIC_FONTS),
         html.link(GOOGLE_CSS),
         html.link(BOOTSTRAP_CSS),
-
+        # *react(),
+        # *react_development(),
         html.title(PAGE_HEADER_TITLE),
     )
 )

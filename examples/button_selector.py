@@ -58,7 +58,7 @@ def ButtonCheckBox(text:str, button, on_change):
                 html.input({'type': 'radio', 'class_name': 'form-check-input', 'name': 'type', 'value': text, 'onchange': on_change}),
                 text,
                 html.br(),
-                # default
+                default
             )
         )
     )
@@ -137,16 +137,16 @@ def AppBody():
                             html.h4("Choose a button"),
                             html.div({'class_name': 'row'},
                                 ButtonCheckBox("Follow", FollowButton, on_change=button_select),
-                                ButtonCheckBox("Sponsor", SponsorButton, on_change=button_select),
-                                ButtonCheckBox("Watch", WatchButton, on_change=button_select),
-                                ButtonCheckBox("Star", StarButton, on_change=button_select),
-                                ButtonCheckBox("Fork", ForkButton, on_change=button_select),
-                                ButtonCheckBox("Issue", IssueButton, on_change=button_select),
-                                ButtonCheckBox("Discuss", DiscussButton, on_change=button_select),
-                                ButtonCheckBox("Download", DownloadButton, on_change=button_select),
-                                ButtonCheckBox("Install this package", InstallPackageButton, on_change=button_select),
-                                ButtonCheckBox("Use this template", UseTemplateButton, on_change=button_select),
-                                ButtonCheckBox("Use this GitHub Action", UseThisGitHubActionButton, on_change=button_select)
+                                # ButtonCheckBox("Sponsor", SponsorButton, on_change=button_select),
+                                # ButtonCheckBox("Watch", WatchButton, on_change=button_select),
+                                # ButtonCheckBox("Star", StarButton, on_change=button_select),
+                                # ButtonCheckBox("Fork", ForkButton, on_change=button_select),
+                                # ButtonCheckBox("Issue", IssueButton, on_change=button_select),
+                                # ButtonCheckBox("Discuss", DiscussButton, on_change=button_select),
+                                # ButtonCheckBox("Download", DownloadButton, on_change=button_select),
+                                # ButtonCheckBox("Install this package", InstallPackageButton, on_change=button_select),
+                                # ButtonCheckBox("Use this template", UseTemplateButton, on_change=button_select),
+                                # ButtonCheckBox("Use this GitHub Action", UseThisGitHubActionButton, on_change=button_select)
                             ),
                         ),
                         html.hr(),
