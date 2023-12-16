@@ -7850,8 +7850,7 @@ function bind(node, config) {
 
 function RactpyGithubButtons(props) {
   const ref = reactExports.useRef(null);
-
-  // console.log('RactpyGithubButtons %o', props)
+  console.log('RactpyGithubButtons %o', props);
 
   // https://dmitripavlutin.com/react-useeffect-explanation/
 
@@ -7866,7 +7865,7 @@ function RactpyGithubButtons(props) {
       // console.log('userEffect.unmount')
     };
   }, [props]);
-  return /*#__PURE__*/React.createElement("div", _extends({}, props, {
+  return /*#__PURE__*/React.createElement("a", _extends({}, props, {
     ref: ref
   }), /*#__PURE__*/React.createElement("a", props, props.data_text));
 }
