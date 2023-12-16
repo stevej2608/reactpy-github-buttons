@@ -1,3 +1,4 @@
+from typing import Optional
 from enum import Enum
 from pathlib import Path
 
@@ -31,7 +32,7 @@ _js_module = module_from_file(
 _RactpyGithubButtons = export(_js_module, "RactpyGithubButtons")
 
 
-def GithubButton(user:str, repo:str, props:dict):
+def GithubButton(user:Optional[str]=None, repo:Optional[str]=None, props:dict = {}):
     """ Wrapper for github-buttons library. For API and examples see:
 
         https://github.com/buttons/github-buttons
@@ -42,6 +43,9 @@ def GithubButton(user:str, repo:str, props:dict):
         **props
     }
 
+    if not user:
+        del _args['href']
+
     if 'text' in props:
         _args['data_text'] = props['text']
 
@@ -50,7 +54,7 @@ def GithubButton(user:str, repo:str, props:dict):
     return _RactpyGithubButtons(_args)
 
 
-def FollowButton(user:str, large=False, show_count=False, color_scheme=''):
+def FollowButton(user:Optional[str]=None, large=False, show_count=False, color_scheme=''):
 
     props = {
         "text" : "Follow @buttons",
@@ -70,7 +74,7 @@ def FollowButton(user:str, large=False, show_count=False, color_scheme=''):
     return GithubButton(user=user, repo='', props=props)
 
 
-def SponsorButton(user:str, large=False, standard_icon=False, color_scheme=''):
+def SponsorButton(user:Optional[str]=None, large=False, standard_icon=False, color_scheme=''):
 
     props = {
         "text" : "Sponsor",
@@ -90,7 +94,7 @@ def SponsorButton(user:str, large=False, standard_icon=False, color_scheme=''):
     return GithubButton(user=user, repo='', props=props)
 
 
-def WatchButton(user:str, repo:str, large=False, show_count=False, standard_icon=False, color_scheme=''):
+def WatchButton(user:Optional[str]=None, repo:Optional[str]=None, large=False, show_count=False, standard_icon=False, color_scheme=''):
 
     props = {
         "text" : "Watch",
@@ -113,7 +117,7 @@ def WatchButton(user:str, repo:str, large=False, show_count=False, standard_icon
     return GithubButton(user=user, repo=repo, props=props)
 
 
-def StarButton(user:str, repo:str, large=False, show_count=False, standard_icon=False, color_scheme=''):
+def StarButton(user:Optional[str]=None, repo:Optional[str]=None, large=False, show_count=False, standard_icon=False, color_scheme=''):
 
     props = {
         "text" : "Star",
@@ -135,7 +139,7 @@ def StarButton(user:str, repo:str, large=False, show_count=False, standard_icon=
     return GithubButton(user=user, repo=repo, props=props)
 
 
-def ForkButton(user:str, repo:str, large=False, show_count=False, standard_icon=False, color_scheme=''):
+def ForkButton(user:Optional[str]=None, repo:Optional[str]=None, large=False, show_count=False, standard_icon=False, color_scheme=''):
 
     props = {
         "text" : "Fork",
@@ -158,7 +162,7 @@ def ForkButton(user:str, repo:str, large=False, show_count=False, standard_icon=
     return GithubButton(user=user, repo=repo, props=props)
 
 
-def IssueButton(user:str, repo:str, large=False, show_count=False, standard_icon=False, color_scheme=''):
+def IssueButton(user:Optional[str]=None, repo:Optional[str]=None, large=False, show_count=False, standard_icon=False, color_scheme=''):
 
     props = {
         "text" : "Issue",
@@ -181,7 +185,7 @@ def IssueButton(user:str, repo:str, large=False, show_count=False, standard_icon
     return GithubButton(user=user, repo=repo, props=props)
 
 
-def DiscussButton(user:str, repo:str, large=False, standard_icon=False, color_scheme=''):
+def DiscussButton(user:Optional[str]=None, repo:Optional[str]=None, large=False, standard_icon=False, color_scheme=''):
 
     props = {
         "text" : "Discuss",
@@ -200,7 +204,7 @@ def DiscussButton(user:str, repo:str, large=False, standard_icon=False, color_sc
     return GithubButton(user=user, repo=repo, props=props)
 
 
-def DownloadButton(user:str, repo:str, large=False, standard_icon=False, color_scheme=''):
+def DownloadButton(user:Optional[str]=None, repo:Optional[str]=None, large=False, standard_icon=False, color_scheme=''):
 
     props = {
         "text" : "Download",
@@ -219,7 +223,7 @@ def DownloadButton(user:str, repo:str, large=False, standard_icon=False, color_s
     return GithubButton(user=user, repo=repo, props=props)
 
 
-def InstallPackageButton(user:str, repo:str, large=False, standard_icon=False, color_scheme=''):
+def InstallPackageButton(user:Optional[str]=None, repo:Optional[str]=None, large=False, standard_icon=False, color_scheme=''):
 
     props = {
         "text" : "Install this package",
@@ -238,7 +242,7 @@ def InstallPackageButton(user:str, repo:str, large=False, standard_icon=False, c
     return GithubButton(user=user, repo=repo, props=props)
 
 
-def UseTemplateButton(user:str, repo:str, large=False, standard_icon=False, color_scheme=''):
+def UseTemplateButton(user:Optional[str]=None, repo:Optional[str]=None, large=False, standard_icon=False, color_scheme=''):
 
     props = {
         "text" : "Use this template",
@@ -257,7 +261,7 @@ def UseTemplateButton(user:str, repo:str, large=False, standard_icon=False, colo
     return GithubButton(user=user, repo=repo, props=props)
 
 
-def UseThisGitHubActionButton(user:str, repo:str, large=False, standard_icon=False, color_scheme=''):
+def UseThisGitHubActionButton(user:Optional[str]=None, repo:Optional[str]=None, large=False, standard_icon=False, color_scheme=''):
 
     props = {
         "text" : "Use this GitHub Action",

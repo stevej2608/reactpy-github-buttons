@@ -26,14 +26,14 @@ class ButtonType(BaseModel):
 
 BUTTON_TYPES = [
     ButtonType(button=FollowButton, name='Follow', show_count=True),
-    ButtonType(button=InstallPackageButton, name='Install this package'),
     ButtonType(button=SponsorButton, name='Sponsor',standard_icon=True),
-    ButtonType(button=StarButton, name='Star', repo=True, show_count=True, standard_icon=True),
     ButtonType(button=WatchButton, name='Watch', repo=True, show_count=True, standard_icon=True),
+    ButtonType(button=StarButton, name='Star', repo=True, show_count=True, standard_icon=True),
     ButtonType(button=ForkButton, name='Fork', repo=True, show_count=True, standard_icon=True),
     ButtonType(button=IssueButton, name='Issue', repo=True, show_count=True, standard_icon=True),
     ButtonType(button=DiscussButton, name='Discuss', repo=True, standard_icon=True),
     ButtonType(button=DownloadButton, name='Download', repo=True, show_count=True, standard_icon=True),
+    ButtonType(button=InstallPackageButton, name='Install this package'),
     ButtonType(button=UseTemplateButton, name='Use this template', repo=True, show_count=True, standard_icon=True),
     ButtonType(button=UseThisGitHubActionButton, name='Use this GitHub Action', repo=True, show_count=True, standard_icon=True)
 ]
@@ -126,15 +126,6 @@ def AppHeader():
 @component
 def ButtonCheckBox(bt: ButtonType, on_change):
 
-    if bt.button is FollowButton:
-        default = bt.button(user=GIT_USER, large=True)
-    elif bt.button is SponsorButton:
-        default = bt.button(user=GIT_USER, large=True)
-    elif bt.button in [WatchButton, StarButton, ForkButton, IssueButton]:
-        default = bt.button(user=GIT_USER, repo=GIT_REPO, large=True)
-    else:
-        default = bt.button(user=GIT_USER, repo=GIT_REPO, large=True)
-
     return html.div({'class_name': 'col-9 col-sm-6 col-md-4 col-lg-2'},
         html.div({'class_name': 'form-check'},
             html.label({'class_name': 'form-check-label'},
@@ -145,7 +136,7 @@ def ButtonCheckBox(bt: ButtonType, on_change):
                             'onchange': lambda evt: on_change(bt)}),
                 bt.name,
                 html.br(),
-                default
+                bt.button(large=True)
             )
         )
     )
