@@ -1,3 +1,4 @@
+from typing import cast, Callable
 from pydantic import BaseModel
 from reactpy import component, html, use_state, event
 from reactpy.svg import svg, path
@@ -7,41 +8,71 @@ from reactpy_github_buttons import (
 
 from utils.logger import log
 
+GIT_USER = 'buttons'
+GIT_REPO = 'github-buttons'
+
+class ButtonType(BaseModel):
+    button: Callable
+    name: str
+    repo: bool = False
+    large: bool = True
+    standard_icon: bool = False
+    show_count: bool = False
+
+
+BUTTON_TYPES = [
+    ButtonType(button=FollowButton, name='Follow', show_count=True),
+    ButtonType(button=InstallPackageButton, name='Install this package'),
+    ButtonType(button=SponsorButton, name='Sponsor',standard_icon=True),
+    ButtonType(button=StarButton, name='Star', repo=True, show_count=True, standard_icon=True),
+    ButtonType(button=WatchButton, name='Watch', repo=True, show_count=True, standard_icon=True),
+    ButtonType(button=ForkButton, name='Fork', repo=True, show_count=True, standard_icon=True),
+    ButtonType(button=IssueButton, name='Issue', repo=True, show_count=True, standard_icon=True),
+    ButtonType(button=DiscussButton, name='Discuss', repo=True, standard_icon=True),
+    ButtonType(button=DownloadButton, name='Download', repo=True, show_count=True, standard_icon=True),
+    ButtonType(button=UseTemplateButton, name='Use this template', repo=True, show_count=True, standard_icon=True),
+    ButtonType(button=UseThisGitHubActionButton, name='Use this GitHub Action', repo=True, show_count=True, standard_icon=True)
+]
+
 class ButtonOptions(BaseModel):
+    user: str = GIT_USER
+    repo: str = GIT_REPO
     large: bool = False
     standard_icon: bool = False
     show_count: bool = False
 
-GIT_USER = 'reactive-python'
-GIT_REPO = 'reactpy'
 
-def usage_template(button_type:str, user:str, repo:str, opt: ButtonOptions) -> str:
+def usage_template(button_type:ButtonType, opt: ButtonOptions) -> str:
+
+    if button_type is None:
+        return ""
+    
+    button_name = str(button_type.button).split(' ')[1]
 
     options = []
 
-    if repo:
-        options.append(f'repo=\"{repo}\"')
+    options.append(f'user=\"{opt.user}\"')
 
-    if user:
-        options.append(f'user=\"{user}\"')
+    if button_type.repo:
+        options.append(f'repo=\"{opt.repo}\"')
 
-    if opt.large:
+    if button_type.large and opt.large:
         options.append('large=True')
 
-    if opt.standard_icon:
+    if button_type.standard_icon and opt.standard_icon:
         options.append('standard_icon=True')
 
-    if opt.show_count:
+    if button_type.show_count and opt.show_count:
         options.append('show_count=True')
 
 
     template = f"""
         from reactpy import component, html
-        from reactpy_github_buttons import {button_type}
+        from reactpy_github_buttons import {button_name}
 
         @component
         def AppMain():
-            return {button_type}({', '.join(options)})
+            return {button_name}({', '.join(options)})
 
     """
     return ''.join(template.split("        ")[1:])
@@ -85,22 +116,26 @@ def AppHeader():
 
 
 @component
-def ButtonCheckBox(text:str, button, on_change):
+def ButtonCheckBox(bt: ButtonType, on_change):
 
-    if button is FollowButton:
-        default = button(user=GIT_USER, large=True)
-    elif button is SponsorButton:
-        default = button(user=GIT_USER, large=True)
-    elif button in [WatchButton, StarButton, ForkButton, IssueButton]:
-        default = button(user=GIT_USER, repo=GIT_REPO, large=True)
+    if bt.button is FollowButton:
+        default = bt.button(user=GIT_USER, large=True)
+    elif bt.button is SponsorButton:
+        default = bt.button(user=GIT_USER, large=True)
+    elif bt.button in [WatchButton, StarButton, ForkButton, IssueButton]:
+        default = bt.button(user=GIT_USER, repo=GIT_REPO, large=True)
     else:
-        default = button(user=GIT_USER, repo=GIT_REPO, large=True)
+        default = bt.button(user=GIT_USER, repo=GIT_REPO, large=True)
 
     return html.div({'class_name': 'col-9 col-sm-6 col-md-4 col-lg-2'},
         html.div({'class_name': 'form-check'},
             html.label({'class_name': 'form-check-label'},
-                html.input({'type': 'radio', 'class_name': 'form-check-input', 'name': 'type', 'value': text, 'onchange': on_change}),
-                text,
+                html.input({'type': 'radio',
+                            'class_name': 'form-check-input', 
+                            'name': 'type', 
+                            'value': bt.name, 
+                            'onchange': lambda evt: on_change(bt)}),
+                bt.name,
                 html.br(),
                 default
             )
@@ -160,43 +195,76 @@ def OptionCheckBox(label: str, toggle_state, enabled:bool):
 
 
 @component
+def example_button(button_type: ButtonType, options: ButtonOptions):
+
+    if button_type is None:
+        return ""
+    
+    return "<<<BUTTON HERE>>"
+
+
+@component
 def AppBody():
 
     color_scheme_disabled, set_color_scheme_disabled = use_state(True)
     user, set_user = use_state(GIT_USER)
     repo, set_repo = use_state(GIT_REPO)
-    button_type, set_button_type = use_state('')
 
-    large, toggle_large = use_toggle(False)
-    show_count, toggle_show_count = use_toggle(False)
-    standard_icon, toggle_standard_icon = use_toggle(False)
+    button_type, set_button_type = use_state(cast(ButtonType, None))
+    options, set_button_options = use_state(cast(ButtonOptions, None))
 
     log.info('color_scheme_disabled=%s', color_scheme_disabled)
     log.info('user=%s, repo=%s', user, repo)
-    log.info('button_type="%s"', button_type)
-    log.info('large=%s, standard_icon=%s, show_count=%s', large, standard_icon, show_count)
+
+    if button_type:
+        log.info('button_type="%s", options=%s', button_type.name, options)
+    else:
+        log.info('No button selected')
+
 
     @event
     def toggle_color_scheme(event):
         set_color_scheme_disabled(not color_scheme_disabled)
+
 
     @event
     def user_change(event):
         value = event['target']['value']
         set_user(value)
 
+
     @event
     def repo_change(event):
         value = event['target']['value']
         set_repo(value)
 
+
+    def button_select(bt: ButtonType):
+        set_button_type(bt.model_copy())
+        set_button_options(ButtonOptions())
+
     @event
-    def button_select(event):
-        value = event['target']['value']
-        set_button_type(value)
+    def toggle_large(event):
+        options.large = not options.large
+        set_button_options(options.model_copy())
+
+
+    @event
+    def toggle_standard_icon(event):
+        options.standard_icon = not options.standard_icon
+        set_button_options(options.model_copy())
+
+
+    @event
+    def toggle_show_count(event):
+        options.show_count = not options.show_count
+        set_button_options(options.model_copy())
+
+    
 
     def extended_form_hidden(attr:dict) -> dict:
-        if not button_type:
+        """Show the bottom half of the form if a button has been selected"""
+        if button_type is None:
             attr.update({'hidden': True})
         return attr
 
@@ -207,7 +275,7 @@ def AppBody():
     else:
         options = ButtonOptions(large=True, standard_icon=True)
 
-    usage = usage_template(button_type, user, repo, options)
+    example_usage = usage_template(button_type, options)
 
     return html.main({'class_name': 'main'},
         html.div({'class_name': 'container mt-3'},
@@ -217,17 +285,7 @@ def AppBody():
                         html.fieldset({'class_name': 'form-group'},
                             html.h4("Choose a button"),
                             html.div({'class_name': 'row'},
-                                ButtonCheckBox("Follow", FollowButton, on_change=button_select),
-                                ButtonCheckBox("Sponsor", SponsorButton, on_change=button_select),
-                                ButtonCheckBox("Watch", WatchButton, on_change=button_select),
-                                ButtonCheckBox("Star", StarButton, on_change=button_select),
-                                ButtonCheckBox("Fork", ForkButton, on_change=button_select),
-                                ButtonCheckBox("Issue", IssueButton, on_change=button_select),
-                                ButtonCheckBox("Discuss", DiscussButton, on_change=button_select),
-                                ButtonCheckBox("Download", DownloadButton, on_change=button_select),
-                                ButtonCheckBox("Install this package", InstallPackageButton, on_change=button_select),
-                                ButtonCheckBox("Use this template", UseTemplateButton, on_change=button_select),
-                                ButtonCheckBox("Use this GitHub Action", UseThisGitHubActionButton, on_change=button_select)
+                                *[ButtonCheckBox(button, on_change=button_select) for button in BUTTON_TYPES]
                             ),
                         ),
                         html.hr(),
@@ -271,9 +329,9 @@ def AppBody():
 
                                     ),
 
-                                    OptionCheckBox("Large button", toggle_large, enabled=options.large),
-                                    OptionCheckBox("Show count", toggle_show_count, enabled=options.show_count),
-                                    OptionCheckBox("Standard icon", toggle_standard_icon, enabled=options.standard_icon),
+                                    OptionCheckBox("Large button", toggle_large, enabled=button_type and button_type.large),
+                                    OptionCheckBox("Show count", toggle_show_count, enabled=button_type and button_type.show_count),
+                                    OptionCheckBox("Standard icon", toggle_standard_icon, enabled=button_type and button_type.standard_icon),
 
                                 ),
                                 html.div({'class_name': 'form-group'},
@@ -288,9 +346,9 @@ def AppBody():
                             html.div({'class_name': 'col-12 col-sm-6 col-md-7'},
                                 html.h4("Preview and code"),
                                 html.p("Try out your button, then copy and paste the code below into the HTML for your site."),
-                                html.p({'style': 'height: 20px;'}, "<<<Button Here>>>"),
+                                html.p({'style': 'height: 20px;'}, example_button(button_type, options)),
                                 html.div({'class_name': 'form-group'},
-                                    html.textarea({'class_name': 'form-control', 'rows': '8', 'readonly': True, 'value': usage})
+                                    html.textarea({'class_name': 'form-control', 'rows': '8', 'readonly': True, 'value': example_usage})
                                 )
                             )
                         )
