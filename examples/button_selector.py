@@ -1,3 +1,4 @@
+from pydantic import BaseModel
 from reactpy import component, html, use_state, event
 from reactpy.svg import svg, path
 from reactpy_github_buttons import (
@@ -6,8 +7,46 @@ from reactpy_github_buttons import (
 
 from utils.logger import log
 
+class ButtonOptions(BaseModel):
+    large: bool = False
+    standard_icon: bool = False
+    show_count: bool = False
+
 GIT_USER = 'reactive-python'
 GIT_REPO = 'reactpy'
+
+def usage_template(button_type:str, user:str, repo:str, opt: ButtonOptions) -> str:
+
+    options = []
+
+    if repo:
+        options.append(f'repo=\"{repo}\"')
+
+    if user:
+        options.append(f'user=\"{user}\"')
+
+    if opt.large:
+        options.append('large=True')
+
+    if opt.standard_icon:
+        options.append('standard_icon=True')
+
+    if opt.show_count:
+        options.append('show_count=True')
+
+
+    template = f"""
+        from reactpy import component, html
+        from reactpy_github_buttons import {button_type}
+
+        @component
+        def AppMain():
+            return {button_type}({', '.join(options)})
+
+    """
+    return ''.join(template.split("        ")[1:])
+
+
 
 def use_toggle(init=False):
     state, set_state = use_state(init)
@@ -50,14 +89,10 @@ def ButtonCheckBox(text:str, button, on_change):
 
     if button is FollowButton:
         default = button(user=GIT_USER, large=True)
-
     elif button is SponsorButton:
         default = button(user=GIT_USER, large=True)
-
-
     elif button in [WatchButton, StarButton, ForkButton, IssueButton]:
         default = button(user=GIT_USER, repo=GIT_REPO, large=True)
-
     else:
         default = button(user=GIT_USER, repo=GIT_REPO, large=True)
 
@@ -105,12 +140,18 @@ def ColorSchemeDropdown(id, disabled):
     )
 
 @component
-def OptionCheckBox(label: str, toggle_state):
+def OptionCheckBox(label: str, toggle_state, enabled:bool):
+
+    def is_disabled(attr:dict) -> dict:
+        if not enabled:
+            attr.update({'disabled': True})
+        return attr
+
     return  html.div({'class_name': 'form-row my-2'},
         html.div({'class_name': 'col-auto'},
             html.div({'class_name': 'form-check'},
                 html.label({'class_name': 'form-check-label'},
-                    html.input({'class_name': 'form-check-input', 'type': 'checkbox', 'onclick': toggle_state}),
+                    html.input(is_disabled({'class_name': 'form-check-input', 'type': 'checkbox', 'onclick': toggle_state})),
                     label
                 )
             )
@@ -122,8 +163,8 @@ def OptionCheckBox(label: str, toggle_state):
 def AppBody():
 
     color_scheme_disabled, set_color_scheme_disabled = use_state(True)
-    user, set_user = use_state('')
-    repo, set_repo = use_state('')
+    user, set_user = use_state(GIT_USER)
+    repo, set_repo = use_state(GIT_REPO)
     button_type, set_button_type = use_state('')
 
     large, toggle_large = use_toggle(False)
@@ -159,6 +200,14 @@ def AppBody():
             attr.update({'hidden': True})
         return attr
 
+    if button_type == 'Follow':
+        options = ButtonOptions(large=True)
+    elif button_type in ['Watch', 'Star', 'Fork', 'Issue']:
+        options = ButtonOptions(large=True, standard_icon=True, show_count=True)
+    else:
+        options = ButtonOptions(large=True, standard_icon=True)
+
+    usage = usage_template(button_type, user, repo, options)
 
     return html.main({'class_name': 'main'},
         html.div({'class_name': 'container mt-3'},
@@ -222,33 +271,26 @@ def AppBody():
 
                                     ),
 
-                                    OptionCheckBox("Large button", toggle_large),
-                                    OptionCheckBox("Show count", toggle_show_count),
-                                    OptionCheckBox("Standard icon", toggle_standard_icon),
+                                    OptionCheckBox("Large button", toggle_large, enabled=options.large),
+                                    OptionCheckBox("Show count", toggle_show_count, enabled=options.show_count),
+                                    OptionCheckBox("Standard icon", toggle_standard_icon, enabled=options.standard_icon),
 
                                 ),
                                 html.div({'class_name': 'form-group'},
                                     html.label({'html_for': 'syntax'}, "Syntax"),
                                     html.select({'id': 'syntax', 'class_name': 'form-control'},
-                                        html.option({'data-v-3e07ce4a': ''}, "html"),
+                                        html.option("html"),
                                         html.option({'value': 'vue'}, "vue-github-button"),
                                         html.option({'value': 'react'}, "react-github-btn")
                                     )
                                 )
                             ),
                             html.div({'class_name': 'col-12 col-sm-6 col-md-7'},
-                                html.h4({'data-v-3e07ce4a': ''}, "Preview and code"),
-                                html.p({'data-v-3e07ce4a': ''}, "Try out your button, then copy and paste the code below into the HTML for your site."),
-                                html.p({'style': 'height: 20px;'},
-                                    html.span({'data-v-3e07ce4a': ''},
-                                        html.span()
-                                    )
-                                ),
+                                html.h4("Preview and code"),
+                                html.p("Try out your button, then copy and paste the code below into the HTML for your site."),
+                                html.p({'style': 'height: 20px;'}, "<<<Button Here>>>"),
                                 html.div({'class_name': 'form-group'},
-                                    html.textarea({'data-v-3e07ce4a': '', 'class_name': 'form-control', 'rows': '2', 'readonly': ''})
-                                ),
-                                html.div({'class_name': 'form-group'},
-                                    html.textarea({'data-v-3e07ce4a': '', 'class_name': 'form-control', 'rows': '2', 'readonly': ''})
+                                    html.textarea({'class_name': 'form-control', 'rows': '8', 'readonly': True, 'value': usage})
                                 )
                             )
                         )
