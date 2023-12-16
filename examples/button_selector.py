@@ -1,4 +1,4 @@
-from typing import cast, Callable
+from typing import cast, Callable, Optional, Union
 from pydantic import BaseModel
 from reactpy import component, html, use_state, event
 from reactpy.svg import svg, path
@@ -19,6 +19,10 @@ class ButtonType(BaseModel):
     standard_icon: bool = False
     show_count: bool = False
 
+    @property
+    def button_name(self):
+        return str(self.button).split(' ')[1]
+
 
 BUTTON_TYPES = [
     ButtonType(button=FollowButton, name='Follow', show_count=True),
@@ -36,43 +40,47 @@ BUTTON_TYPES = [
 
 class ButtonOptions(BaseModel):
     user: str = GIT_USER
-    repo: str = GIT_REPO
-    large: bool = False
-    standard_icon: bool = False
-    show_count: bool = False
+    repo: Optional[str] = None
+    large: Optional[bool] = False
+    standard_icon: Optional[bool] = False
+    show_count: Optional[bool] = False
+
+class Button(BaseModel):
+    type: ButtonType
+    options: ButtonOptions = ButtonOptions()
 
 
-def usage_template(button_type:ButtonType, opt: ButtonOptions) -> str:
+def usage_template(button:Button) -> str:
 
-    if button_type is None:
+    if button is None:
         return ""
-    
-    button_name = str(button_type.button).split(' ')[1]
+
+    opt = button.options
 
     options = []
 
     options.append(f'user=\"{opt.user}\"')
 
-    if button_type.repo:
+    if opt.repo:
         options.append(f'repo=\"{opt.repo}\"')
 
-    if button_type.large and opt.large:
+    if opt.large:
         options.append('large=True')
 
-    if button_type.standard_icon and opt.standard_icon:
+    if opt.standard_icon :
         options.append('standard_icon=True')
 
-    if button_type.show_count and opt.show_count:
+    if opt.show_count:
         options.append('show_count=True')
 
 
     template = f"""
         from reactpy import component, html
-        from reactpy_github_buttons import {button_name}
+        from reactpy_github_buttons import {button.type.button_name}
 
         @component
         def AppMain():
-            return {button_name}({', '.join(options)})
+            return {button.type.button_name}({', '.join(options)})
 
     """
     return ''.join(template.split("        ")[1:])
@@ -144,7 +152,7 @@ def ButtonCheckBox(bt: ButtonType, on_change):
 
 
 @component
-def UserAndRepo(user, repo, user_change, repo_change):
+def UserAndRepo(user_change, repo_change):
     return  html.div({'class_name': 'form-group'},
         html.div({'class_name': 'input-group'},
             html.input({'class_name': 'form-control', 'id': 'user', 'type': 'text', 'maxlength': '39', 'placeholder': ':user', 'autofocus': '', 'onchange': user_change}),
@@ -175,11 +183,13 @@ def ColorSchemeDropdown(id, disabled):
     )
 
 @component
-def OptionCheckBox(label: str, toggle_state, enabled:bool):
+def OptionCheckBox(label: str, toggle_state, value: Union[bool, None], enabled:bool):
 
     def is_disabled(attr:dict) -> dict:
         if not enabled:
             attr.update({'disabled': True})
+        if value:
+             attr.update({'checked': True})
         return attr
 
     return  html.div({'class_name': 'form-row my-2'},
@@ -195,29 +205,31 @@ def OptionCheckBox(label: str, toggle_state, enabled:bool):
 
 
 @component
-def example_button(button_type: ButtonType, options: ButtonOptions):
+def example_button(button: Button):
 
-    if button_type is None:
+    if button is None:
         return ""
     
-    return "<<<BUTTON HERE>>"
+    args = button.options.model_dump(exclude_none=True)
+
+    log.info('%s(%s)', button.type.button_name, args)
+
+    example = button.type.button(**args)
+    return example
 
 
 @component
 def AppBody():
 
     color_scheme_disabled, set_color_scheme_disabled = use_state(True)
-    user, set_user = use_state(GIT_USER)
-    repo, set_repo = use_state(GIT_REPO)
 
-    button_type, set_button_type = use_state(cast(ButtonType, None))
-    options, set_button_options = use_state(cast(ButtonOptions, None))
+    button, set_button = use_state(cast(Button, None))
+
 
     log.info('color_scheme_disabled=%s', color_scheme_disabled)
-    log.info('user=%s, repo=%s', user, repo)
 
-    if button_type:
-        log.info('button_type="%s", options=%s', button_type.name, options)
+    if button:
+        log.info('button_type="%s", options=%s', button.type.name, button.options)
     else:
         log.info('No button selected')
 
@@ -230,52 +242,51 @@ def AppBody():
     @event
     def user_change(event):
         value = event['target']['value']
-        set_user(value)
+        button.options.user = value
+        set_button(button.model_copy())
 
 
     @event
     def repo_change(event):
         value = event['target']['value']
-        set_repo(value)
-
+        button.options.repo = value
+        set_button(button.model_copy())
 
     def button_select(bt: ButtonType):
-        set_button_type(bt.model_copy())
-        set_button_options(ButtonOptions())
+        options = ButtonOptions(
+            repo = GIT_REPO if bt.repo else None,
+            large = None,
+            standard_icon = None,
+            show_count =  None,
+        )
+        button = Button(type=bt, options=options)
+        set_button(button)
+
 
     @event
     def toggle_large(event):
-        options.large = not options.large
-        set_button_options(options.model_copy())
+        button.options.large = None if button.options.large else True
+        set_button(button.model_copy())
 
 
     @event
     def toggle_standard_icon(event):
-        options.standard_icon = not options.standard_icon
-        set_button_options(options.model_copy())
+        button.options.standard_icon = None if button.options.standard_icon else True
+        set_button(button.model_copy())
 
 
     @event
     def toggle_show_count(event):
-        options.show_count = not options.show_count
-        set_button_options(options.model_copy())
+        button.options.show_count = None if button.options.show_count else True
+        set_button(button.model_copy())
 
-    
 
     def extended_form_hidden(attr:dict) -> dict:
         """Show the bottom half of the form if a button has been selected"""
-        if button_type is None:
+        if button is None:
             attr.update({'hidden': True})
         return attr
 
-    if button_type == 'Follow':
-        options = ButtonOptions(large=True)
-    elif button_type in ['Watch', 'Star', 'Fork', 'Issue']:
-        options = ButtonOptions(large=True, standard_icon=True, show_count=True)
-    else:
-        options = ButtonOptions(large=True, standard_icon=True)
-
-    example_usage = usage_template(button_type, options)
 
     return html.main({'class_name': 'main'},
         html.div({'class_name': 'container mt-3'},
@@ -293,7 +304,7 @@ def AppBody():
                             html.div({'class_name': 'col-12 col-sm-6 col-md-5'},
                                 html.h4("Button options"),
 
-                                UserAndRepo(user, repo, user_change=user_change, repo_change=repo_change),
+                                UserAndRepo(user_change=user_change, repo_change=repo_change),
 
                                 html.div({'class_name': 'form-group'},
                                     html.div({'class_name': 'form-row align-items-center my-1'},
@@ -329,9 +340,20 @@ def AppBody():
 
                                     ),
 
-                                    OptionCheckBox("Large button", toggle_large, enabled=button_type and button_type.large),
-                                    OptionCheckBox("Show count", toggle_show_count, enabled=button_type and button_type.show_count),
-                                    OptionCheckBox("Standard icon", toggle_standard_icon, enabled=button_type and button_type.standard_icon),
+                                    OptionCheckBox("Large button", toggle_large,
+                                                   value = button and button.options.large,
+                                                   enabled = button and button.type.large
+                                                   ),
+
+                                    OptionCheckBox("Show count", toggle_show_count,
+                                                   value = button and button.options.show_count, 
+                                                   enabled = button and button.type.show_count
+                                                   ),
+
+                                    OptionCheckBox("Standard icon", toggle_standard_icon, 
+                                                   value = button and button.options.standard_icon, 
+                                                   enabled  = button and button.type.standard_icon
+                                                   ),
 
                                 ),
                                 html.div({'class_name': 'form-group'},
@@ -346,9 +368,9 @@ def AppBody():
                             html.div({'class_name': 'col-12 col-sm-6 col-md-7'},
                                 html.h4("Preview and code"),
                                 html.p("Try out your button, then copy and paste the code below into the HTML for your site."),
-                                html.p({'style': 'height: 20px;'}, example_button(button_type, options)),
+                                html.p({'style': 'height: 20px;'}, example_button(button)),
                                 html.div({'class_name': 'form-group'},
-                                    html.textarea({'class_name': 'form-control', 'rows': '8', 'readonly': True, 'value': example_usage})
+                                    html.textarea({'class_name': 'form-control', 'rows': '8', 'readonly': True, 'value': usage_template(button)})
                                 )
                             )
                         )
