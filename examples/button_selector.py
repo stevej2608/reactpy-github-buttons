@@ -1,13 +1,15 @@
 from typing import cast, Callable, Optional, Union
-from utils.fast_server import run
 from pydantic import BaseModel
 from reactpy import component, html, use_state, event
 from reactpy.svg import svg, path
 from reactpy_github_buttons import (
-    FollowButton, InstallPackageButton, SponsorButton, StarButton, WatchButton, 
+    FollowButton, InstallPackageButton, SponsorButton, StarButton, WatchButton,
     ForkButton, IssueButton, DiscussButton, DownloadButton, UseTemplateButton, UseThisGitHubActionButton)
 
-from utils.logger import log
+
+# pylint: disable=line-too-long
+
+from utils.fast_server import run
 
 GIT_USER = 'buttons'
 GIT_REPO = 'github-buttons'
@@ -45,6 +47,7 @@ class ButtonOptions(BaseModel):
     large: Optional[bool] = None
     standard_icon: Optional[bool] = None
     show_count: Optional[bool] = None
+
 
 class Button(BaseModel):
     type: ButtonType
@@ -183,7 +186,7 @@ def OptionCheckBox(label: str, toggle_state, value: Union[bool, None], enabled:b
         if not enabled:
             attr.update({'disabled': True})
         if value:
-             attr.update({'checked': True})
+            attr.update({'checked': True})
         return attr
 
     return  html.div({'class_name': 'form-row my-2'},
@@ -283,10 +286,8 @@ def AppBody():
                 html.div({'class_name': 'col-12 col-sm-6 col-md-5'},
                     html.h4("Button options"),
                     UserAndRepo(user_change=user_change, repo_change=repo_change),
-                    
                     html.div({'class_name': 'form-group'},
                         html.div({'class_name': 'form-row align-items-center my-1'},
-        
                             html.div({'class_name': 'col-auto mr-auto'},
                                 html.div({'class_name': 'form-check'},
                                     html.label({'class_name': 'form-check-label'},
@@ -297,7 +298,6 @@ def AppBody():
                             ),
                             ColorSchemeDropdown(id='prefers-color-scheme-no-preference', disabled=color_scheme_disabled)
                         ),
-
                         html.div({'class_name': 'form-row align-items-center my-1 ml-3'},
                             html.div({'class_name': 'col-auto mr-auto'},
                                 html.label({'html_for': 'prefers-color-scheme-light', 'class_name': 'form-check-label col-form-label-sm'}, "@media (prefers-color-scheme: light)")
@@ -308,28 +308,21 @@ def AppBody():
                             html.div({'class_name': 'col-auto mr-auto'},
                                 html.label({'html_for': 'prefers-color-scheme-dark', 'class_name': 'form-check-label col-form-label-sm'}, "@media (prefers-color-scheme: dark)")
                             ),
-
                             ColorSchemeDropdown(id='prefers-color-scheme-dark', disabled=color_scheme_disabled)
-
                         ),
-
                         OptionCheckBox("Large button", toggle_large,
                                         value = button and button.options.large,
                                         enabled = button and button.type.large
                                         ),
-
                         OptionCheckBox("Show count", toggle_show_count,
-                                        value = button and button.options.show_count, 
+                                        value = button and button.options.show_count,
                                         enabled = button and button.type.show_count
                                         ),
-
-                        OptionCheckBox("Standard icon", toggle_standard_icon, 
-                                        value = button and button.options.standard_icon, 
+                        OptionCheckBox("Standard icon", toggle_standard_icon,
+                                        value = button and button.options.standard_icon,
                                         enabled  = button and button.type.standard_icon
                                         ),
-
                     ),
-
                     html.div({'class_name': 'form-group'},
                         html.label({'html_for': 'syntax'}, "Syntax"),
                         html.select({'id': 'syntax', 'class_name': 'form-control'},
