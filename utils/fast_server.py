@@ -9,7 +9,7 @@ from reactpy.backend.fastapi import configure, Options
 
 from utils.logger import log, logging
 from utils.var_name import var_name
-from utils.dashboard_options import DASHBOARD_OPTIONS
+from utils.fsst_server_options import SERVER_OPTIONS
 
 
 app = FastAPI(description="ReactPy", version="0.1.0")
@@ -67,7 +67,7 @@ def handler(signum, frame):
 
 
 def run(AppMain: Callable[[], Component],
-        options:Options=DASHBOARD_OPTIONS,
+        options:Options=SERVER_OPTIONS,
         host='127.0.0.1',
         port=8000,
         disable_server_logs=False,
