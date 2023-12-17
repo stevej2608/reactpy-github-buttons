@@ -504,7 +504,7 @@ var render = function (options, func) {
   }
   if (useShadowDOM) {
     var host = createElement('span');
-    render$1(host.attachShadow({ mode: 'closed' }), options, function () {
+    render$1(host.attachShadow({ mode: 'open' }), options, function () {
       func(host);
     });
   } else {
