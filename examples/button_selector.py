@@ -1,4 +1,5 @@
 from typing import cast, Callable, Optional, Union
+from fast_server import run
 from pydantic import BaseModel
 from reactpy import component, html, use_state, event
 from reactpy.svg import svg, path
@@ -75,7 +76,7 @@ def usage_template(button:Button) -> str:
 
 
     template = f"""
-        from reactpy import component, html
+        from reactpy import component
         from reactpy_github_buttons import {button.type.button_name}
 
         @component
@@ -375,3 +376,8 @@ def AppBody():
 @component
 def AppMain():
     return html._(AppHeader(), AppBody())
+
+# python -m examples.button_selector
+
+if __name__ == "__main__":
+    run(AppMain, disable_server_logs=True)
