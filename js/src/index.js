@@ -30,7 +30,7 @@ export function bind(node, config) {
 export function RactpyGithubButtons(props) {
   const ref = useRef(null);
 
-  console.log('RactpyGithubButtons %o', props)
+  // console.log('RactpyGithubButtons %o', props)
 
   // https://dmitripavlutin.com/react-useeffect-explanation/
 
@@ -52,9 +52,9 @@ export function RactpyGithubButtons(props) {
 
   return (
     <a {...props} ref={ref}>
-      <a {...props}>
+      <div {...props}>
         {props.data_text}
-      </a>
+      </div>
     </a>
   );
 }
