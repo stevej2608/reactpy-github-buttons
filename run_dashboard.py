@@ -1,4 +1,4 @@
-from examples.button_selector import AppMain
+from examples.button_playground import AppMain
 from utils.fast_server import run
 
 # python run_dashboard.py

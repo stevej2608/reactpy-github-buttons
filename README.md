@@ -10,9 +10,13 @@
     pip install reactpy-github-buttons
 
 
-## Simple  Example
+## Examples
 
-*./examples/star_example.py*
+Several examples of usage are in the *./examples* folder.
+
+### Minimal
+
+*./examples/single.py*
 ```
 from reactpy import component, html, run
 from reactpy_github_buttons import StarButton
@@ -27,6 +31,14 @@ if __name__ == "__main__":
     run(AppMain)
 ```
 
+### Buttons Playground
+
+The [Buttons Playground](https://buttons.github.io/) application has been implemented 
+as a RectPy demonstrator.
+
+    python -m examples.button_playground
+
+![](./docs/playground.png)
 ## Building
 
     poetry install --no-root
@@ -39,11 +51,11 @@ if __name__ == "__main__":
 
     playwright install
 
-Then:
+*Then:*
 
     pytest 
 
-or:
+*or:*
 
     pytest --headed
 
@@ -52,7 +64,7 @@ or:
     rm -rf dist && poetry build
     poetry publish
 
-Or to local repo
+Or publish to local repo
 
     poetry publish -r pypicloud
 

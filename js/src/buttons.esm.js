@@ -3,6 +3,14 @@
  * (c) 2023 なつき
  * @license BSD-2-Clause
  */
+
+/**
+ * Copied from: https://github.com/buttons/github-buttons/blob/main/dist/buttons.esm.js
+ * 
+ * The shadow dom has been set to open to enable testing. I cannot understand why
+ * it needs to be closed in the first place.
+ */
+
 var document = window.document;
 
 var Math = window.Math;

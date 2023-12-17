@@ -348,7 +348,7 @@ def AppBody():
 def AppMain():
     return html._(AppHeader(), AppBody())
 
-# python -m examples.button_selector
+# python -m examples.button_playground
 
 if __name__ == "__main__":
     run(AppMain, disable_server_logs=True)

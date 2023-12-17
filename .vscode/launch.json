@@ -5,10 +5,10 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "1a examples/button_selector.py",
+      "name": "1a examples/button_playground.py",
       "type": "python",
       "request": "launch",
-      "module": "examples.button_selector",
+      "module": "examples.button_playground",
       "justMyCode": false,
       "console": "internalConsole",
       "internalConsoleOptions": "openOnSessionStart",
