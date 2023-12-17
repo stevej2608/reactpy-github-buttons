@@ -74,7 +74,6 @@ def usage_template(button:Button) -> str:
     if opt.show_count:
         options.append('show_count=True')
 
-
     template = f"""
         from reactpy import component
         from reactpy_github_buttons import {button.type.button_name}
@@ -86,16 +85,6 @@ def usage_template(button:Button) -> str:
     """
     return ''.join(template.split("        ")[1:])
 
-
-
-def use_toggle(init=False):
-    state, set_state = use_state(init)
-
-    @event
-    def on_click(event):
-        set_state(lambda old: not old)
-
-    return state, on_click
 
 @component
 def AppHeader():
@@ -126,6 +115,7 @@ def AppHeader():
 
 @component
 def ButtonCheckBox(bt: ButtonType, on_change):
+    """Button name & icon, displayed in the top panel"""
 
     return html.div({'class_name': 'col-9 col-sm-6 col-md-4 col-lg-2'},
         html.div({'class_name': 'form-check'},
@@ -176,6 +166,7 @@ def ColorSchemeDropdown(id, disabled):
 
 @component
 def OptionCheckBox(label: str, toggle_state, value: Union[bool, None], enabled:bool):
+    """Option large, standard_icon, etc"""
 
     def is_disabled(attr:dict) -> dict:
         if not enabled:
@@ -198,13 +189,14 @@ def OptionCheckBox(label: str, toggle_state, value: Union[bool, None], enabled:b
 
 @component
 def example_button(button: Button):
+    """Build a live button from the current configuration"""
 
     if button is None:
         return ""
-    
-    args = button.options.model_dump(exclude_none=True)
 
-    log.info('%s(%s)', button.type.button_name, args)
+    args = button.options.dict(exclude_none=True)
+
+    # log.info('%s(%s)', button.type.button_name, args)
 
     example = button.type.button(**args)
     return example
@@ -218,25 +210,23 @@ def AppBody():
     button, set_button = use_state(cast(Button, None))
 
 
-    log.info('color_scheme_disabled=%s', color_scheme_disabled)
+    # log.info('color_scheme_disabled=%s', color_scheme_disabled)
 
-    if button:
-        log.info('button_type="%s", options=%s', button.type.name, button.options)
-    else:
-        log.info('No button selected')
+    # if button:
+    #     log.info('button_type="%s", options=%s', button.type.name, button.options)
+    # else:
+    #     log.info('No button selected')
 
 
     @event
     def toggle_color_scheme(event):
         set_color_scheme_disabled(not color_scheme_disabled)
 
-
     @event
     def user_change(event):
         value = event['target']['value']
         button.options.user = value
         set_button(button.model_copy())
-
 
     @event
     def repo_change(event):
@@ -254,24 +244,20 @@ def AppBody():
         button = Button(type=bt, options=options)
         set_button(button)
 
-
     @event
     def toggle_large(event):
         button.options.large = None if button.options.large else True
-        set_button(button.model_copy())
-
+        set_button(button.copy())
 
     @event
     def toggle_standard_icon(event):
         button.options.standard_icon = None if button.options.standard_icon else True
-        set_button(button.model_copy())
-
+        set_button(button.copy())
 
     @event
     def toggle_show_count(event):
         button.options.show_count = None if button.options.show_count else True
-        set_button(button.model_copy())
-
+        set_button(button.copy())
 
     def extended_form_hidden(attr:dict) -> dict:
         """Show the bottom half of the form if a button has been selected"""
