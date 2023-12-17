@@ -28,6 +28,12 @@ sanic-testing = "23.6.0"
 trio = "^0.23.1"
 twine = "^4.0.2"
 
+[tool.pytest.ini_options]
+testpaths = "tests"
+log_cli_level = "INFO"
+filterwarnings = "ignore::DeprecationWarning"
+addopts = "-rsxX -vv"
+
 
 [[tool.poetry.source]]
 name = "pypicloud"
