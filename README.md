@@ -35,6 +35,18 @@ if __name__ == "__main__":
     npm install
     npm run build
 
+## Testing
+
+    playwright install
+
+Then:
+
+    pytest 
+
+or:
+
+    pytest --headed
+
 ## Publish 
 
     rm -rf dist && poetry build
