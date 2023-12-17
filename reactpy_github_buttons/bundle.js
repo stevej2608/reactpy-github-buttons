@@ -7784,7 +7784,7 @@ var render = function (options, func) {
   if (useShadowDOM) {
     var host = createElement('span');
     render$1(host.attachShadow({
-      mode: 'closed'
+      mode: 'open'
     }), options, function () {
       func(host);
     });

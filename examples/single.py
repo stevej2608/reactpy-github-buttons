@@ -5,7 +5,7 @@ from reactpy_github_buttons import StarButton
 def AppMain():
     return StarButton(user="buttons", repo="github-buttons", large=True, standard_icon=True, show_count=True)
 
-# python -m examples.single_button
+# python -m examples.single
 
 if __name__ == "__main__":
     run(AppMain)

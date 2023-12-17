@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import ReactDOM from "react-dom";
-import { render as renderGH } from "github-buttons";
+import { render as renderGH } from "./buttons.esm";
 
 export function bind(node, config) {
   return {
