@@ -42,9 +42,9 @@ BUTTON_TYPES = [
 class ButtonOptions(BaseModel):
     user: str = GIT_USER
     repo: Optional[str] = None
-    large: Optional[bool] = False
-    standard_icon: Optional[bool] = False
-    show_count: Optional[bool] = False
+    large: Optional[bool] = None
+    standard_icon: Optional[bool] = None
+    show_count: Optional[bool] = None
 
 class Button(BaseModel):
     type: ButtonType
@@ -217,7 +217,6 @@ def example_button(button: Button):
 def AppBody():
 
     color_scheme_disabled, set_color_scheme_disabled = use_state(True)
-
     button, set_button = use_state(cast(Button, None))
 
 
@@ -245,16 +244,6 @@ def AppBody():
         button.options.repo = value
         set_button(button.model_copy())
 
-    def button_select(bt: ButtonType):
-        options = ButtonOptions(
-            repo = GIT_REPO if bt.repo else None,
-            large = None,
-            standard_icon = None,
-            show_count =  None,
-        )
-        button = Button(type=bt, options=options)
-        set_button(button)
-
     @event
     def toggle_large(event):
         button.options.large = None if button.options.large else True
@@ -271,11 +260,15 @@ def AppBody():
         set_button(button.copy())
 
     def extended_form_hidden(attr:dict) -> dict:
-        """Show the bottom half of the form if a button has been selected"""
+        """Show the Button Options & Preview if a button has been selected"""
         if button is None:
             attr.update({'hidden': True})
         return attr
 
+    def button_select(bt: ButtonType):
+        options = ButtonOptions(repo = GIT_REPO if bt.repo else None)
+        button = Button(type=bt, options=options)
+        set_button(button)
 
     return FormContainer(
         html.form({'autocapitalize': 'none', 'autocomplete': 'off', 'autocorrect': 'off', 'spellcheck': 'false'},
