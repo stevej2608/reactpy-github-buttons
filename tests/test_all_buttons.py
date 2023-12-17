@@ -8,7 +8,7 @@ async def wait_page_stable(page):
 
 
 @pytest.mark.anyio
-async def test_sample_app(display: DisplayFixture):
+async def test_all_buttons(display: DisplayFixture):
     await display.show(AppMain)
     await wait_page_stable(display.page)
 

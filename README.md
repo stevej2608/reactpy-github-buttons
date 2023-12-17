@@ -29,7 +29,7 @@ if __name__ == "__main__":
 
 ## Building
 
-    poetry install --no-route
+    poetry install --no-root
 
     cd js
     npm install
