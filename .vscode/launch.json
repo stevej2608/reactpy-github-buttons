@@ -64,5 +64,42 @@
         "killOnServerStop": true
       }
     },
+
+    // https://stackoverflow.com/a/65292380/489239
+    {
+      "name": "2a. PyTest (all)",
+      "type": "python",
+      "request": "launch",
+      "stopOnEntry": false,
+      "module": "pytest",
+      "args": [
+        "-o log_cli=1",
+        "-sv",
+        "--headed"
+      ],
+      "cwd": "${workspaceRoot}",
+      "console": "internalConsole",
+      "internalConsoleOptions": "openOnSessionStart",
+      "justMyCode": false
+    },
+    {
+      "name": "2b. PyTest (test_simple.py)",
+      "type": "python",
+      "request": "launch",
+      "stopOnEntry": false,
+      "module": "pytest",
+      "args": [
+        "-o log_cli=1",
+        "tests/test_simple.py",
+        "--headed"
+      ],
+      "cwd": "${workspaceRoot}",
+      "console": "internalConsole",
+      "internalConsoleOptions": "openOnSessionStart",
+      "justMyCode": false
+    },
+
+
+
   ]
 }
