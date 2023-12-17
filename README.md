@@ -27,7 +27,6 @@ def AppMain():
 
 
 if __name__ == "__main__":
-    log.setLevel(logging.INFO)
     run(AppMain)
 ```
 

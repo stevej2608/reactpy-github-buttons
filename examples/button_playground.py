@@ -334,7 +334,7 @@ def AppBody():
                 ),
                 html.div({'class_name': 'col-12 col-sm-6 col-md-7'},
                     html.h4("Preview and code"),
-                    html.p("Try out your button, then copy and paste the code below into the HTML for your site."),
+                    html.p("Try out your button here, then copy and paste the code below."),
                     html.p({'style': 'height: 20px;'}, example_button(button)),
                     html.div({'class_name': 'form-group'},
                         html.textarea({'class_name': 'form-control', 'rows': '8', 'readonly': True, 'value': usage_template(button)})
