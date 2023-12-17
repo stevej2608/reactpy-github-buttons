@@ -1,5 +1,5 @@
 from examples.button_selector import AppMain
-from fast_server import run
+from utils.fast_server import run
 
 # python run_dashboard.py
 

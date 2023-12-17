@@ -93,8 +93,7 @@ def run(AppMain: Callable[[], Component],
 
     def _app_path(app: FastAPI) -> str:
         app_str = var_name(app, globals())
-        package_prefix =  __package__ + '.' if __package__ else ''
-        return f"{package_prefix}{__name__}:{app_str}"
+        return f"{__name__}:{app_str}"
 
     # Mount any fastapi end points here
 

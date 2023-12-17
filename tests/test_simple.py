@@ -1,15 +1,11 @@
-import re
 import pytest
-from playwright.async_api import expect
 from reactpy.testing import DisplayFixture
 from examples.single import AppMain
 
-async def wait_page_stable(page):
-    await page.wait_for_load_state("networkidle")
-    await page.wait_for_load_state("domcontentloaded")
+from .tooling.wait_stable import wait_page_stable
 
 
-def str2int(int_str):
+def star_count(int_str):
     try:
         if isinstance(int_str, list):
             int_str = int_str[0]
@@ -29,4 +25,4 @@ async def test_sample_app(display: DisplayFixture):
     assert text[1] == 'Star'
 
     text = await display.page.locator("a.social-count").all_inner_texts()
-    assert str2int(text) > 0
+    assert star_count(text) > 0

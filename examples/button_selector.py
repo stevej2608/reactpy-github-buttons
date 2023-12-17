@@ -1,5 +1,5 @@
 from typing import cast, Callable, Optional, Union
-from fast_server import run
+from utils.fast_server import run
 from pydantic import BaseModel
 from reactpy import component, html, use_state, event
 from reactpy.svg import svg, path
@@ -290,6 +290,7 @@ def AppBody():
                 html.div({'class_name': 'col-12 col-sm-6 col-md-5'},
                     html.h4("Button options"),
                     UserAndRepo(user_change=user_change, repo_change=repo_change),
+                    
                     html.div({'class_name': 'form-group'},
                         html.div({'class_name': 'form-row align-items-center my-1'},
         
@@ -335,6 +336,7 @@ def AppBody():
                                         ),
 
                     ),
+
                     html.div({'class_name': 'form-group'},
                         html.label({'html_for': 'syntax'}, "Syntax"),
                         html.select({'id': 'syntax', 'class_name': 'form-control'},

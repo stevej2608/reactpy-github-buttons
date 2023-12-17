@@ -1,10 +1,7 @@
 import pytest
 from reactpy.testing import DisplayFixture
 from examples.all_buttons import AppMain
-
-async def wait_page_stable(page):
-    await page.wait_for_load_state("networkidle")
-    await page.wait_for_load_state("domcontentloaded")
+from .tooling.wait_stable import wait_page_stable
 
 
 @pytest.mark.anyio

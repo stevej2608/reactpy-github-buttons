@@ -3,7 +3,6 @@ from enum import Enum
 from pathlib import Path
 
 from reactpy.web.module import export, module_from_file
-from utils.logger import log
 
 
 # class syntax
@@ -24,8 +23,8 @@ def make_color_scheme(
     return f"no-preference: {no_preference.value}; light: {light.value}; dark: {dark.value};"
 
 
-# pylint: disable=missing-function-docstring
-# pylint: disable=disable=invalid-name
+# pylint: disable=missing-function-docstring, dangerous-default-value
+# pylint: disable=disable=invalid-name, too-many-arguments
 
 _js_module = module_from_file(
     "reactpy_github_buttons",
