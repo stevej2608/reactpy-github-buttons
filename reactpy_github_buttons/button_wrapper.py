@@ -29,7 +29,7 @@ def make_color_scheme(
 
 _js_module = module_from_file(
     "reactpy_github_buttons",
-    file=Path(__file__).parent / "bundle.js",
+    file=Path(__file__).parent / "bundle.min.js",
     fallback="⏳",
 )
 
