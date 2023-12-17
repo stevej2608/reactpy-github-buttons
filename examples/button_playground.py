@@ -2,14 +2,14 @@ from typing import cast, Callable, Optional, Union
 from pydantic import BaseModel
 from reactpy import component, html, use_state, event
 from reactpy.svg import svg, path
+
 from reactpy_github_buttons import (
     FollowButton, InstallPackageButton, SponsorButton, StarButton, WatchButton,
     ForkButton, IssueButton, DiscussButton, DownloadButton, UseTemplateButton, UseThisGitHubActionButton)
-
+from utils.fast_server import run
 
 # pylint: disable=line-too-long
 
-from utils.fast_server import run
 
 GIT_USER = 'buttons'
 GIT_REPO = 'github-buttons'
