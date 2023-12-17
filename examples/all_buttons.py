@@ -57,7 +57,7 @@ def ButtonRow(button):
 
 
 @component
-def ButtonTable():
+def AppMain():
     rows = [ButtonRow(button) for button in BUTTON_TYPES]
     return html.table(
         TableHead(),
@@ -65,8 +65,8 @@ def ButtonTable():
     )
 
 
-# python -m examples.color_scheme
+# python -m examples.all_buttons
 
 if __name__ == "__main__":
     log.setLevel(logging.INFO)
-    run(ButtonTable)
+    run(AppMain)
