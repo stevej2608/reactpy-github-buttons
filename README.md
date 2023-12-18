@@ -58,7 +58,7 @@ as a RectPy demonstrator.
 
     python -m examples.button_playground
 
-![](https://raw.githubusercontent.com/stevej2608/reactpy-github-buttons/docs/playground.png)
+![](https://raw.githubusercontent.com/stevej2608/reactpy-github-buttons/master/docs/playground.png)
 
 
 [github-buttons]: https://github.com/buttons/github-buttons
