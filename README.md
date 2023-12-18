@@ -59,34 +59,6 @@ as a RectPy demonstrator.
     python -m examples.button_playground
 
 ![](./docs/playground.png)
-## Building
-
-    poetry install --no-root
-
-    cd js
-    npm install
-    npm run build
-
-## Testing
-
-    playwright install
-
-*Then:*
-
-    pytest 
-
-*or:*
-
-    pytest --headed
-
-## Publish 
-
-    rm -rf dist && poetry build
-    poetry publish
-
-Or publish to local repo
-
-    poetry publish -r pypicloud
 
 
 [github-buttons]: https://github.com/buttons/github-buttons

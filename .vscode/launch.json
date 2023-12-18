@@ -115,6 +115,23 @@
       "justMyCode": false
     },
 
+    {
+      "name": "3 Launch Chrome",
+      "request": "launch",
+      "type": "chrome",
+      "url": " http://127.0.0.1:8000",
+      "webRoot": "${workspaceFolder}/js/src",
+      "sourceMaps": true,
+      "internalConsoleOptions": "openOnSessionStart",
+      "sourceMapPathOverrides": {
+
+        // I've no idea why this works. The underscore or any other
+        // charicter is vital for the breakpoint mapping to correctly.
+        // TODO: Try and figure out why.
+
+        "*": "${workspaceFolder}/_/*",
+      }
+    },
 
 
   ]

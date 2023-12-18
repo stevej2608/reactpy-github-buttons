@@ -1,3 +1,4 @@
+from os import environ
 from typing import Optional
 from enum import Enum
 from pathlib import Path
@@ -28,7 +29,7 @@ def make_color_scheme(
 
 _js_module = module_from_file(
     "reactpy_github_buttons",
-    file=Path(__file__).parent / "bundle.min.js",
+    file=Path(__file__).parent/"bundle-dev.js" if environ.get("REACTPY_DEBUG") else Path(__file__).parent/"bundle.min.js" ,
     fallback="⏳",
 )
 

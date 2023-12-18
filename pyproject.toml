@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "reactpy-github-buttons"
-version = "0.0.7"
+version = "0.0.8"
 description = "ReactPy wrapper for react-github-btn"
 authors = ["Steve Jones <jonesst2608@gmail.com>"]
 readme = "README.md"
@@ -10,6 +10,7 @@ license = "MIT"
 [tool.poetry.dependencies]
 python = ">=3.9,<4.0.0"
 reactpy = {extras = ["starlette", "testing"], version = "^1.0.2"}
+# exclude = ["reactpy_github_buttons/bundle-dev.js"]
 
 [tool.poetry.group.dev.dependencies]
 
