@@ -1,6 +1,6 @@
 ## reactpy-github-buttons
 
-![](docs/showcase.png)
+![](https://raw.githubusercontent.com/stevej2608/reactpy-github-buttons/master/docs/showcase.png)
 
 
  Minimal [ReactPy] wrapper for [github-buttons].
@@ -58,7 +58,7 @@ as a RectPy demonstrator.
 
     python -m examples.button_playground
 
-![](./docs/playground.png)
+![](https://raw.githubusercontent.com/stevej2608/reactpy-github-buttons/docs/playground.png)
 
 
 [github-buttons]: https://github.com/buttons/github-buttons
