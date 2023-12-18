@@ -35,10 +35,10 @@ BUTTON_TYPES = [
     ButtonType(button=ForkButton, name='Fork', repo=True, show_count=True, standard_icon=True),
     ButtonType(button=IssueButton, name='Issue', repo=True, show_count=True, standard_icon=True),
     ButtonType(button=DiscussButton, name='Discuss', repo=True, standard_icon=True),
-    ButtonType(button=DownloadButton, name='Download', repo=True, show_count=True, standard_icon=True),
+    ButtonType(button=DownloadButton, name='Download', repo=True, standard_icon=True),
     ButtonType(button=InstallPackageButton, name='Install this package'),
-    ButtonType(button=UseTemplateButton, name='Use this template', repo=True, show_count=True, standard_icon=True),
-    ButtonType(button=UseThisGitHubActionButton, name='Use this GitHub Action', repo=True, show_count=True, standard_icon=True)
+    ButtonType(button=UseTemplateButton, name='Use this template', repo=True, standard_icon=True),
+    ButtonType(button=UseThisGitHubActionButton, name='Use this GitHub Action', repo=True, standard_icon=True)
 ]
 
 class ButtonOptions(BaseModel):
@@ -116,18 +116,6 @@ def AppHeader():
     )
 
 @component
-def FormContainer(form):
-    return html.main({'class_name': 'main'},
-    html.div({'class_name': 'container mt-3'},
-        html.div({'id': 'app', 'data-v-app': ''},
-            html.div({'id': 'app'},
-                form
-            )
-        )
-    )
-)
-
-@component
 def ButtonCheckBox(bt: ButtonType, on_change):
     """Button name & icon, displayed in the top panel"""
 
@@ -145,7 +133,6 @@ def ButtonCheckBox(bt: ButtonType, on_change):
             )
         )
     )
-
 
 @component
 def UserAndRepo(user_change, repo_change):
@@ -170,11 +157,11 @@ def ColorSchemeDropdown(id, disabled):
     return html.div({'class_name': 'col-auto'},
         html.label({'class_name': 'sr-only', 'html_for': id}, "@media (prefers-color-scheme: no-preference)"),
         html.select(select_attr,
-            html.option({'data-v-3e07ce4a': ''}, "light"),
-            html.option({'data-v-3e07ce4a': ''}, "light_high_contrast"),
-            html.option({'data-v-3e07ce4a': ''}, "dark"),
-            html.option({'data-v-3e07ce4a': ''}, "dark_dimmed"),
-            html.option({'data-v-3e07ce4a': ''}, "dark_high_contrast")
+            html.option("light"),
+            html.option("light_high_contrast"),
+            html.option("dark"),
+            html.option("dark_dimmed"),
+            html.option("dark_high_contrast")
         )
     )
 
@@ -200,7 +187,6 @@ def OptionCheckBox(label: str, toggle_state, value: Union[bool, None], enabled:b
         )
     )
 
-
 @component
 def example_button(button: Button):
     """Build a live button from the current configuration"""
@@ -214,7 +200,6 @@ def example_button(button: Button):
 
     example = button.type.button(**args)
     return example
-
 
 @component
 def AppBody():
@@ -273,72 +258,70 @@ def AppBody():
         button = Button(type=bt, options=options)
         set_button(button)
 
-    return FormContainer(
-        html.form({'autocapitalize': 'none', 'autocomplete': 'off', 'autocorrect': 'off', 'spellcheck': 'false'},
-            html.fieldset({'class_name': 'form-group'},
-                html.h4("Choose a button"),
-                html.div({'class_name': 'row'},
-                    *[ButtonCheckBox(button, on_change=button_select) for button in BUTTON_TYPES]
-                ),
+    return html.form({'autocapitalize': 'none', 'autocomplete': 'off', 'autocorrect': 'off', 'spellcheck': 'false'},
+        html.fieldset({'class_name': 'form-group'},
+            html.h4("Choose a button"),
+            html.div({'class_name': 'row'},
+                *[ButtonCheckBox(button, on_change=button_select) for button in BUTTON_TYPES]
             ),
-            html.hr(),
-            html.div(extended_form_hidden({'class_name': 'row'}),
-                html.div({'class_name': 'col-12 col-sm-6 col-md-5'},
-                    html.h4("Button options"),
-                    UserAndRepo(user_change=user_change, repo_change=repo_change),
-                    html.div({'class_name': 'form-group'},
-                        html.div({'class_name': 'form-row align-items-center my-1'},
-                            html.div({'class_name': 'col-auto mr-auto'},
-                                html.div({'class_name': 'form-check'},
-                                    html.label({'class_name': 'form-check-label'},
-                                        html.input({'class_name': 'form-check-input', 'type': 'checkbox', 'onclick': toggle_color_scheme}),
-                                        "Color scheme"
-                                    )
+        ),
+        html.hr(),
+        html.div(extended_form_hidden({'class_name': 'row'}),
+            html.div({'class_name': 'col-12 col-sm-6 col-md-5'},
+                html.h4("Button options"),
+                UserAndRepo(user_change=user_change, repo_change=repo_change),
+                html.div({'class_name': 'form-group'},
+                    html.div({'class_name': 'form-row align-items-center my-1'},
+                        html.div({'class_name': 'col-auto mr-auto'},
+                            html.div({'class_name': 'form-check'},
+                                html.label({'class_name': 'form-check-label'},
+                                    html.input({'class_name': 'form-check-input', 'type': 'checkbox', 'onclick': toggle_color_scheme}),
+                                    "Color scheme"
                                 )
-                            ),
-                            ColorSchemeDropdown(id='prefers-color-scheme-no-preference', disabled=color_scheme_disabled)
+                            )
                         ),
-                        html.div({'class_name': 'form-row align-items-center my-1 ml-3'},
-                            html.div({'class_name': 'col-auto mr-auto'},
-                                html.label({'html_for': 'prefers-color-scheme-light', 'class_name': 'form-check-label col-form-label-sm'}, "@media (prefers-color-scheme: light)")
-                            ),
-                            ColorSchemeDropdown(id='prefers-color-scheme-light', disabled=color_scheme_disabled)
-                        ),
-                        html.div({'class_name': 'form-row align-items-center my-1 ml-3'},
-                            html.div({'class_name': 'col-auto mr-auto'},
-                                html.label({'html_for': 'prefers-color-scheme-dark', 'class_name': 'form-check-label col-form-label-sm'}, "@media (prefers-color-scheme: dark)")
-                            ),
-                            ColorSchemeDropdown(id='prefers-color-scheme-dark', disabled=color_scheme_disabled)
-                        ),
-                        OptionCheckBox("Large button", toggle_large,
-                                        value = button and button.options.large,
-                                        enabled = button and button.type.large
-                                        ),
-                        OptionCheckBox("Show count", toggle_show_count,
-                                        value = button and button.options.show_count,
-                                        enabled = button and button.type.show_count
-                                        ),
-                        OptionCheckBox("Standard icon", toggle_standard_icon,
-                                        value = button and button.options.standard_icon,
-                                        enabled  = button and button.type.standard_icon
-                                        ),
+                        ColorSchemeDropdown(id='prefers-color-scheme-no-preference', disabled=color_scheme_disabled)
                     ),
-                    html.div({'class_name': 'form-group'},
-                        html.label({'html_for': 'syntax'}, "Syntax"),
-                        html.select({'id': 'syntax', 'class_name': 'form-control'},
-                            html.option("html"),
-                            html.option({'value': 'vue'}, "vue-github-button"),
-                            html.option({'value': 'react'}, "react-github-btn")
-                        )
-                    )
+                    html.div({'class_name': 'form-row align-items-center my-1 ml-3'},
+                        html.div({'class_name': 'col-auto mr-auto'},
+                            html.label({'html_for': 'prefers-color-scheme-light', 'class_name': 'form-check-label col-form-label-sm'}, "@media (prefers-color-scheme: light)")
+                        ),
+                        ColorSchemeDropdown(id='prefers-color-scheme-light', disabled=color_scheme_disabled)
+                    ),
+                    html.div({'class_name': 'form-row align-items-center my-1 ml-3'},
+                        html.div({'class_name': 'col-auto mr-auto'},
+                            html.label({'html_for': 'prefers-color-scheme-dark', 'class_name': 'form-check-label col-form-label-sm'}, "@media (prefers-color-scheme: dark)")
+                        ),
+                        ColorSchemeDropdown(id='prefers-color-scheme-dark', disabled=color_scheme_disabled)
+                    ),
+                    OptionCheckBox("Large button", toggle_large,
+                                    value = button and button.options.large,
+                                    enabled = button and button.type.large
+                                    ),
+                    OptionCheckBox("Show count", toggle_show_count,
+                                    value = button and button.options.show_count,
+                                    enabled = button and button.type.show_count
+                                    ),
+                    OptionCheckBox("Standard icon", toggle_standard_icon,
+                                    value = button and button.options.standard_icon,
+                                    enabled  = button and button.type.standard_icon
+                                    ),
                 ),
-                html.div({'class_name': 'col-12 col-sm-6 col-md-7'},
-                    html.h4("Preview and code"),
-                    html.p("Try out your button here, then copy and paste the code below."),
-                    html.p({'style': 'height: 20px;'}, example_button(button)),
-                    html.div({'class_name': 'form-group'},
-                        html.textarea({'class_name': 'form-control', 'rows': '8', 'readonly': True, 'value': usage_template(button)})
+                html.div({'class_name': 'form-group'},
+                    html.label({'html_for': 'syntax'}, "Syntax"),
+                    html.select({'id': 'syntax', 'class_name': 'form-control'},
+                        html.option("html"),
+                        html.option({'value': 'vue'}, "vue-github-button"),
+                        html.option({'value': 'react'}, "react-github-btn")
                     )
+                )
+            ),
+            html.div({'class_name': 'col-12 col-sm-6 col-md-7'},
+                html.h4("Preview and code"),
+                html.p("Try out your button here, then copy and paste the code below."),
+                html.p({'style': 'height: 20px;'}, example_button(button)),
+                html.div({'class_name': 'form-group'},
+                    html.textarea({'class_name': 'form-control', 'rows': '8', 'readonly': True, 'value': usage_template(button)})
                 )
             )
         )
@@ -346,7 +329,12 @@ def AppBody():
 
 @component
 def AppMain():
-    return html._(AppHeader(), AppBody())
+    return  html.main({'class_name': 'main'},
+        html.div({'class_name': 'container mt-3'},
+            AppHeader(),
+            AppBody()
+        )
+    )
 
 # python -m examples.button_playground
 

@@ -7,13 +7,11 @@ from fastapi import FastAPI
 from reactpy.core.component import Component
 from reactpy.backend.fastapi import configure, Options
 
-from utils.logger import log, logging
-from utils.var_name import var_name
-from utils.fsst_server_options import SERVER_OPTIONS
-
+from .logger import log, logging
+from .var_name import var_name
+from .fast_server_options import SERVER_OPTIONS
 
 app = FastAPI(description="ReactPy", version="0.1.0")
-
 
 LOGS = [
     "asgi-logger",
@@ -95,26 +93,21 @@ def run(AppMain: Callable[[], Component],
         app_str = var_name(app, globals())
         return f"{__name__}:{app_str}"
 
-    # Mount any fastapi end points here
-
-    # app.mount('/static', assets_api)
-
     configure(app, AppMain, options=options)
 
     app_path = _app_path(app)
 
-    if disable_server_logs:
-
-        @app.on_event('startup')
-        async def fastapi_startup():
+    @app.on_event('startup')
+    async def fastapi_startup():
+        if disable_server_logs:
             disable_noisy_logs()
-            log.info(f"Uvicorn running on  http://%s:%s (Press CTRL+C to quit)", host, port)
+        log.info("Uvicorn running on  http://%s:%s (Press CTRL+C to quit)", host, port)
 
     try:
         log.setLevel(logging.INFO)
         signal.signal(signal.SIGINT, handler)
         uvicorn.run(app_path, host=host, port=port, **kwargs)
     finally:
-        print('\b\b')
+        # print('\b\b')
         log.info('Uvicorn server has shut down\n')
         sys.exit(0)
