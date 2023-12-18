@@ -35,12 +35,6 @@ log_cli_level = "INFO"
 filterwarnings = "ignore::DeprecationWarning"
 addopts = "-rsxX -vv"
 
-
-[[tool.poetry.source]]
-name = "pypicloud"
-url = "http://debian-server:6543/simple/"
-priority = "supplemental"
-
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
