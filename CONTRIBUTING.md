@@ -16,7 +16,7 @@ browser code. For this to work the test application needs to be
 started with the env variable **REACTPY_DEBUG** set prior to 
 running the application:
 
-    export REACTPY_DEBUG=1 
+    export REACTPY_DEBUG_MODE=1 
     python -m examples.single
 
 Select the launch configuration **3. Launch Chrome**. You will

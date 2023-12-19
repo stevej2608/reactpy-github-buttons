@@ -27,6 +27,7 @@
       "justMyCode": false,
       "console": "internalConsole",
       "internalConsoleOptions": "openOnSessionStart",
+      "env": {"REACTPY_DEBUG_MODE": "1"},
       "serverReadyAction": {
         "pattern": "Uvicorn running on\\s+(https?://\\S+)",
         "uriFormat": "%s/",
