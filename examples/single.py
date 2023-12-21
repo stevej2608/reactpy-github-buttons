@@ -3,7 +3,7 @@ from reactpy_github_buttons import StarButton
 
 @component
 def AppMain():
-    return StarButton(user="buttons", repo="github-buttons", large=True, standard_icon=True, show_count=True)
+    return StarButton(user="buttons", repo="github-buttons", large=True, show_count=True)
 
 # python -m examples.single
 

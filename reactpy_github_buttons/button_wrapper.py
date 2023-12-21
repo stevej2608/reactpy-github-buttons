@@ -58,8 +58,8 @@ def GithubButton(
     if show_count:
         _args.update({"data-show-count": "true"})
 
-    if not standard_icon:
-        _args.update({"data-icon": "octicon-eye"})
+    if standard_icon and 'data-icon' in _args:
+        _args.pop("data-icon")
 
     if color_scheme:
         _args.update({"data-color-scheme": color_scheme})
@@ -98,6 +98,7 @@ def SponsorButton(
 ):
     props = {
         "text": "Sponsor",
+        "data-icon": "octicon-heart",
         "aria-label": "Sponsor @buttons on GitHub",
         "href": f"https://github.com/sponsors/{user}",
     }
@@ -121,6 +122,7 @@ def WatchButton(
 ):
     props = {
         "text": "Watch",
+        "data-icon": "octicon-eye",
         "aria-label": "Watch buttons/github-buttons on GitHub",
         "href": f"https://github.com/{user}/{repo}/subscription",
     }
@@ -145,6 +147,7 @@ def StarButton(
 ):
     props = {
         "text": "Star",
+        "data-icon": "octicon-star",
         "aria-label": "Star buttons/github-buttons on GitHub",
     }
 
@@ -169,6 +172,7 @@ def ForkButton(
 ):
     props = {
         "text": "Fork",
+        "data-icon": "octicon-repo-forked",
         "aria-label": "Fork buttons/github-buttons on GitHub",
         "href": f"https://github.com/{user}/{repo}/fork",
     }
@@ -194,6 +198,7 @@ def IssueButton(
 ):
     props = {
         "text": "Issue",
+        "data-icon": "octicon-issue-opened",
         "aria-label": "Issue buttons/github-buttons on GitHub",
         "href": f"https://github.com/{user}/{repo}/issues",
     }
@@ -218,6 +223,7 @@ def DiscussButton(
 ):
     props = {
         "text": "Discuss",
+        "data-icon": "octicon-comment-discussion",
         "aria-label": "Discuss buttons/github-buttons on GitHub",
     }
 
@@ -240,6 +246,7 @@ def DownloadButton(
 ):
     props = {
         "text": "Download",
+        "data-icon": "octicon-download",
         "aria-label": "Download buttons/github-buttons on GitHub",
     }
 
@@ -262,6 +269,7 @@ def InstallPackageButton(
 ):
     props = {
         "text": "Install this package",
+        "data-icon": "octicon-package",
         "aria-label": "Install this package buttons/github-buttons on GitHub",
     }
 
@@ -284,6 +292,7 @@ def UseTemplateButton(
 ):
     props = {
         "text": "Use this template",
+        "data-icon": "octicon-repo-template",
         "aria-label": "Use this template buttons/github-buttons on GitHub",
     }
 
@@ -306,6 +315,7 @@ def UseThisGitHubActionButton(
 ):
     props = {
         "text": "Use this GitHub Action",
+        "data-icon": "octicon-play",
         "aria-label": "Use this GitHub Action buttons/github-buttons on GitHub",
     }
 
