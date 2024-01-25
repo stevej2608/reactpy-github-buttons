@@ -1,5 +1,5 @@
 # the version is statically loaded by setup.py
-__version__ = "0.0.13"
+__version__ = "0.0.14"
 
 from .button_wrapper import (
     FollowButton,StarButton,SponsorButton, WatchButton, ForkButton,
