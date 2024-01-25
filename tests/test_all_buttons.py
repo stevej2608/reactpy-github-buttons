@@ -5,9 +5,8 @@ from .tooling.wait_stable import wait_page_stable
 
 
 @pytest.mark.anyio
-async def test_all_buttons(display: DisplayFixture):
+async def test_all_buttons(display: DisplayFixture, assert_snapshot):
     await display.show(AppMain)
     await wait_page_stable(display.page)
 
-    await display.page.screenshot(path="tests/screenshots/all_buttons.png")
-
+    assert_snapshot(await display.page.screenshot())
