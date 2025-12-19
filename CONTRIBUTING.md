@@ -25,17 +25,15 @@ source code is in **./js/src/*.js**
 
 ## Testing
 
-    playwright install
 
-*Then:*
-
-    pytest [--headed] [--update-snapshots]
+    hatch test [--headed] [--update-snapshots]
 
 ## Publish 
 
-    rm -rf dist && poetry build
-    poetry publish
+    hatch build --clean
+
+    hatch publish
 
 Or publish to local repo
 
-    poetry publish -r pypicloud
+    hatch publish -r pypicloud
