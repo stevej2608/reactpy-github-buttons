@@ -6,7 +6,7 @@ from reactpy_github_buttons import (
     FollowButton, InstallPackageButton, SponsorButton, StarButton, WatchButton,
     ForkButton, IssueButton, DiscussButton, DownloadButton, UseTemplateButton, UseThisGitHubActionButton)
 
-from utils.pico_run import pico_run
+from utils.app_runner import run
 
 # pylint: disable=line-too-long
 
@@ -339,4 +339,4 @@ def AppMain():
 # python -m examples.button_playground
 
 if __name__ == "__main__":
-    pico_run(AppMain)
+    run(AppMain)

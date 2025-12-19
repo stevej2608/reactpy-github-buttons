@@ -2,7 +2,7 @@ from reactpy import component, html
 from utils.logger import log, logging
 from reactpy_github_buttons import StarButton, make_color_scheme, ColorScheme
 
-from utils.pico_run import pico_run
+from utils.app_runner import pico_runner
 
 GIT_USER = "reactive-python"
 GIT_REPO = "reactpy"
@@ -54,4 +54,4 @@ def AppMain():
 
 if __name__ == "__main__":
     log.setLevel(logging.INFO)
-    pico_run(AppMain)
+    pico_runner(AppMain)

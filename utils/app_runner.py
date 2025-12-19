@@ -1,12 +1,12 @@
 """
-ReactPy v2 compatible run() and pico_run() functions
+ReactPy v2 compatible run() and pico_runner() functions
 
-This module provides run() and pico_run() functions for running ReactPy components
+This module provides run() and pico_runner() functions for running ReactPy components
 with automatic server setup, similar to ReactPy v1 behavior.
 """
 
 import sys
-from typing import Any, Callable, List, Optional, Union
+from typing import Any, List, Optional
 
 import uvicorn
 from reactpy import component, html
@@ -38,7 +38,7 @@ def run(
     Example:
         ```python
         from reactpy import component, html
-        from utils.pico_run import run
+        from utils.app_runner import run
 
         @component
         def AppMain():
@@ -82,7 +82,7 @@ def run(
         sys.exit(0)
 
 
-def pico_run(
+def pico_runner(
     app: ComponentType,
     host: str = "127.0.0.1",
     port: int = 8000,
@@ -101,19 +101,19 @@ def pico_run(
         port: Server port (default: 8000)
         title: Page title (default: "ReactPy Forms")
         additional_head: Optional list of CSS file paths to include
-        **kwargs: Additional arguments passed to uvicorn.run()
+        **kwargs: Additional arguments passed to run()
 
     Example:
         ```python
         from reactpy import component, html
-        from utils.pico_run import pico_run
+        from utils.app_runner import pico_runner
 
         @component
         def AppMain():
             return html.h1("Hello with Pico CSS!")
 
         if __name__ == "__main__":
-            pico_run(AppMain, additional_head=["assets/css/custom.css"])
+            pico_runner(AppMain, additional_head=["assets/css/custom.css"])
         ```
     """
 
@@ -124,7 +124,7 @@ def pico_run(
         'crossorigin': 'anonymous'
     })
 
-    head_children = [html.title(title), pico_css]
+    head_children = [pico_css]
 
     # Add any additional CSS files
     if additional_head:
@@ -142,19 +142,9 @@ def pico_run(
             html.section(app())
         )
 
-    # Create ReactPy ASGI app
-    asgi_app = ReactPy(PicoContainer, html_head=head)
+    # Call the generic run() function
+    run(PicoContainer, host=host, port=port, title=title, head=head, **kwargs)
 
-    # Display startup message
-    print(f"Starting ReactPy server (with Pico CSS) at http://{host}:{port}")
-    print("Press CTRL+C to quit")
 
-    try:
-        # Run the server
-        uvicorn.run(asgi_app, host=host, port=port, **kwargs)
-    except KeyboardInterrupt:
-        print("\nShutting down server...")
-    except Exception as ex:
-        print(f"Server error: {ex}")
-    finally:
-        sys.exit(0)
+# Backwards compatibility alias
+pico_run = pico_runner

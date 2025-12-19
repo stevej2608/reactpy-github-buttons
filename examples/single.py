@@ -1,7 +1,7 @@
 from reactpy import html, component, use_state
 from reactpy_github_buttons import StarButton
 
-from utils.pico_run import pico_run
+from utils.app_runner import pico_runner
 
 
 @component
@@ -30,4 +30,4 @@ def AppMain():
 # python -m examples.single
 
 if __name__ == "__main__":
-    pico_run(AppMain)
+    pico_runner(AppMain)
