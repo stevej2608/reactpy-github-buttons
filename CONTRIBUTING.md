@@ -1,10 +1,6 @@
 ## Building
 
-    poetry install --no-root
-
-    cd js
-    npm install
-    npm run build
+    hatch build --clean
 
 ### Debugging
 

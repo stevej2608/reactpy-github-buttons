@@ -29,7 +29,7 @@ class ButtonType(BaseModel):
 
 BUTTON_TYPES = [
     ButtonType(button=FollowButton, name='Follow', show_count=True),
-    ButtonType(button=SponsorButton, name='Sponsor',standard_icon=True),
+    ButtonType(button=SponsorButton, name='Sponsor', standard_icon=True),
     ButtonType(button=WatchButton, name='Watch', repo=True, show_count=True, standard_icon=True),
     ButtonType(button=StarButton, name='Star', repo=True, show_count=True, standard_icon=True),
     ButtonType(button=ForkButton, name='Fork', repo=True, show_count=True, standard_icon=True),
@@ -54,7 +54,7 @@ class Button(BaseModel):
     options: ButtonOptions = ButtonOptions()
 
 
-def usage_template(button:Button) -> str:
+def usage_template(button: Button) -> str:
 
     if button is None:
         return ""
@@ -166,10 +166,10 @@ def ColorSchemeDropdown(id, disabled):
     )
 
 @component
-def OptionCheckBox(label: str, toggle_state, value: Union[bool, None], enabled:bool):
+def OptionCheckBox(label: str, toggle_state, value: Union[bool, None], enabled: bool):
     """Option large, standard_icon, etc"""
 
-    def is_disabled(attr:dict) -> dict:
+    def is_disabled(attr: dict) -> dict:
         if not enabled:
             attr.update({'disabled': True})
         if value:
@@ -235,26 +235,26 @@ def AppBody():
     @event
     def toggle_large(event):
         button.options.large = None if button.options.large else True
-        set_button(button.copy())
+        set_button(button.model_copy())
 
     @event
     def toggle_standard_icon(event):
         button.options.standard_icon = None if button.options.standard_icon else True
-        set_button(button.copy())
+        set_button(button.model_copy())
 
     @event
     def toggle_show_count(event):
         button.options.show_count = None if button.options.show_count else True
-        set_button(button.copy())
+        set_button(button.model_copy())
 
-    def extended_form_hidden(attr:dict) -> dict:
+    def extended_form_hidden(attr: dict) -> dict:
         """Show the Button Options & Preview if a button has been selected"""
         if button is None:
             attr.update({'hidden': True})
         return attr
 
     def button_select(bt: ButtonType):
-        options = ButtonOptions(repo = GIT_REPO if bt.repo else None)
+        options = ButtonOptions(repo=GIT_REPO if bt.repo else None)
         button = Button(type=bt, options=options)
         set_button(button)
 

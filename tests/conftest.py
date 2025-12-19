@@ -127,7 +127,7 @@ def assert_no_logged_exceptions():
         yield
         try:
             for r in records:
-                if r.exc_info is not None:
+                if r.exc_info is not None and r.exc_info[1] is not None:
                     raise r.exc_info[1]
         finally:
             records.clear()

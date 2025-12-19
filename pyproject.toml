@@ -86,3 +86,9 @@ filterwarnings = "ignore::DeprecationWarning"
 addopts = "-rsxX -vv"
 asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "function"
+
+[tool.mypy]
+exclude = ["^\\.claude"]
+
+[tool.pyright]
+exclude = [".claude", ".venv","tmp"]
