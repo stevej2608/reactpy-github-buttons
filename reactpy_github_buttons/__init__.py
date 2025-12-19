@@ -1,4 +1,4 @@
-# the version is statically loaded by setup.py
+# the version is statically loaded by Hatch from pyproject.toml
 __version__ = "0.0.14"
 
 from .button_wrapper import (

@@ -3,7 +3,8 @@ import sys
 import signal
 import multiprocessing
 import uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from starlette.websockets import WebSocketDisconnect
 from reactpy.core.component import Component
 from reactpy.backend.fastapi import configure, Options
 
@@ -102,6 +103,16 @@ def run(AppMain: Callable[[], Component],
         if disable_server_logs:
             disable_noisy_logs()
         log.info("Uvicorn running on  http://%s:%s (Press CTRL+C to quit)", host, port)
+
+    @app.exception_handler(ExceptionGroup)
+    async def websocket_disconnect_handler(request: Request, exc: ExceptionGroup):
+        if len(exc.exceptions) == 1 and isinstance(exc.exceptions[0], WebSocketDisconnect):
+            websocket_disconnect = exc.exceptions[0]
+            log.info("WebSocket %s disconnected with code %s", request.url, websocket_disconnect.code)
+            # No response, as client is not listening
+        else:
+            # If it's not a WebSocketDisconnect, re-raise the exception
+            raise exc
 
     try:
         log.setLevel(logging.INFO)
