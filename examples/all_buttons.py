@@ -1,6 +1,6 @@
 from reactpy import component, html
 from utils.logger import log, logging
-from utils.app_runner import pico_runner
+from utils.app_runner import run
 from reactpy_github_buttons import FollowButton, InstallPackageButton, SponsorButton, StarButton, WatchButton, ForkButton, IssueButton, DiscussButton, DownloadButton
 
 
@@ -70,4 +70,4 @@ def AppMain():
 
 if __name__ == "__main__":
     log.setLevel(logging.INFO)
-    pico_runner(AppMain)
+    run(AppMain)

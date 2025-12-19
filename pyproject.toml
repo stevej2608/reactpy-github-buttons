@@ -52,22 +52,12 @@ installer = "uv"
 
 [tool.hatch.envs.hatch-test]
 extra-dependencies = [
-  "anyio",
-  "asgi-tools",
-  "fastapi>=0.109.0",
-  "orjson",
   "pillow>=10.2.0",
   "pixelmatch>=0.3.0",
   "playwright==1.41.1",
   "pytest-asyncio",
-  "pytest-asyncio",
   "pytest-timeout==2.2.0",
-  "servestatic",
-  "starlette>=0.13.6",
-  "trio>=0.24.0",
-  "twine>=4.0.2",
   "uvicorn>=0.36.0",
-  "websockets"
 ]
 randomize = true
 matrix-name-format = "{variable}-{value}"
