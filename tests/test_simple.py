@@ -14,7 +14,6 @@ def star_count(int_str):
         return -1
 
 
-@pytest.mark.anyio
 async def test_sample_app(display: DisplayFixture):
     await display.show(AppMain)
     await wait_page_stable(display.page)
@@ -22,7 +21,7 @@ async def test_sample_app(display: DisplayFixture):
     # https://playwright.dev/python/docs/locators#locate-by-role
 
     text = await display.page.locator("span").all_inner_texts()
-    assert text[1] == 'Star'
+    assert text[2] == 'Star'
 
     text = await display.page.locator("a.social-count").all_inner_texts()
     assert star_count(text) > 0

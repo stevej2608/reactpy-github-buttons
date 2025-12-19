@@ -69,15 +69,10 @@
     // https://stackoverflow.com/a/65292380/489239
     {
       "name": "2a. PyTest (all)",
-      "type": "python",
+      "type": "debugpy",
       "request": "launch",
       "stopOnEntry": false,
       "module": "pytest",
-      "args": [
-        "-o log_cli=1",
-        "-sv",
-        "--headed"
-      ],
       "cwd": "${workspaceRoot}",
       "console": "internalConsole",
       "internalConsoleOptions": "openOnSessionStart",
@@ -89,11 +84,7 @@
       "request": "launch",
       "stopOnEntry": false,
       "module": "pytest",
-      "args": [
-        "-o log_cli=1",
-        "tests/test_simple.py",
-        "--headed"
-      ],
+      "args": ["tests/test_simple.py"],
       "cwd": "${workspaceRoot}",
       "console": "internalConsole",
       "internalConsoleOptions": "openOnSessionStart",
@@ -101,7 +92,7 @@
     },
     {
       "name": "2c. PyTest (all_buttons.py)",
-      "type": "python",
+      "type": "debugpy",
       "request": "launch",
       "stopOnEntry": false,
       "module": "pytest",
