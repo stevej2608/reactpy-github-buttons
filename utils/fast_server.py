@@ -5,7 +5,7 @@ import multiprocessing
 import uvicorn
 from fastapi import FastAPI, Request
 from starlette.websockets import WebSocketDisconnect
-from reactpy.core.component import Component
+from reactpy.types import ComponentType
 from reactpy.backend.fastapi import configure, Options
 
 from .logger import log, logging
@@ -65,7 +65,7 @@ def handler(signum, frame):
         child.terminate()
 
 
-def run(AppMain: Callable[[], Component],
+def run(AppMain: Callable[[], ComponentType],
         options:Options=SERVER_OPTIONS,
         host='127.0.0.1',
         port=8000,
@@ -75,7 +75,7 @@ def run(AppMain: Callable[[], Component],
     """Called once to run reactpy application on the fastapi server
 
     Args:
-        AppMain (Callable[[], Component]): Function that returns a reactpy Component
+        AppMain (Callable[[], ComponentType]): Function that returns a reactpy Component
         options (Options, optional): Server options. Defaults to DASHBOARD_OPTIONS.
 
     Usage:
