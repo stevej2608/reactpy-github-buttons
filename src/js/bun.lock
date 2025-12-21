@@ -13,6 +13,7 @@
         "@types/react": "^18.3.11",
         "@types/react-dom": "^18.3.1",
         "prettier": "^3.3.3",
+        "typescript": "^5.9.3",
       },
     },
   },
@@ -64,6 +65,8 @@
     "svg.resize.js": ["svg.resize.js@1.4.3", "", { "dependencies": { "svg.js": "^2.6.5", "svg.select.js": "^2.1.2" } }, "sha512-9k5sXJuPKp+mVzXNvxz7U0uC9oVMQrrf7cFsETznzUDDm0x8+77dtZkWdMfRlmbkEEYvUn9btKuZ3n41oNA+uw=="],
 
     "svg.select.js": ["svg.select.js@3.0.1", "", { "dependencies": { "svg.js": "^2.6.5" } }, "sha512-h5IS/hKkuVCbKSieR9uQCj9w+zLHoPh+ce19bBYyqF53g6mnPB8sAtIbe1s9dh2S2fCmYX2xel1Ln3PJBbK4kw=="],
+
+    "typescript": ["typescript@5.9.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw=="],
 
     "svg.resize.js/svg.select.js": ["svg.select.js@2.1.2", "", { "dependencies": { "svg.js": "^2.2.5" } }, "sha512-tH6ABEyJsAOVAhwcCjF8mw4crjXSI1aa7j2VQR8ZuJ37H2MBUbyeqYr5nEO7sSN3cy9AR9DUwNg0t/962HlDbQ=="],
   }
