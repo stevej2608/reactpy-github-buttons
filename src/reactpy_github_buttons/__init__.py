@@ -1,5 +1,5 @@
 # the version is statically loaded by Hatch from pyproject.toml
-__version__ = "0.0.17b4"
+__version__ = "0.0.18b4"
 
 from .button_wrapper import (
     FollowButton,StarButton,SponsorButton, WatchButton, ForkButton,
