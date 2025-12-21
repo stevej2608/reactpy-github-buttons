@@ -5,3 +5,19 @@ from .button_wrapper import (
     FollowButton,StarButton,SponsorButton, WatchButton, ForkButton,
     IssueButton, DiscussButton, DownloadButton, InstallPackageButton,
     UseTemplateButton, UseThisGitHubActionButton, make_color_scheme, ColorScheme)
+
+__all__ = [
+    "FollowButton",
+    "StarButton",
+    "SponsorButton",
+    "WatchButton",
+    "ForkButton",
+    "IssueButton",
+    "DiscussButton",
+    "DownloadButton",
+    "InstallPackageButton",
+    "UseTemplateButton",
+    "UseThisGitHubActionButton",
+    "make_color_scheme",
+    "ColorScheme",
+]

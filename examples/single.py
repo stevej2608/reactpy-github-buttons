@@ -21,7 +21,7 @@ def AppMain():
             color_scheme="dark",
         ),
         html.button(
-            {"class_name": "btn btn-secondary", 'type': 'button', "onClick": lambda e: on_click()},
+            {"class_name": "btn btn-secondary", 'type': 'button', "onClick": lambda e: on_click()},  # pyright: ignore[reportUnknownLambdaType]
             'Click Me'
         ),
     )

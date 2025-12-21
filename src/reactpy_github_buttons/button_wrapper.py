@@ -1,5 +1,5 @@
 from os import environ
-from typing import Optional
+from typing import Optional, Any
 from enum import Enum
 from pathlib import Path
 
@@ -39,12 +39,12 @@ _RactpyGithubButtons = export(_js_module, "RactpyGithubButtons")
 def GithubButton(
     user: Optional[str] = None,
     repo: Optional[str] = None,
-    props: dict = {},
-    large=False,
-    show_count=False,
-    standard_icon=False,
-    color_scheme="",
-):
+    props: dict[str, Any] = {},
+    large: bool = False,
+    show_count: bool = False,
+    standard_icon: bool = False,
+    color_scheme: str = "",
+) -> Any:
     """Wrapper for github-buttons library. For API and examples see:
 
     https://github.com/buttons/github-buttons
@@ -76,8 +76,8 @@ def GithubButton(
 
 
 def FollowButton(
-    user: Optional[str] = None, large=False, show_count=False, color_scheme=""
-):
+    user: Optional[str] = None, large: bool = False, show_count: bool = False, color_scheme: str = ""
+) -> Any:
     props = {
         "text": "Follow @buttons",
         "aria-label": "Follow @buttons on GitHub",
@@ -94,8 +94,8 @@ def FollowButton(
 
 
 def SponsorButton(
-    user: Optional[str] = None, large=False, standard_icon=False, color_scheme=""
-):
+    user: Optional[str] = None, large: bool = False, standard_icon: bool = False, color_scheme: str = ""
+) -> Any:
     props = {
         "text": "Sponsor",
         "data-icon": "octicon-heart",
@@ -115,11 +115,11 @@ def SponsorButton(
 def WatchButton(
     user: Optional[str] = None,
     repo: Optional[str] = None,
-    large=False,
-    show_count=False,
-    standard_icon=False,
-    color_scheme="",
-):
+    large: bool = False,
+    show_count: bool = False,
+    standard_icon: bool = False,
+    color_scheme: str = "",
+) -> Any:
     props = {
         "text": "Watch",
         "data-icon": "octicon-eye",
@@ -140,11 +140,11 @@ def WatchButton(
 def StarButton(
     user: Optional[str] = None,
     repo: Optional[str] = None,
-    large=False,
-    show_count=False,
-    standard_icon=False,
-    color_scheme="",
-):
+    large: bool = False,
+    show_count: bool = False,
+    standard_icon: bool = False,
+    color_scheme: str = "",
+) -> Any:
     props = {
         "text": "Star",
         "data-icon": "octicon-star",
@@ -165,11 +165,11 @@ def StarButton(
 def ForkButton(
     user: Optional[str] = None,
     repo: Optional[str] = None,
-    large=False,
-    show_count=False,
-    standard_icon=False,
-    color_scheme="",
-):
+    large: bool = False,
+    show_count: bool = False,
+    standard_icon: bool = False,
+    color_scheme: str = "",
+) -> Any:
     props = {
         "text": "Fork",
         "data-icon": "octicon-repo-forked",
@@ -191,11 +191,11 @@ def ForkButton(
 def IssueButton(
     user: Optional[str] = None,
     repo: Optional[str] = None,
-    large=False,
-    show_count=False,
-    standard_icon=False,
-    color_scheme="",
-):
+    large: bool = False,
+    show_count: bool = False,
+    standard_icon: bool = False,
+    color_scheme: str = "",
+) -> Any:
     props = {
         "text": "Issue",
         "data-icon": "octicon-issue-opened",
@@ -217,10 +217,10 @@ def IssueButton(
 def DiscussButton(
     user: Optional[str] = None,
     repo: Optional[str] = None,
-    large=False,
-    standard_icon=False,
-    color_scheme="",
-):
+    large: bool = False,
+    standard_icon: bool = False,
+    color_scheme: str = "",
+) -> Any:
     props = {
         "text": "Discuss",
         "data-icon": "octicon-comment-discussion",
@@ -240,10 +240,10 @@ def DiscussButton(
 def DownloadButton(
     user: Optional[str] = None,
     repo: Optional[str] = None,
-    large=False,
-    standard_icon=False,
-    color_scheme="",
-):
+    large: bool = False,
+    standard_icon: bool = False,
+    color_scheme: str = "",
+) -> Any:
     props = {
         "text": "Download",
         "data-icon": "octicon-download",
@@ -263,10 +263,10 @@ def DownloadButton(
 def InstallPackageButton(
     user: Optional[str] = None,
     repo: Optional[str] = None,
-    large=False,
-    standard_icon=False,
-    color_scheme="",
-):
+    large: bool = False,
+    standard_icon: bool = False,
+    color_scheme: str = "",
+) -> Any:
     props = {
         "text": "Install this package",
         "data-icon": "octicon-package",
@@ -286,10 +286,10 @@ def InstallPackageButton(
 def UseTemplateButton(
     user: Optional[str] = None,
     repo: Optional[str] = None,
-    large=False,
-    standard_icon=False,
-    color_scheme="",
-):
+    large: bool = False,
+    standard_icon: bool = False,
+    color_scheme: str = "",
+) -> Any:
     props = {
         "text": "Use this template",
         "data-icon": "octicon-repo-template",
@@ -309,10 +309,10 @@ def UseTemplateButton(
 def UseThisGitHubActionButton(
     user: Optional[str] = None,
     repo: Optional[str] = None,
-    large=False,
-    standard_icon=False,
-    color_scheme="",
-):
+    large: bool = False,
+    standard_icon: bool = False,
+    color_scheme: str = "",
+) -> Any:
     props = {
         "text": "Use this GitHub Action",
         "data-icon": "octicon-play",

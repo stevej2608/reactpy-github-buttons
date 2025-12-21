@@ -1,4 +1,4 @@
-from typing import cast, Callable, Optional, Union
+from typing import cast, Callable, Optional, Union, Any
 from pydantic import BaseModel
 from reactpy import component, html, use_state, event
 
@@ -15,7 +15,7 @@ GIT_USER = 'buttons'
 GIT_REPO = 'github-buttons'
 
 class ButtonType(BaseModel):
-    button: Callable
+    button: Callable[..., Any]
     name: str
     repo: bool = False
     large: bool = True
@@ -56,12 +56,12 @@ class Button(BaseModel):
 
 def usage_template(button: Button) -> str:
 
-    if button is None:
+    if button is None:  # pyright: ignore[reportUnnecessaryComparison]
         return ""
 
     opt = button.options
 
-    options = []
+    options: list[str] = []
 
     options.append(f'user=\"{opt.user}\"')
 
@@ -116,17 +116,17 @@ def AppHeader():
     )
 
 @component
-def ButtonCheckBox(bt: ButtonType, on_change):
+def ButtonCheckBox(bt: ButtonType, on_change: Callable[[ButtonType], Any]) -> Any:
     """Button name & icon, displayed in the top panel"""
 
     return html.div({'class': 'col-9 col-sm-6 col-md-4 col-lg-2'},
         html.div({'class': 'form-check'},
             html.label({'class': 'form-check-label'},
                 html.input({'type': 'radio',
-                            'class': 'form-check-input', 
-                            'name': 'type', 
-                            'value': bt.name, 
-                            'onchange': lambda evt: on_change(bt)}),
+                            'class': 'form-check-input',
+                            'name': 'type',
+                            'value': bt.name,
+                            'onchange': lambda evt: on_change(bt)}),  # pyright: ignore[reportUnknownLambdaType]
                 bt.name,
                 html.br(),
                 bt.button(large=True)
@@ -135,7 +135,7 @@ def ButtonCheckBox(bt: ButtonType, on_change):
     )
 
 @component
-def UserAndRepo(user_change, repo_change):
+def UserAndRepo(user_change: Callable[[Any], Any], repo_change: Callable[[Any], Any]) -> Any:
     return  html.div({'class': 'form-group'},
         html.div({'class': 'input-group'},
             html.input({'class': 'form-control', 'id': 'user', 'type': 'text', 'maxlength': '39', 'placeholder': ':user', 'autofocus': '', 'onchange': user_change}),
@@ -147,9 +147,9 @@ def UserAndRepo(user_change, repo_change):
     )
 
 @component
-def ColorSchemeDropdown(id, disabled):
+def ColorSchemeDropdown(id: str, disabled: bool) -> Any:
 
-    select_attr = {'id': id, 'class': 'form-control form-control-sm'}
+    select_attr: dict[str, Any] = {'id': id, 'class': 'form-control form-control-sm'}
 
     if disabled:
         select_attr.update({'id': id, 'class': 'form-control form-control-sm','disabled': True})
@@ -166,10 +166,10 @@ def ColorSchemeDropdown(id, disabled):
     )
 
 @component
-def OptionCheckBox(label: str, toggle_state, value: Union[bool, None], enabled: bool):
+def OptionCheckBox(label: str, toggle_state: Callable[[Any], Any], value: Union[bool, None], enabled: bool) -> Any:
     """Option large, standard_icon, etc"""
 
-    def is_disabled(attr: dict) -> dict:
+    def is_disabled(attr: dict[str, Any]) -> dict[str, Any]:
         if not enabled:
             attr.update({'disabled': True})
         if value:
@@ -188,10 +188,10 @@ def OptionCheckBox(label: str, toggle_state, value: Union[bool, None], enabled: 
     )
 
 @component
-def example_button(button: Button):
+def example_button(button: Button) -> Any:
     """Build a live button from the current configuration"""
 
-    if button is None:
+    if button is None:  # pyright: ignore[reportUnnecessaryComparison]
         return ""
 
     args = button.options.model_dump(exclude_none=True)
@@ -217,39 +217,39 @@ def AppBody():
 
 
     @event
-    def toggle_color_scheme(event):
+    def toggle_color_scheme(event: Any) -> None:
         set_color_scheme_disabled(not color_scheme_disabled)
 
     @event
-    def user_change(event):
+    def user_change(event: Any) -> None:
         value = event['target']['value']
         button.options.user = value
         set_button(button.model_copy())
 
     @event
-    def repo_change(event):
+    def repo_change(event: Any) -> None:
         value = event['target']['value']
         button.options.repo = value
         set_button(button.model_copy())
 
     @event
-    def toggle_large(event):
+    def toggle_large(event: Any) -> None:
         button.options.large = None if button.options.large else True
         set_button(button.model_copy())
 
     @event
-    def toggle_standard_icon(event):
+    def toggle_standard_icon(event: Any) -> None:
         button.options.standard_icon = None if button.options.standard_icon else True
         set_button(button.model_copy())
 
     @event
-    def toggle_show_count(event):
+    def toggle_show_count(event: Any) -> None:
         button.options.show_count = None if button.options.show_count else True
         set_button(button.model_copy())
 
-    def extended_form_hidden(attr: dict) -> dict:
+    def extended_form_hidden(attr: dict[str, Any]) -> dict[str, Any]:
         """Show the Button Options & Preview if a button has been selected"""
-        if button is None:
+        if button is None:  # pyright: ignore[reportUnnecessaryComparison]
             attr.update({'hidden': True})
         return attr
 

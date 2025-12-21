@@ -1,3 +1,4 @@
+from typing import Any, Callable
 from reactpy import component, html
 from utils.logger import log, logging
 from utils.app_runner import run
@@ -22,7 +23,7 @@ def TableHead():
     )
 
 @component
-def ButtonRow(button):
+def ButtonRow(button: Callable[..., Any]) -> Any:
 
     if button is FollowButton:
         default = html.td(button(user=GIT_USER))

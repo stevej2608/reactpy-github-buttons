@@ -55,14 +55,14 @@ def run(
         head = html.head(html.title(title))
     elif "children" in head:
         # Add title to existing head if not present
-        children = list(head.get("children", []))
+        children: List[Any] = list(head.get("children", []))  # pyright: ignore[reportUnknownMemberType,reportUnknownArgumentType]
         has_title = any(
-            child.get("tagName") == "title"
+            child.get("tagName") == "title"  # pyright: ignore[reportUnknownMemberType,reportUnknownArgumentType]
             for child in children
             if isinstance(child, dict)
         )
         if not has_title:
-            children.insert(0, html.title(title))
+            children.insert(0, html.title(title))  # pyright: ignore[reportUnknownMemberType]
             head["children"] = children
     else:
         head["children"] = [html.title(title)]

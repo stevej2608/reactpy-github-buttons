@@ -1,11 +1,11 @@
-import pytest
+from typing import List, Union
 from reactpy.testing import DisplayFixture
 from examples.single import AppMain
 
 from .tooling.wait_stable import wait_page_stable
 
 
-def star_count(int_str):
+def star_count(int_str: Union[str, List[str]]) -> int:
     try:
         if isinstance(int_str, list):
             int_str = int_str[0]
