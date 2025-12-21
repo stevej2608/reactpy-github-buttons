@@ -1,44 +1,44 @@
 [build-system]
 build-backend = "hatchling.build"
-requires = ["hatchling"]
+requires = ["hatchling", "hatch-build-scripts"]
 
 ##############################
 # >>> Hatch Build Config <<< #
 ##############################
 
 [project]
-name = "reactpy_github_buttons"
-description = "ReactPy wrapper for react-github-btn"
+name = "reactpy-github-buttons"
+description = "ApexCharts components for ReactPy"
 readme = "README.md"
-keywords = ["React", "ReactJS", "ReactPy", "github", "buttons", "components"]
+keywords = ["React", "ReactJS", "ReactPy", "ApexCharts", "charts", "components"]
 license = "MIT"
 authors = [{ name = "Steve Jones", email = "jonesst2608@gmail.com" }]
 requires-python = ">=3.9"
 classifiers = [
-  "Programming Language :: Python :: 3.9",
+  "Development Status :: 5 - Production/Stable",
+  "Programming Language :: Python",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
-  "Operating System :: OS Independent",
-  "Intended Audience :: Developers",
-  "Topic :: Software Development :: Widget Sets",
-  "Topic :: Software Development :: User Interfaces",
-  "Environment :: Web Environment",
-  "Typing :: Typed",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
 ]
 dependencies = ["reactpy==2.0.0b4"]
 dynamic = ["version"]
 urls.Homepage = "https://github.com/stevej2608/reactpy-github-buttons"
-urls.Repository = "https://github.com/stevej2608/reactpy-github-buttons"
+urls.Source = "https://github.com/stevej2608/reactpy-github-buttons"
 
 [tool.hatch.version]
-path = "reactpy_github_buttons/__init__.py"
+path = "src/reactpy_github_buttons/__init__.py"
 
 [tool.hatch.build.targets.sdist]
-include = ["/reactpy_github_buttons"]
+include = ["/src", "/tests", "/examples", "/utils"]
+artifacts = ["/src/reactpy_github_buttons/static/"]
 
 [tool.hatch.build.targets.wheel]
-packages = ["reactpy_github_buttons"]
+packages = ["src/reactpy_github_buttons"]
+artifacts = ["/src/reactpy_github_buttons/static/"]
 
 [tool.hatch.metadata]
 license-files = { paths = ["LICENSE"] }
@@ -46,39 +46,69 @@ license-files = { paths = ["LICENSE"] }
 [tool.hatch.envs.default]
 installer = "uv"
 
+[[tool.hatch.build.hooks.build-scripts.scripts]]
+commands = [
+  "bun install --cwd src/js",
+  "bun build src/js/src/index.js --outfile src/reactpy_github_buttons/static/bundle.js --target=browser --format=esm --no-minify",
+]
+artifacts = []
+
 #############################
 # >>> Hatch Test Runner <<< #
 #############################
 
 [tool.hatch.envs.hatch-test]
 extra-dependencies = [
-  "pillow>=10.2.0",
-  "pixelmatch>=0.3.0",
-  "playwright==1.41.1",
+  "exceptiongroup",
+  "jsonpointer",
+  "pyright",
   "pytest-asyncio",
-  "pytest-timeout==2.2.0",
-  "uvicorn>=0.36.0",
+  "pytest-sugar",
+  "responses",
+  "starlette",
 ]
 randomize = true
 matrix-name-format = "{variable}-{value}"
 
 [[tool.hatch.envs.hatch-test.matrix]]
-python = ["3.9", "3.10", "3.11", "3.12"]
-
-#########################
-# >>> Generic Tools <<< #
-#########################
+python = ["3.10", "3.11", "3.12", "3.13"]
 
 [tool.pytest.ini_options]
 testpaths = "tests"
 log_cli_level = "INFO"
 filterwarnings = "ignore::DeprecationWarning"
-addopts = "-rsxX -vv"
 asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "function"
 
-[tool.mypy]
-exclude = ["^\\.claude"]
+################################
+# >>> Hatch Python Scripts <<< #
+################################
+
+[tool.hatch.envs.python]
+extra-dependencies = ["pyright"]
+
+[tool.hatch.envs.python.scripts]
+type_check = ["pyright reactpy_table"]
+
+[tool.hatch.envs.javascript]
+detached = true
+
+[tool.hatch.envs.javascript.scripts]
+check = ['bun install --cwd "src/js"', 'bun run --cwd "src/js" check']
+fix = ['bun install --cwd "src/js"', 'bun run --cwd "src/js" format']
+
+#########################
+# >>> Generic Tools <<< #
+#########################
+
+[tool.ruff]
+# https://docs.astral.sh/ruff/configuration/
+# https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff
+line-length = 120
 
 [tool.pyright]
-exclude = [".claude", ".venv","tmp"]
+# https://github.com/microsoft/pyright/blob/main/docs/configuration.md#sample-pyprojecttoml-file
+typeCheckingMode = "strict"
+pythonVersion = "3.11"
+reportMissingTypeStubs = false
+ignore = ["tmp", "tmp/**", "**/tmp/**"]
