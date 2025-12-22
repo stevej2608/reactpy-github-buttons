@@ -11,7 +11,7 @@ from pixelmatch.contrib.PIL import pixelmatch
 # https://github.com/symon-storozhenko/pytest-playwright-visual/tree/main
 
 @pytest.fixture
-def assert_snapshot(pytestconfig: Any, request: Any, browser_name: str = "unknown") -> Callable[[bytes], None]:
+def assert_snapshot(pytestconfig: Any, request: Any, browser_name: str = "unknown") -> Callable[..., None]:
     test_name = f"{str(Path(request.node.name))}[{str(sys.platform)}]"
     test_dir = str(Path(request.node.name)).split('[', 1)[0]
 

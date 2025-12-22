@@ -8,9 +8,9 @@ requires = ["hatchling", "hatch-build-scripts"]
 
 [project]
 name = "reactpy-github-buttons"
-description = "ApexCharts components for ReactPy"
+description = "ReactPy wrapper for react-github-btn"
 readme = "README.md"
-keywords = ["React", "ReactJS", "ReactPy", "ApexCharts", "charts", "components"]
+keywords = ["React", "ReactJS", "ReactPy", "GitHub", "buttons", "components"]
 license = "MIT"
 authors = [{ name = "Steve Jones", email = "jonesst2608@gmail.com" }]
 requires-python = ">=3.9"
@@ -88,7 +88,7 @@ asyncio_default_fixture_loop_scope = "function"
 extra-dependencies = ["pyright"]
 
 [tool.hatch.envs.python.scripts]
-type_check = ["pyright reactpy_table"]
+type_check = ["pyright reactpy_github_buttons"]
 
 [tool.hatch.envs.javascript]
 detached = true
